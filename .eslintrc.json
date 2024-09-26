@@ -4,9 +4,5 @@
     "next/typescript",
     "plugin:eslint-plugin-next-on-pages/recommended"
   ],
-  "plugins": [
-    "eslint-plugin-next-on-pages",
-    "eslint-plugin-testing-library",
-    "jest-dom/recommended"
-  ]
+  "plugins": ["eslint-plugin-next-on-pages", "eslint-plugin-testing-library"]
 }
