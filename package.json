@@ -1,5 +1,5 @@
 {
-  "name": "shrill-bonus-fad9",
+  "name": "ai-skye-next",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,9 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pages:build": "npx @cloudflare/next-on-pages",
-    "preview": "npm run pages:build && wrangler pages dev",
-    "deploy": "npm run pages:build && wrangler pages deploy",
+    "pages:build": "bunx --bun @cloudflare/next-on-pages",
+    "preview": "bun --bun run pages:build && wrangler pages dev",
+    "deploy": "bun --bun run pages:build && wrangler pages deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv env.d.ts"
   },
   "dependencies": {
