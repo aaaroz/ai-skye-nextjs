@@ -6,7 +6,7 @@
   ],
   "plugins": [
     "eslint-plugin-next-on-pages",
-    "testing-library/react",
+    "eslint-plugin-testing-library",
     "jest-dom/recommended"
   ]
 }

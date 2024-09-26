@@ -1,2 +1,3 @@
-bun test
-bun build
+bun run test
+bun run build
+bun run pages:build
