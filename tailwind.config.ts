@@ -23,7 +23,7 @@ const config: Config = {
       fontFamily: {
         inter: [
           ["var(--font-inter)", "sans-serif"],
-          { fontFeatureSettings: 'ss03","cv02","cv11"' },
+          { fontFeatureSettings: '"ss03","cv02","cv11"' },
         ],
       },
       colors: {
