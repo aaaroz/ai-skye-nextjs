@@ -10,8 +10,11 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 const config: Config = {
   verbose: true,
+  clearMocks: true,
+  collectCoverage: true,
+  coverageDirectory: "coverage",
   coverageProvider: "v8",
-  testEnvironment: "jest-environment-jsdom",
+  testEnvironment: "jsdom",
   moduleNameMapper: {
     "\\.(css|less|scss|sass)$": "identity-obj-proxy", // Mock CSS imports if necessary
   },
