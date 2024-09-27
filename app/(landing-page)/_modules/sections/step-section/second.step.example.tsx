@@ -30,9 +30,9 @@ const promptExamples = [
 
 export const SecondStepExample: React.FC = (): React.ReactElement => {
   return (
-    <div className="relative w-full p-4 space-y-6 rounded-md bg-neutral-50 shadow">
-      <div className="space-y-1.5 w-full flex h-[400px] overflow-hidden [mask:linear-gradient(90deg,white_60%,transparent)] md:[mask:linear-gradient(-90deg,white_80%,transparent)] ">
-        <section className="p-2 w-1/2 overflow-hidden">
+    <div className="order-4 md:order-none relative w-full p-4 space-y-6 rounded-md bg-neutral-50 shadow">
+      <div className="space-y-1.5 w-full flex flex-col md:flex-row h-[500px] md:h-[400px] overflow-hidden [mask:linear-gradient(90deg,white_60%,transparent)] md:[mask:linear-gradient(-90deg,white_80%,transparent)] ">
+        <section className="p-2 w-full md:w-1/2 overflow-hidden">
           <div className="space-y-2">
             <fieldset className="space-y-1.5">
               <label htmlFor="name" className="text-xs font-semibold">
@@ -90,7 +90,7 @@ export const SecondStepExample: React.FC = (): React.ReactElement => {
             </fieldset>
           </div>
         </section>
-        <section className="p-2 w-1/2 overflow-hidden">
+        <section className="p-2 w-full md:w-1/2 overflow-hidden">
           <div className="flex flex-col gap-2 w-full">
             <h3 className="text-xs font-semibold">Pilih Perintah AI</h3>
             {promptExamples.map(

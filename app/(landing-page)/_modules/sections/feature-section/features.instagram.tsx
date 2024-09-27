@@ -21,7 +21,7 @@ const featuresInstagram = [
 
 export const FeaturesInstagram = () => {
   return (
-    <div className="grid grid-cols-3 w-full gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-6">
       {featuresInstagram.map(({ title, description }, index) => (
         <FeatureCard key={index} title={title} description={description} />
       ))}

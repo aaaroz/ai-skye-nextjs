@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import * as React from "react";
 import {
@@ -11,13 +12,45 @@ import {
 } from "../../ui/navigation-menu";
 import Link from "next/link";
 import { ListItem } from "./list-item";
-import { Button } from "@/components/ui/button";
+import { AuthButton } from "./auth.button";
+import { cn } from "@/lib/utils";
+import { SheetNavigation } from "./sheet.navigation";
 
 export const Navbar: React.FC = (): React.ReactElement => {
+  const [isScrolled, setIsScrolled] = React.useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 30) {
+      setIsScrolled(true);
+    } else {
+      setIsScrolled(false);
+    }
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
-    <header className="2xl:container sticky top-0 bg-background px-24 w-full z-20 h-20 flex items-center justify-between">
-      <Image src="/logo.svg" alt="konten kilat" width={169} height={32} />
-      <NavigationMenu>
+    <header
+      className={cn(
+        "container sticky top-0 sm:top-5 bg-transparent w-full z-20 h-20 flex items-center justify-between rounded sm:rounded-full",
+        {
+          "bg-background shadow-xl": isScrolled,
+        }
+      )}
+    >
+      <Image
+        src="/logo.svg"
+        alt="konten kilat"
+        width={169}
+        height={32}
+        className="size-auto"
+      />
+      <NavigationMenu className="hidden md:block">
         <NavigationMenuList>
           <NavigationMenuItem>
             <Link href="#" legacyBehavior passHref>
@@ -41,6 +74,7 @@ export const Navbar: React.FC = (): React.ReactElement => {
                         alt="konten kilat"
                         width={169}
                         height={32}
+                        className="size-auto"
                       />
                       <p className="text-sm font-normal leading-tight text-white">
                         Manfaatkan AI Bersama Kami, Untuk Masa Depan yang Lebih
@@ -70,9 +104,11 @@ export const Navbar: React.FC = (): React.ReactElement => {
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      <div className="flex gap-1 items-center">
-        <Button variant="ghost">Masuk</Button>
-        <Button>Daftar</Button>
+      <div className="hidden md:block">
+        <AuthButton />
+      </div>
+      <div className="block md:hidden">
+        <SheetNavigation />
       </div>
     </header>
   );

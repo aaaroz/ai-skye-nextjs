@@ -21,7 +21,7 @@ const featuresTiktok = [
 
 export const FeaturesTiktok = () => {
   return (
-    <div className="grid grid-cols-3 w-full gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-6">
       {featuresTiktok.map(({ title, description }, index) => (
         <FeatureCard key={index} title={title} description={description} />
       ))}

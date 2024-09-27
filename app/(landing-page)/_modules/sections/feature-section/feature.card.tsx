@@ -14,9 +14,10 @@ interface FeatureCardProps {
   description: string;
 }
 
-export const FeatureCard: React.FC<
-  FeatureCardProps
-> = ({title,description}): React.ReactElement => {
+export const FeatureCard: React.FC<FeatureCardProps> = ({
+  title,
+  description,
+}): React.ReactElement => {
   return (
     <Card className="w-full shadow-lg">
       <CardHeader className="w-full ">
@@ -25,11 +26,9 @@ export const FeatureCard: React.FC<
         </div>
       </CardHeader>
       <CardContent>
-        <p className="text-base text-muted-foreground">
-          {description}
-        </p>
+        <p className="text-base text-muted-foreground">{description}</p>
       </CardContent>
-      <CardFooter className="flex justify-between items-center">
+      <CardFooter className="flex flex-wrap justify-between items-center">
         <Button variant="link" size="sm" className="px-0">
           Pelajari Selengkapnya <ArrowRight className="ml-0.5 size-4" />
         </Button>

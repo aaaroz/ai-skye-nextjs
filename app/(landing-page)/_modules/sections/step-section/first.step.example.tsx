@@ -26,8 +26,8 @@ const featuresExamples = [
 
 export const FirstStepExample: React.FC = (): React.ReactElement => {
   return (
-    <div className="relative w-full p-4 space-y-6 rounded-md bg-neutral-50 shadow">
-      <div className="space-y-1.5 w-full h-[300px] overflow-hidden [mask:linear-gradient(90deg,white_60%,transparent)] md:[mask:linear-gradient(90deg,white_30%,transparent)] ">
+    <div className="order-2 md:order-none relative w-full p-4 space-y-6 rounded-md bg-neutral-50 shadow">
+      <div className="space-y-1.5 w-full h-[500px] md:h-[300px] overflow-hidden [mask:linear-gradient(90deg,white_60%,transparent)] md:[mask:linear-gradient(90deg,white_30%,transparent)] ">
         <section className="space-y-1 p-2">
           <div className="flex gap-2 items-center">
             <CpuIcon className="size-4" />
@@ -70,7 +70,7 @@ export const FirstStepExample: React.FC = (): React.ReactElement => {
           <p className="text-xs">
             Dapatkan ide konten yang menarik untuk TikTok dan TikTok Shop anda.
           </p>
-          <div className="grid grid-cols-3 w-full gap-2 py-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2 py-2">
             {featuresExamples.map(({ title, description, category }, index) => (
               <CardFeatureExample
                 key={index}

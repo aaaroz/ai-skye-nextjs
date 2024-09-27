@@ -1,12 +1,20 @@
 import * as React from "react";
-import { FeatureSection, HeroSection, StepSection } from "./sections";
+import {
+  FAQSection,
+  FeatureSection,
+  HeroSection,
+  PricingSection,
+  StepSection,
+} from "./sections";
 
 export const LandingPageModule: React.FC = (): React.ReactElement => {
   return (
-    <React.Fragment>
+    <div className="space-y-9 md:space-y-0">
       <HeroSection />
       <FeatureSection />
       <StepSection />
-    </React.Fragment>
+      <PricingSection />
+      <FAQSection />
+    </div>
   );
 };
