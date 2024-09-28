@@ -74,10 +74,10 @@ export const SecondStepExample: React.FC = (): React.ReactElement => {
               <p className="text-xs">Pilih kategori produk anda</p>
             </div>
             <fieldset className="space-y-1.5">
-              <label htmlFor="name" className="text-xs font-semibold">
+              <label htmlFor="max-token" className="text-xs font-semibold">
                 Maksimal token
               </label>
-              <Input id="name" className="h-8" value="3000" readOnly />
+              <Input id="max-token" className="h-8" value="3000" readOnly />
               <p className="text-xs">
                 Masukkan maksimal token yang akan digunakan
               </p>

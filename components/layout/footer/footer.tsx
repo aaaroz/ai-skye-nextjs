@@ -1,9 +1,9 @@
 import * as React from "react";
-import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { InstagramIcon, MailIcon, PhoneIcon } from "lucide-react";
+import { Logo } from "@/components/common/logo";
 
 export const Footer: React.FC = (): React.ReactElement => {
   return (
@@ -12,13 +12,7 @@ export const Footer: React.FC = (): React.ReactElement => {
         <div className="absolute inset-0 left-5 sm:left-[7rem] md:left-[15rem] top-20 z-0 size-80 bg-gradient-to-b from-sky-400/80 to-transparent rounded-full blur-3xl transform scale-110" />
         <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-4 border-b pb-14 border-neutral-200 text-neutral-100">
           <div className="md:col-span-2 z-10 w-full space-y-8 lg:pr-10">
-            <Image
-              src="/logo-white.svg"
-              alt="konten kilat"
-              width={169}
-              height={32}
-              className="size-auto"
-            />
+            <Logo variant="white" />
             <div className="space-y-4 p-8 rounded-md bg-neutral-800">
               <Input
                 className="bg-neutral-800 focus:ring-0 focus-visible:ring-0 placeholder:text-neutral-100 text-white border-white"
@@ -36,7 +30,8 @@ export const Footer: React.FC = (): React.ReactElement => {
             <ul className="space-y-3 font-semibold">
               <li>
                 <Link
-                  href="#"
+                  href="/"
+                  title="beranda"
                   className="hover:text-neutral-100/60 transition-colors duration-200"
                 >
                   Home
@@ -44,7 +39,8 @@ export const Footer: React.FC = (): React.ReactElement => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/#pricing"
+                  title="harga"
                   className="hover:text-neutral-100/60 transition-colors duration-200"
                 >
                   Harga
@@ -52,7 +48,8 @@ export const Footer: React.FC = (): React.ReactElement => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/features"
+                  title="fitur AI"
                   className="hover:text-neutral-100/60 transition-colors duration-200"
                 >
                   Fitur AI
@@ -60,7 +57,8 @@ export const Footer: React.FC = (): React.ReactElement => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  href="/#FAQs"
+                  title="pertanyaan yang sering ditanyakan"
                   className="hover:text-neutral-100/60 transition-colors duration-200"
                 >
                   FAQs

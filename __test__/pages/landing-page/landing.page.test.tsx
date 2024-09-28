@@ -1,4 +1,3 @@
-/// <reference lib="dom" />
 import "@testing-library/jest-dom";
 import { expect } from "@jest/globals";
 import { render } from "@testing-library/react";

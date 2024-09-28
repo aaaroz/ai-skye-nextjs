@@ -1,6 +1,7 @@
 import * as React from "react";
 import { CheckSquareIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SectionContainer } from "@/components/layout";
 
 const benefits = [
   "Akses ke seluruh fitur KontenKilat",
@@ -12,8 +13,8 @@ const benefits = [
 ];
 export const PricingSection: React.FC = (): React.ReactElement => {
   return (
-    <section className="w-full py-20 bg-sky-50">
-      <div className="container space-y-16">
+    <div id="pricing" className="w-full py-20 bg-sky-50">
+      <SectionContainer className="lg:space-y-16">
         <div className="flex flex-wrap md:flex-nowrap gap-5 md:gap-0 w-full justify-between items-start">
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold">
             Coba seluruh keajaiban KontenKilat.id dengan harga seminimal
@@ -44,7 +45,7 @@ export const PricingSection: React.FC = (): React.ReactElement => {
             </p>
           </div>
         </div>
-      </div>
-    </section>
+      </SectionContainer>
+    </div>
   );
 };

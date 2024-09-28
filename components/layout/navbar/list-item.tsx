@@ -1,7 +1,7 @@
 import Link from "next/link";
 import * as React from "react";
 import { NavigationMenuLink } from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 
 export const ListItem = React.forwardRef<
   React.ElementRef<"a">,
@@ -13,6 +13,7 @@ export const ListItem = React.forwardRef<
         <Link
           ref={ref}
           href={href as string}
+          title={title}
           className={cn(
             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-sky-50 hover:text-neutral-800 focus:bg-sky-100 focus:text-neutral-800",
             className

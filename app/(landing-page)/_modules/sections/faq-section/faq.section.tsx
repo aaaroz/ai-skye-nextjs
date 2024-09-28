@@ -5,6 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { SectionContainer } from "@/components/layout";
 
 const faqsOne = [
   {
@@ -55,9 +56,12 @@ const faqsTwo = [
 
 export const FAQSection: React.FC = (): React.ReactElement => {
   return (
-    <section className="2xl:container w-full py-20 relative min-h-[80dvh] overflow-hidden">
+    <div
+      id="FAQs"
+      className="2xl:container w-full py-20 relative min-h-[80dvh] overflow-hidden"
+    >
       <div className="absolute inset-0 -left-28 md:-left-14 2xl:left-[20rem] top-32 md:-top-10 -z-10 size-56 md:size-72 bg-gradient-to-b from-sky-800 to-transparent rounded-full blur-3xl transform scale-110" />
-      <div className="container w-full space-y-10">
+      <SectionContainer>
         <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center">
           Pertanyaan yang sering ditanyakan
         </h1>
@@ -65,7 +69,7 @@ export const FAQSection: React.FC = (): React.ReactElement => {
           Ada pertanyaan? Kami siap menjawabnya
         </p>
         <div className="flex flex-wrap md:flex-nowrap w-full gap-0 md:gap-8">
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="multiple" className="w-full">
             {faqsOne.map(({ question, answer }, index) => (
               <AccordionItem key={index} value={question}>
                 <AccordionTrigger>{question}</AccordionTrigger>
@@ -73,7 +77,7 @@ export const FAQSection: React.FC = (): React.ReactElement => {
               </AccordionItem>
             ))}
           </Accordion>
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="multiple" className="w-full">
             {faqsTwo.map(({ question, answer }, index) => (
               <AccordionItem key={index} value={question}>
                 <AccordionTrigger>{question}</AccordionTrigger>
@@ -82,7 +86,7 @@ export const FAQSection: React.FC = (): React.ReactElement => {
             ))}
           </Accordion>
         </div>
-      </div>
-    </section>
+      </SectionContainer>
+    </div>
   );
 };

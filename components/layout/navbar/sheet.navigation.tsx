@@ -9,9 +9,9 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { MenuIcon } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { AuthButton } from "./auth.button";
+import { Logo } from "@/components/common/logo";
 
 export const SheetNavigation = () => {
   return (
@@ -24,13 +24,7 @@ export const SheetNavigation = () => {
       <SheetContent>
         <SheetHeader className="pb-5 border-b border-neutral-200">
           <SheetTitle>
-            <Image
-              src="/logo.svg"
-              alt="konten kilat"
-              width={169}
-              height={32}
-              className="size-auto"
-            />
+            <Logo />
           </SheetTitle>
           <SheetDescription className="sr-only">
             Sheet Navigation

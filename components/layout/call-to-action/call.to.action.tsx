@@ -1,9 +1,10 @@
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import { SectionContainer } from "../section-container";
 
 export const CallToAction: React.FC = (): React.ReactElement => {
   return (
-    <section className="container py-20">
+    <SectionContainer className="lg:py-20">
       <div className="p-6 md:p-16 min-h-[300px] relative overflow-hidden rounded-md flex flex-col md:grid grid-cols-3 bg-sky-800">
         <div className="absolute inset-0 left-0 md:left-[45rem] top-10 z-0 size-96 bg-gradient-to-b from-sky-400/75 to-transparent rounded-full blur-3xl transform scale-110" />
         <div className="col-span-2 w-full space-y-5 md:space-y-8 text-background z-10">
@@ -22,6 +23,6 @@ export const CallToAction: React.FC = (): React.ReactElement => {
           </Button>
         </div>
       </div>
-    </section>
+    </SectionContainer>
   );
 };

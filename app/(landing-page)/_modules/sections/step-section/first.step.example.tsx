@@ -70,7 +70,7 @@ export const FirstStepExample: React.FC = (): React.ReactElement => {
           <p className="text-xs">
             Dapatkan ide konten yang menarik untuk TikTok dan TikTok Shop anda.
           </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 w-full gap-2 py-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-2 py-2">
             {featuresExamples.map(({ title, description, category }, index) => (
               <CardFeatureExample
                 key={index}

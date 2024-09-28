@@ -5,10 +5,11 @@ import { SecondStepExample } from "./second.step.example";
 import { SecondStepInstruction } from "./second.step.instruction";
 import { ThirdStepInstruction } from "./third.step.instruction";
 import { ThirdStepExample } from "./third.step.example";
+import { SectionContainer } from "@/components/layout";
 
 export const StepSection: React.FC = (): React.ReactElement => {
   return (
-    <section className="container space-y-10 py-20">
+    <SectionContainer className="container lg:space-y-10 py-20">
       <div className="flex flex-col items-center gap-6">
         <h1 className="text-3xl md:text-5xl font-bold">
           Langkah Kilat Membuat Konten
@@ -26,6 +27,6 @@ export const StepSection: React.FC = (): React.ReactElement => {
         <ThirdStepInstruction />
         <ThirdStepExample />
       </div>
-    </section>
+    </SectionContainer>
   );
 };
