@@ -4,7 +4,7 @@ import { paragraphOpeningTerms, terms } from "@/libs/entities";
 
 export const TermsSection = () => {
   return (
-    <SectionContainer>
+    <SectionContainer data-testid="terms-section">
       <p className="text-base sm:text-lg md:text-xl">{paragraphOpeningTerms}</p>
       {terms.map(({ title, description }, index) => (
         <div key={index}>

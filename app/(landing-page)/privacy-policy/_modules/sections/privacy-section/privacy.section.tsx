@@ -4,7 +4,7 @@ import { paragraphOpeningPrivacy, privacyPolicy } from "@/libs/entities";
 
 export const PrivacySection: React.FC = (): React.ReactElement => {
   return (
-    <SectionContainer>
+    <SectionContainer data-testid='privacy-policy-section'>
       <p className="text-base sm:text-lg md:text-xl">
         {paragraphOpeningPrivacy}
       </p>
