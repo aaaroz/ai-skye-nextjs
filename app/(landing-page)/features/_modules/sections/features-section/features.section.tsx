@@ -17,7 +17,7 @@ export const FeaturesSection: React.FC = (): React.ReactElement => {
   }
 
   return (
-    <SectionContainer>
+    <SectionContainer data-testid='features-section'>
       <FeatureTabs defaultValue={defaultValue} showAllFeatures />
     </SectionContainer>
   );
