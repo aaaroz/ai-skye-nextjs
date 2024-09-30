@@ -23,6 +23,10 @@ jobs:
       NEXT_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_FIREBASE_MESSAGING_SENDER_ID }}
       NEXT_FIREBASE_APP_ID: ${{ secrets.NEXT_FIREBASE_APP_ID }}
     steps:
+      - name: Check internet connection
+        run: |
+          ping -c 4 google.com
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
