@@ -91,13 +91,15 @@ export const Footer: React.FC = (): React.ReactElement => {
           </p>
           <div className="flex gap-2 lg:gap-5">
             <Link
-              href="#"
+              href="/terms-condition"
+              title="Ketentuan Pengguna"
               className="text-neutral-100 hover:text-neutral-100/60 transition-colors duration-200"
             >
               Terms & Conditions
             </Link>
             <Link
-              href="#"
+              href="/privacy-policy"
+              title='Kebijakan Privasi'
               className="text-neutral-100 hover:text-neutral-100/60 transition-colors duration-200"
             >
               Privacy Policy

@@ -5,7 +5,7 @@ import { LoaderIcon } from "lucide-react";
 
 export const FeaturesPageModule: React.FC = (): React.ReactElement => {
   return (
-    <>
+    <div data-testid="features-page-module">
       <SubHeader title="Fitur AI" />
       <React.Suspense
         fallback={
@@ -18,6 +18,6 @@ export const FeaturesPageModule: React.FC = (): React.ReactElement => {
       >
         <FeaturesSection />
       </React.Suspense>
-    </>
+    </div>
   );
 };

@@ -30,13 +30,13 @@ export const FeatureDetailPageModule: React.FC<
     mockData.slug = slug;
   }
   return (
-    <>
+    <div data-testid="feature-detail-page-module">
       <SubHeader title={mockData.title} />
       <DescriptionSection
         description={mockData.description}
         headline={mockData.headline}
       />
       <StepSection title={mockData.title} />
-    </>
+    </div>
   );
 };

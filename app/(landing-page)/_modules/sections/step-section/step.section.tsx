@@ -9,7 +9,7 @@ import { SectionContainer } from "@/components/layout";
 
 export const StepSection: React.FC = (): React.ReactElement => {
   return (
-    <SectionContainer className="container lg:space-y-10 py-20">
+    <SectionContainer data-testid='step-section' className="container lg:space-y-10 py-20">
       <div className="flex flex-col items-center gap-6">
         <h1 className="text-3xl md:text-5xl font-bold">
           Langkah Kilat Membuat Konten

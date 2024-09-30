@@ -36,28 +36,28 @@ export const SheetNavigation = () => {
           </div>
           <ul className="space-y-1">
             <li>
-              <Link href="#">
+              <Link href="/">
                 <Button variant="ghost" className="w-full">
                   Beranda
                 </Button>
               </Link>
             </li>
             <li>
-              <Link href="#">
+              <Link href="/#pricing">
                 <Button variant="ghost" className="w-full">
                   Harga
                 </Button>
               </Link>
             </li>
             <li>
-              <Link href="#">
+              <Link href="/features">
                 <Button variant="ghost" className="w-full">
                   Feature AI
                 </Button>
               </Link>
             </li>
             <li>
-              <Link href="#">
+              <Link href="/#FAQs">
                 <Button variant="ghost" className="w-full">
                   FAQs
                 </Button>

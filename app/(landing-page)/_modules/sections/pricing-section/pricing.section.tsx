@@ -13,7 +13,9 @@ const benefits = [
 ];
 export const PricingSection: React.FC = (): React.ReactElement => {
   return (
-    <div id="pricing" className="w-full py-20 bg-sky-50">
+    <div id="pricing" 
+    data-testid='pricing-section'
+    className="w-full py-20 bg-sky-50">
       <SectionContainer className="lg:space-y-16">
         <div className="flex flex-wrap md:flex-nowrap gap-5 md:gap-0 w-full justify-between items-start">
           <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold">

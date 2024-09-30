@@ -58,6 +58,7 @@ export const FAQSection: React.FC = (): React.ReactElement => {
   return (
     <div
       id="FAQs"
+      data-testid='faqs-section'
       className="2xl:container w-full py-20 relative min-h-[80dvh] overflow-hidden"
     >
       <div className="absolute inset-0 -left-28 md:-left-14 2xl:left-[20rem] top-32 md:-top-10 -z-10 size-56 md:size-72 bg-gradient-to-b from-sky-800 to-transparent rounded-full blur-3xl transform scale-110" />

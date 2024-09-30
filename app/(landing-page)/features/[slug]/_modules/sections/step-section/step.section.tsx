@@ -13,7 +13,7 @@ export const StepSection: React.FC<StepSectionProps> = ({
   title,
 }): React.ReactElement => {
   return (
-    <SectionContainer className="lg:space-y-10">
+    <SectionContainer data-testid='step-section' className="lg:space-y-10">
       <div className="flex flex-col items-start gap-6">
         <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
           2 Langkah Kilat Membuat {title}

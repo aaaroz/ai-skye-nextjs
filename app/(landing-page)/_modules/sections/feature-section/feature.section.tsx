@@ -6,7 +6,9 @@ import { SectionContainer } from "@/components/layout";
 
 export const FeatureSection: React.FC = (): React.ReactElement => {
   return (
-    <div className="2xl:container relative w-full min-h-[80dvh] py-9 md:py-20 flex items-center justify-center overflow-hidden">
+    <div 
+    data-testid='features-section'
+    className="2xl:container relative w-full min-h-[80dvh] py-9 md:py-20 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 left-[20rem] md:left-[65rem] top-28 md:top-80 -z-10 size-40 md:size-72 bg-gradient-to-b from-sky-800 to-transparent rounded-full blur-3xl transform scale-110" />
       <SectionContainer className="container flex flex-col gap-14">
         <div className="md:grid grid-cols-3 space-y-8">
