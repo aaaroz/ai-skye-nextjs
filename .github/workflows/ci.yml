@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   development:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     environment: "production"
     env:
       NEXT_FIREBASE_API_KEY: ${{ secrets.NEXT_FIREBASE_API_KEY }}
@@ -22,13 +22,8 @@ jobs:
       NEXT_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_FIREBASE_STORAGE_BUCKET }}
       NEXT_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_FIREBASE_MESSAGING_SENDER_ID }}
       NEXT_FIREBASE_APP_ID: ${{ secrets.NEXT_FIREBASE_APP_ID }}
+
     steps:
-      - name: Check internet connection
-        run: ping -c 4 google.com
-
-      - name: Test connection to GitHub
-        run: ping -c 4 github.com
-
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
