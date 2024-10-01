@@ -16,9 +16,12 @@ export const Logo: React.FC<LogoProps> = ({
     <Link
       href="/"
       title="KontenKilat.id"
-      className={cn("flex items-center gap-2.5", {
-        "text-background": variant === "white",
-      })}
+      className={cn(
+        "flex items-center gap-2.5 focus-visible:outline-transparent",
+        {
+          "text-background": variant === "white",
+        }
+      )}
     >
       <Image
         src={variant === "default" ? logo : logoWhite}
