@@ -2,3 +2,8 @@ export * from "./feature-category";
 export * from "./feature";
 export * from "./terms";
 export * from "./privacy-policy";
+export * from "./login-schema";
+export * from "./register-schema";
+export * from "./forgot-password-schema";
+export * from "./verify-schema";
+export * from "./reset-password-schema";

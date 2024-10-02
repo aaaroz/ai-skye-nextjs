@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${inter.variable} ${geistMono.variable} antialiased font-inter bg-background text-foreground`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

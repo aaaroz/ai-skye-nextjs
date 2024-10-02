@@ -1,0 +1,33 @@
+import { z } from "zod";
+
+export const registerSchema = z
+  .object({
+    fullName: z
+      .string({ required_error: "Nama lengkap harus diisi!" })
+      .min(2, "Nama lengkap harus terdiri dari minimal 2 karakter!"),
+    phoneNumber: z
+      .string({ required_error: "Nomor telepon harus diisi!" })
+      .min(10, "Nomor telepon harus lebih dari 10 digit!")
+      .max(14, "Nomor telepon tidak boleh lebih dari 14 digit!")
+      .regex(/^[0-9]+$/, "Nomor telepon hanya boleh berisi angka!"),
+    password: z
+      .string({ required_error: "Kata sandi harus diisi!" })
+      .min(8, "Kata sandi tidak boleh kurang dari 8 digit!"),
+    confirmPassword: z
+      .string({ required_error: "Konfirmasi kata sandi harus diisi!" })
+      .min(8, "Konfirmasi kata sandi tidak boleh kurang dari 8 digit!"),
+    termsAndConditions: z
+      .boolean({
+        required_error:
+          "Anda harus menyetujui ketentuan dan kebijakan privasi!",
+      })
+      .refine((val) => val === true, {
+        message: "Anda harus menyetujui ketentuan dan kebijakan privasi!",
+      }),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Konfirmasi kata sandi tidak cocok!",
+  });
+
+export type TRegisterSchema = z.infer<typeof registerSchema>;
