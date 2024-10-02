@@ -1,5 +1,5 @@
-import { CallToAction, Footer, Navbar } from "@/components/layout";
 import { FC, ReactElement, ReactNode } from "react";
+import { CallToAction, Footer, Navbar } from "@/components/layout";
 
 const LandingPageLayout: FC<{ children: ReactNode }> = ({
   children,
