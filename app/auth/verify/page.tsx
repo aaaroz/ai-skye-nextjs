@@ -3,8 +3,6 @@ import { VerifyPageModule } from "./_modules";
 import { LoaderIcon } from "lucide-react";
 import { NextPage } from "next";
 
-export const dynamic = "force-dynamic";
-
 const VerifyPage: NextPage = (): React.ReactElement => {
   return (
     <React.Suspense
