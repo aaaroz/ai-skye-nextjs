@@ -1,10 +1,13 @@
 import CryptoJS from "crypto-js";
+import { generateSecretKey } from "../generate-secret-key";
 
-const appKey = process.env.NEXT_PUBLIC_APP_KEY;
+export const secretKey = generateSecretKey();
 
 export const encryptPhoneNumber = (phoneNumber: string): string => {
-  const encrypted = CryptoJS.AES.encrypt(phoneNumber, appKey as string)
+  const encrypted = CryptoJS.AES.encrypt(phoneNumber, secretKey)
     .toString()
-    .replace(/\//g, "Por21Ld");
+    .replace(/\//g, "Por21Ld")
+    .replace(/\+/g, "Por22Ld")
+    .replace(/\=/g, "Por23Ld");
   return encrypted;
 };

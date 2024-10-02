@@ -10,7 +10,7 @@ export const FeaturesPageModule: React.FC = (): React.ReactElement => {
       <React.Suspense
         fallback={
           <div className="py-16 w-full text-center">
-            <span className="flex">
+          <span className="flex w-full items-center justify-center">
               <LoaderIcon className="size-6 animate-spin" /> Loading...
             </span>
           </div>

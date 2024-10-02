@@ -5,13 +5,17 @@ import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { FormVerify } from "./form.verify";
 import { decryptPhoneNumber, formatMaskedPhoneNumber } from "@/libs/utils";
+import { dataUser } from "../../forgot-password/_modules/form.forgot.password";
 
 export const VerifyPageModule: React.FC = (): React.ReactElement => {
   const searchParams = useSearchParams();
 
-  const token = searchParams?.get("token");
-  const phoneNumber = decryptPhoneNumber(token!);
-  const maskedPhoneNumber = formatMaskedPhoneNumber(phoneNumber);
+  const token = searchParams?.get("token") || dataUser.encryptedPhoneNumber;
+  let maskedPhoneNumber = formatMaskedPhoneNumber(dataUser.phoneNumber);
+  if (token && searchParams) {
+    const phoneNumber = decryptPhoneNumber(token);
+    maskedPhoneNumber = formatMaskedPhoneNumber(phoneNumber);
+  }
   return (
     <Card className="flex flex-col w-full max-w-[400px] border-none">
       <CardHeader className="flex items-center gap-5 p-0 pt-8">

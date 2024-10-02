@@ -19,8 +19,13 @@ import {
   forgotPasswordSchema,
   type TForgotPasswordSchema,
 } from "@/libs/entities";
-import { encryptPhoneNumber } from "@/libs/utils";
+import { decryptPhoneNumber, encryptPhoneNumber } from "@/libs/utils";
 import { useRouter } from "next/navigation";
+
+export const dataUser = {
+  phoneNumber: "",
+  encryptedPhoneNumber: "",
+};
 
 export const FormForgotPassword = () => {
   const router = useRouter();
@@ -44,7 +49,14 @@ export const FormForgotPassword = () => {
       ),
     });
 
-    router.push(`/auth/verify?token=${encryptedPhoneNumber}`);
+    const phoneNumber = decryptPhoneNumber(encryptedPhoneNumber);
+    if (phoneNumber.length < 10) {
+      toast.error("Gagal mengirim kode verifikasi, coba lagi!");
+    } else {
+      dataUser.phoneNumber = phoneNumber;
+      dataUser.encryptedPhoneNumber = encryptedPhoneNumber;
+      router.push(`/auth/verify?token=${encryptedPhoneNumber}`);
+    }
   };
   return (
     <Form {...form}>
