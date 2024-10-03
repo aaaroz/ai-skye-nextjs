@@ -1,29 +1,46 @@
 "use client";
 import * as React from "react";
-
 import { SidebarMenuGroup } from "./sidebar.menu.group";
 import {
   dashboardUserAccountItems,
   dashboardUserMenuItems,
 } from "@/libs/entities";
-import { useToggleSidebarCollapse } from "@/libs/hooks";
+import { useMediaQuery, useToggleSidebarCollapse } from "@/libs/hooks";
 import { cn } from "@/libs/utils";
+import { Separator } from "@/components/ui/separator";
 
 export const Sidebar: React.FC = (): React.ReactElement => {
-  const { isCollapsed } = useToggleSidebarCollapse();
+  const { isCollapsed, toggleIsCollapsed } = useToggleSidebarCollapse();
+  const isMediumScreen = useMediaQuery("(min-width: 768px)");
+  const isSmallScreen = useMediaQuery("(min-width: 640px)");
+
+  const widthCheck = React.useCallback(() => {
+    if (isMediumScreen) {
+      toggleIsCollapsed(false);
+    } else {
+      toggleIsCollapsed(true);
+    }
+  }, [toggleIsCollapsed, isMediumScreen]);
+
+  React.useEffect(() => {
+    widthCheck();
+  }, [widthCheck]);
+
   return (
     <aside
       className={cn(
-        "w-[300px] min-h-screen px-5 py-8 space-y-5 transition-all duration-300",
+        "w-[300px] fixed z-20 left-0 flex flex-col top-20 h-[89vh] px-5 py-8 md:space-y-5 transition-all duration-300 bg-background",
         {
           "w-[98px]": isCollapsed,
+          "-left-52": isCollapsed && !isSmallScreen,
         }
       )}
     >
       <div className="space-y-4">
         <SidebarMenuGroup items={dashboardUserMenuItems} groupTitle="Menu" />
       </div>
-      <div className="space-y-4 pt-4 border-t border-neutral-200">
+      <Separator />
+      <div className="space-y-4">
         <SidebarMenuGroup items={dashboardUserAccountItems} groupTitle="Akun" />
       </div>
     </aside>

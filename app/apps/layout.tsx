@@ -1,5 +1,5 @@
 import { FC, ReactElement, ReactNode } from "react";
-import { Sidebar, Topbar } from "@/components/layout";
+import { DashboardContainer, Sidebar, Topbar } from "@/components/layout";
 import { ToggleSidebarCollapseContextProvider } from "@/libs/context";
 
 const DashboardLayout: FC<{ children: ReactNode }> = ({
@@ -7,14 +7,10 @@ const DashboardLayout: FC<{ children: ReactNode }> = ({
 }): ReactElement => {
   return (
     <ToggleSidebarCollapseContextProvider>
-      <main className="w-full min-h-screen">
+      <main className="w-full min-h-screen relative">
         <Topbar />
-        <div className="flex">
-          <Sidebar />
-          <article className="w-full px-8 py-6 bg-neutral-100">
-            {children}
-          </article>
-        </div>
+        <Sidebar />
+        <DashboardContainer>{children}</DashboardContainer>
       </main>
     </ToggleSidebarCollapseContextProvider>
   );

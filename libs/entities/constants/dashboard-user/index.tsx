@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { TSidebarMenuItem } from "@/components/layout/sidebar/type";
 
-const iconSize = 16;
+const iconSize = 18;
 const dashboardUserRoute = "/apps/user/";
 export const dashboardUserMenuItems: TSidebarMenuItem[] = [
   {

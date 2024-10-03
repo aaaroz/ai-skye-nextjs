@@ -28,7 +28,11 @@ export const SidebarMenuItem: React.FC<TSidebarMenuItem> = ({
           )}
         >
           {icon}
-          <span className={cn("text-sm", { hidden: isCollapsed })}>
+          <span
+            className={cn("text-sm opacity-100 transition-all duration-300", {
+              "hidden opacity-0": isCollapsed,
+            })}
+          >
             {title}
           </span>
         </Button>
