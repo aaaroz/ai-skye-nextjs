@@ -12,7 +12,7 @@ export const documentData: TDocument[] = [
   {
     id: "1",
     title: "10 Tips Sukses Berjualan di Marketplace",
-    category: "e-commerce",
+    category: "ecommerce",
     createdAt: new Date("2024-01-12T08:30:00"),
     wordUsed: 850,
   },
@@ -33,7 +33,7 @@ export const documentData: TDocument[] = [
   {
     id: "4",
     title: "Strategi Branding untuk Toko Online",
-    category: "e-commerce",
+    category: "ecommerce",
     createdAt: new Date("2024-04-10T09:15:00"),
     wordUsed: 900,
   },
@@ -56,7 +56,7 @@ export const documentData: TDocument[] = [
 export type TDocument = {
   id: string;
   title: string;
-  category: "e-commerce" | "tiktok" | "instagram";
+  category: "ecommerce" | "tiktok" | "instagram";
   createdAt: Date;
   wordUsed: number;
 };

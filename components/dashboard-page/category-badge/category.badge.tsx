@@ -2,7 +2,7 @@ import * as React from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import { cn } from "@/libs/utils";
 
-const categoryBadgeVariants = cva(
+export const categoryBadgeVariants = cva(
   "inline-flex items-center whitespace-nowrap rounded-full border border-neutral-200 px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-neutral-950 focus:ring-offset-2 dark:border-neutral-800 dark:focus:ring-neutral-300",
   {
     variants: {
@@ -13,7 +13,7 @@ const categoryBadgeVariants = cva(
           "border-transparent bg-sky-100 text-sky-600 hover:bg-sky-100/80 dark:bg-sky-800 dark:text-sky-50 dark:hover:bg-sky-800/80",
         instagram:
           "border-transparent bg-rose-100 text-rose-600 hover:bg-rose-100/80 dark:bg-rose-800 dark:text-rose-50 dark:hover:bg-rose-800/80",
-        "e-commerce":
+        ecommerce:
           "border-transparent bg-orange-100 text-orange-600 hover:bg-orange-100/80 dark:bg-orange-800 dark:text-orange-50 dark:hover:bg-orange-800/80",
       },
     },

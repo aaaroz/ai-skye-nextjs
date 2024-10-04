@@ -14,7 +14,8 @@ export const SidebarMenuItem: React.FC<TSidebarMenuItem> = ({
 }): React.ReactElement => {
   const { isCollapsed } = useToggleSidebarCollapse();
   const pathname = usePathname();
-  const isActive = href === pathname ? "default" : "ghost";
+  const isActive =
+    href === pathname || pathname?.includes(href) ? "default" : "ghost";
   return (
     <li>
       <Link href={href} title={title}>
@@ -29,7 +30,7 @@ export const SidebarMenuItem: React.FC<TSidebarMenuItem> = ({
         >
           {icon}
           <span
-            className={cn("text-sm opacity-100 transition-all duration-300", {
+            className={cn("text-sm opacity-100 transition-all duration-200", {
               "hidden opacity-0": isCollapsed,
             })}
           >

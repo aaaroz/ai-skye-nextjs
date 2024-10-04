@@ -9,7 +9,7 @@ import {
 import { TSidebarMenuItem } from "@/components/layout/sidebar/type";
 
 const iconSize = 18;
-const dashboardUserRoute = "/apps/user/";
+export const dashboardUserRoute = "/apps/user/";
 export const dashboardUserMenuItems: TSidebarMenuItem[] = [
   {
     title: "Dashboard",

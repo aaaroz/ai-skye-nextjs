@@ -4,7 +4,7 @@ import { TFeature } from "@/libs/entities";
 import { DescriptionSection, StepSection } from "./sections";
 
 const mockData: TFeature = {
-  id: 0,
+  id: "",
   title: "",
   description: "",
   headline: "",
