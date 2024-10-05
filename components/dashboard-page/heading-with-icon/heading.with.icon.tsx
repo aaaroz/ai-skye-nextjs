@@ -9,9 +9,9 @@ export const HeadingWithIcon: React.FC<HeadingWithIconProps> = ({
   text,
 }): React.ReactElement => {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-2 sm:gap-4 items-center">
       {icon}
-      <h1 className="text-xl md:text-2xl font-bold">{text}</h1>
+      <h1 className="text-lg sm:text-xl md:text-2xl font-bold">{text}</h1>
     </div>
   );
 };

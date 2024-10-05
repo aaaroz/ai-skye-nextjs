@@ -34,6 +34,7 @@ const emptyPrompt = {
 export const FeatureForm: React.FC = (): React.ReactElement => {
   const [selectedPrompt, setSelectedPrompt] =
     React.useState<TPrompt>(emptyPrompt);
+
   const form = useForm<TFeatureAISchema>({
     resolver: zodResolver(featureAISchema),
     defaultValues: {
@@ -57,7 +58,8 @@ export const FeatureForm: React.FC = (): React.ReactElement => {
     if (selectedPrompt) {
       form.setValue("prompt", selectedPrompt.description);
     }
-  }, [selectedPrompt]);
+  }, [selectedPrompt, form]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -113,12 +115,12 @@ export const FeatureForm: React.FC = (): React.ReactElement => {
             name="maxToken"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Maksimal token</FormLabel>
+                <FormLabel>Maksimal kata</FormLabel>
                 <FormControl>
-                  <Input placeholder="Maksimal token" {...field} />
+                  <Input placeholder="Maksimal kata" {...field} />
                 </FormControl>
                 <FormDescription>
-                  Masukan maksimal token yang akan digunakan
+                  Masukan maksimal kata yang akan digunakan
                 </FormDescription>
 
                 <FormMessage />

@@ -29,7 +29,7 @@ export const Sidebar: React.FC = (): React.ReactElement => {
   return (
     <aside
       className={cn(
-        "w-[300px] fixed z-20 left-0 flex flex-col top-20 h-[89vh] px-5 py-8 md:space-y-5 transition-all duration-300 bg-background",
+        "w-[300px] fixed z-20 left-0 flex flex-col top-20 h-[89vh] px-5 py-8 space-y-3 md:space-y-5 shadow transition-all duration-300 bg-background",
         {
           "w-[98px]": isCollapsed,
           "-left-52": isCollapsed && !isSmallScreen,

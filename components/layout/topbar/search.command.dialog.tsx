@@ -3,8 +3,8 @@
 import * as React from "react";
 import {
   Calculator,
-  Calendar,
   CreditCard,
+  LayoutDashboardIcon,
   SearchIcon,
   Settings,
   Smile,
@@ -46,7 +46,7 @@ export const SearchCommandDialog = () => {
         className="flex md:justify-between text-sm md:w-[280px] h-8 px-0 md:px-4 text-muted-foreground bg-neutral-100/60 border-neutral-200 hover:bg-neutral-100"
         onClick={() => setIsOpen((prev) => !prev)}
       >
-        <SearchIcon size={16} className="md:hidden"/>
+        <SearchIcon size={16} className="md:hidden" />
         <span className="sr-only md:not-sr-only"> Cari sesuatu... </span>
         <kbd className="hidden md:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border bg-sky-100 px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
           <span className="text-xs">⌘</span>K
@@ -57,10 +57,10 @@ export const SearchCommandDialog = () => {
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <Calendar className="mr-2 h-4 w-4" />
-              <span>Calendar</span>
-            </CommandItem>
+              <CommandItem>
+                <LayoutDashboardIcon className="mr-2 h-4 w-4" />
+                <span>Dashboard</span>
+              </CommandItem>
             <CommandItem>
               <Smile className="mr-2 h-4 w-4" />
               <span>Search Emoji</span>

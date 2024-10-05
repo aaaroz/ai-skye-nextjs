@@ -11,6 +11,7 @@ export const SidebarMenuItem: React.FC<TSidebarMenuItem> = ({
   title,
   icon,
   href,
+  onClick,
 }): React.ReactElement => {
   const { isCollapsed } = useToggleSidebarCollapse();
   const pathname = usePathname();
@@ -21,6 +22,7 @@ export const SidebarMenuItem: React.FC<TSidebarMenuItem> = ({
       <Link href={href} title={title}>
         <Button
           variant={isActive}
+          onClick={onClick}
           className={cn(
             "flex w-full gap-3 px-5 justify-start items-center transition-all duration-300",
             {

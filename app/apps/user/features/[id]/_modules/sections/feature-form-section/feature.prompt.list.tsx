@@ -41,7 +41,7 @@ export const FeaturePromptList: React.FC<FeaturePromptListProps> = ({
 
       setPrompts(filteredPrompts);
     },
-    [debouncedValue, setPrompts]
+    [setPrompts]
   );
 
   React.useEffect(() => {

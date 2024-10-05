@@ -9,3 +9,6 @@ export * from "./verify-schema";
 export * from "./reset-password-schema";
 export * from "./feature-ai-schema";
 export * from "./prompt";
+export * from "./top-up-schema";
+export * from "./personal-data-schema";
+export * from './change-password-schema'

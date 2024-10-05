@@ -30,7 +30,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
     "from-orange-600 via-orange-100 to-transparent": category === "ecommerce",
   };
   return (
-    <Link href={`${dashboardUserRoute}/features/${id}`} title={title}>
+    <Link href={`${dashboardUserRoute}features/${id}`} title={title}>
       <Card className="w-full shadow-lg">
         <CardHeader className="w-full p-4">
           <div className={cn("py-2 rounded bg-gradient-to-l", backgroundTitle)}>

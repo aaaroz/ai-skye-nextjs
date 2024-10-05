@@ -2,7 +2,6 @@ import {
   CpuIcon,
   FilesIcon,
   LayoutDashboardIcon,
-  MessageSquareTextIcon,
   UserIcon,
   WalletIcon,
 } from "lucide-react";
@@ -38,10 +37,5 @@ export const dashboardUserAccountItems: TSidebarMenuItem[] = [
     title: "Akun saya",
     icon: <UserIcon size={iconSize} />,
     href: dashboardUserRoute.concat("profile"),
-  },
-  {
-    title: "Dukungan",
-    icon: <MessageSquareTextIcon size={iconSize} />,
-    href: "#",
   },
 ];

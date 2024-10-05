@@ -13,7 +13,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       "text-foreground/60 cursor-not-allowed": props.disabled,
     });
     return (
-      <div className="relative">
+      <div
+        className={cn("w-full", {
+          relative: type === "password",
+        })}
+      >
         <input
           type={showPassword ? "text" : type}
           className={cn(

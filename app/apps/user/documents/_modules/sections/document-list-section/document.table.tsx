@@ -55,14 +55,14 @@ export const DocumentTable = <TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center">
+      <div className="flex items-center w-full">
         <Input
           placeholder="Cari dokumen..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="w-[200px] md:w-[400px]"
         />
       </div>
       <div className="rounded-md border">
@@ -119,7 +119,7 @@ export const DocumentTable = <TData, TValue>({
                   colSpan={columns.length + 1}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Data tidak ditemukan.
                 </TableCell>
               </TableRow>
             )}

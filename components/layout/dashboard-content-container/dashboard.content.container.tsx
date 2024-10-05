@@ -14,7 +14,7 @@ export const DashboardContentContainer: React.FC<
     <div className={cn("py-6 space-y-4", className)}>
       <h1 className="text-lg font-bold capitalize">{pageTitle}</h1>
       {children}
-      <p className="w-full text-center">
+      <p className="text-sm w-full text-center">
         Copyright © 2024 KontenKilat.id Hak cipta dilindungi.
       </p>
     </div>

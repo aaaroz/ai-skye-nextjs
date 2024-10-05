@@ -4,6 +4,7 @@ import { TSidebarMenuItem } from "./type";
 import { SidebarMenuItem } from "./sidebar.menu.item";
 import { useToggleSidebarCollapse } from "@/libs/hooks";
 import { cn } from "@/libs/utils";
+import { SupportButton } from "./support.button";
 
 interface SidebarMenuGroupProps {
   groupTitle: string;
@@ -30,6 +31,12 @@ export const SidebarMenuGroup: React.FC<SidebarMenuGroupProps> = ({
         {items.map(({ title, href, icon }, index) => (
           <SidebarMenuItem key={index} title={title} href={href} icon={icon} />
         ))}
+        {
+          groupTitle === 'Akun'?(
+
+            <SupportButton />
+          ):null
+        }
       </ul>
     </>
   );

@@ -5,3 +5,4 @@ export * from "./encrypt-phone-number";
 export * from "./decrypt-phone-number";
 export * from "./format-masked-phone-number";
 export * from "./generate-secret-key";
+export * from "./format-rupiah";

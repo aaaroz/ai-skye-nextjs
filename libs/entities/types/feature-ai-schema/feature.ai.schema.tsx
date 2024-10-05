@@ -6,7 +6,7 @@ export const featureAISchema = z.object({
     .min(3, "Nama Produk harus lebih dari 3 digit!"),
   productCategory: z.string({ required_error: "Kategori Produk harus diisi!" }),
   maxToken: z.coerce
-    .number({ required_error: "Maksimal token harus berupa angka!" })
+    .number({ required_error: "Maksimal kata harus berupa angka!" })
     .min(0)
     .int()
     .nonnegative(),
