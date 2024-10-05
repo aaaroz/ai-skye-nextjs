@@ -75,11 +75,11 @@ export const FirstStepExample: React.FC = (): React.ReactElement => {
             </div>
             <fieldset className="space-y-1.5">
               <label htmlFor="name" className="text-xs font-semibold">
-                Maksimal token
+                Maksimal kata
               </label>
               <Input id="name" className="h-8" value="3000" readOnly />
               <p className="text-xs">
-                Masukkan maksimal token yang akan digunakan
+                Masukkan maksimal kata yang akan digunakan
               </p>
             </fieldset>
             <fieldset className="space-y-1.5">

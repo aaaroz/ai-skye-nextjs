@@ -1,5 +1,5 @@
 export type TFeature = {
-  id: number;
+  id: string;
   title: string;
   headline: string;
   description: string;
