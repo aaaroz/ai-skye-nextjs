@@ -2,14 +2,18 @@
 import * as React from "react";
 import { SidebarMenuGroup } from "./sidebar.menu.group";
 import {
+  dashboardAdminMenuItems,
   dashboardUserAccountItems,
   dashboardUserMenuItems,
+  dashboardUserRoute,
 } from "@/libs/entities";
 import { useMediaQuery, useToggleSidebarCollapse } from "@/libs/hooks";
 import { cn } from "@/libs/utils";
 import { Separator } from "@/components/ui/separator";
+import { usePathname } from "next/navigation";
 
 export const Sidebar: React.FC = (): React.ReactElement => {
+  const pathname = usePathname();
   const { isCollapsed, toggleIsCollapsed } = useToggleSidebarCollapse();
   const isMediumScreen = useMediaQuery("(min-width: 768px)");
   const isSmallScreen = useMediaQuery("(min-width: 640px)");
@@ -37,7 +41,14 @@ export const Sidebar: React.FC = (): React.ReactElement => {
       )}
     >
       <div className="space-y-4">
-        <SidebarMenuGroup items={dashboardUserMenuItems} groupTitle="Menu" />
+        <SidebarMenuGroup
+          items={
+            pathname.includes(dashboardUserRoute)
+              ? dashboardUserMenuItems
+              : dashboardAdminMenuItems
+          }
+          groupTitle="Menu"
+        />
       </div>
       <Separator />
       <div className="space-y-4">
