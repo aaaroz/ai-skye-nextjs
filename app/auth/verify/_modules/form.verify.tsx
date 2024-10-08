@@ -16,7 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { verifySchema, type TVerifySchema } from "@/libs/entities";
 
-export const FormVerify = () => {
+export const FormVerify: React.FC = (): React.ReactElement => {
   const form = useForm<TVerifySchema>({
     resolver: zodResolver(verifySchema),
     defaultValues: {

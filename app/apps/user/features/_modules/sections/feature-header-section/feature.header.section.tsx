@@ -7,7 +7,7 @@ import { useDebounce, useFeatureDashboard } from "@/libs/hooks";
 import { dummyFeatures } from "@/libs/entities";
 
 export const FeatureHeaderSection: React.FC = (): React.ReactElement => {
-  const [searchQuery, setSearchQuery] = React.useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = React.useState<string>("");
   const { debouncedValue, isLoading } = useDebounce(
     searchQuery?.toLowerCase() as string,
     400

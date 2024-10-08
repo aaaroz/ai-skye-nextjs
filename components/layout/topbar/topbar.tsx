@@ -1,10 +1,14 @@
 import * as React from "react";
+import Link from "next/link";
 import { PlusIcon } from "lucide-react";
 import { Logo } from "@/components/common/logo";
 import { Button } from "@/components/ui/button";
 import { SearchCommandDialog } from "./search.command.dialog";
 import { ProfileDropdown } from "./profile.dropdown";
 import { SidebarCollapseTrigger } from "./sidebar.collapse.trigger";
+import { dashboardUserRoute } from "@/libs/entities";
+import { ShortcutDialogTrigger } from "./shortcut.dialog.trigger";
+import { LogoutDialogTrigger } from "./logout.dialog.trigger";
 
 export const Topbar: React.FC = (): React.ReactElement => {
   return (
@@ -16,13 +20,23 @@ export const Topbar: React.FC = (): React.ReactElement => {
       <div className="flex items-center gap-2 md:gap-4">
         <div className="flex items-center gap-1">
           <SearchCommandDialog />
-          <Button
-            variant="outline"
-            size="icon"
-            className="hidden sm:inline-flex items-center text-sm h-8 text-muted-foreground bg-neutral-100/60 border-neutral-200 hover:bg-neutral-100"
+          <div className="sr-only">
+            <ShortcutDialogTrigger />
+            <LogoutDialogTrigger />
+          </div>
+          <Link
+            title="Buat ide konten baru"
+            href={dashboardUserRoute.concat("features")}
+            className="hidden sm:inline-flex"
           >
-            <PlusIcon size={16} />
-          </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="items-center text-sm h-8 text-muted-foreground bg-neutral-100/60 border-neutral-200 hover:bg-neutral-100"
+            >
+              <PlusIcon size={16} />
+            </Button>
+          </Link>
         </div>
         <ProfileDropdown />
       </div>

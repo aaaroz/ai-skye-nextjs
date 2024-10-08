@@ -19,7 +19,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { toast } from "sonner";
 
-export const FormLogin = () => {
+export const FormLogin: React.FC = (): React.ReactElement => {
   const form = useForm<TLoginSchema>({
     resolver: zodResolver(loginSchema),
     defaultValues: {

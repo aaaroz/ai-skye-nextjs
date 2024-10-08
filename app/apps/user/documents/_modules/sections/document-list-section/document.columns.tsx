@@ -7,59 +7,7 @@ import { id } from "date-fns/locale";
 import { CategoryBadge } from "@/components/dashboard-page";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-
-export const documentData: TDocument[] = [
-  {
-    id: "1",
-    title: "10 Tips Sukses Berjualan di Marketplace",
-    category: "ecommerce",
-    createdAt: new Date("2024-01-12T08:30:00"),
-    wordUsed: 850,
-  },
-  {
-    id: "2",
-    title: "Cara Menarik Pengikut di TikTok",
-    category: "tiktok",
-    createdAt: new Date("2024-02-05T14:45:00"),
-    wordUsed: 400,
-  },
-  {
-    id: "3",
-    title: "Panduan Lengkap Mengoptimalkan Postingan Instagram",
-    category: "instagram",
-    createdAt: new Date("2024-03-17T11:00:00"),
-    wordUsed: 650,
-  },
-  {
-    id: "4",
-    title: "Strategi Branding untuk Toko Online",
-    category: "ecommerce",
-    createdAt: new Date("2024-04-10T09:15:00"),
-    wordUsed: 900,
-  },
-  {
-    id: "5",
-    title: "Konten TikTok yang Mengundang Interaksi",
-    category: "tiktok",
-    createdAt: new Date("2024-05-25T16:30:00"),
-    wordUsed: 500,
-  },
-  {
-    id: "6",
-    title: "Konten Instagram yang Mengundang Interaksi",
-    category: "instagram",
-    createdAt: new Date("2024-05-25T16:30:00"),
-    wordUsed: 666,
-  },
-];
-
-export type TDocument = {
-  id: string;
-  title: string;
-  category: "ecommerce" | "tiktok" | "instagram";
-  createdAt: Date;
-  wordUsed: number;
-};
+import { TDocument } from "@/libs/entities";
 
 export const documentColumns: ColumnDef<TDocument>[] = [
   {

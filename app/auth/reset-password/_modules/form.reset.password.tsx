@@ -19,7 +19,7 @@ import {
   type TResetPasswordSchema,
 } from "@/libs/entities";
 
-export const FormResetPassword = () => {
+export const FormResetPassword: React.FC = (): React.ReactElement => {
   const form = useForm<TResetPasswordSchema>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {

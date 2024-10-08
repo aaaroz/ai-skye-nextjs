@@ -3,7 +3,7 @@ import { FeatureCard } from "./feature.card";
 import { dummyFeatures } from "@/libs/entities";
 
 const dummyFeaturesEcommerce = dummyFeatures.filter(
-  (feature) => feature.category === "e-commerce"
+  (feature) => feature.category === "ecommerce"
 );
 
 export const FeaturesEcommerce = () => {

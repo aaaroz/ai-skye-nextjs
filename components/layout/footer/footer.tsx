@@ -2,7 +2,8 @@ import * as React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { InstagramIcon, MailIcon, PhoneIcon } from "lucide-react";
+import { MailIcon, PhoneIcon } from "lucide-react";
+import { SiYoutube, SiInstagram, SiX } from "@icons-pack/react-simple-icons";
 import { Logo } from "@/components/common/logo";
 
 export const Footer: React.FC = (): React.ReactElement => {
@@ -99,7 +100,7 @@ export const Footer: React.FC = (): React.ReactElement => {
             </Link>
             <Link
               href="/privacy-policy"
-              title='Kebijakan Privasi'
+              title="Kebijakan Privasi"
               className="text-neutral-100 hover:text-neutral-100/60 transition-colors duration-200"
             >
               Privacy Policy
@@ -107,13 +108,13 @@ export const Footer: React.FC = (): React.ReactElement => {
           </div>
           <div className="flex gap-2 items-center">
             <Button size="icon" className="bg-neutral-800 hover:bg-neutral-700">
-              <InstagramIcon className="size-6" />
+              <SiInstagram size={18} />
             </Button>
             <Button size="icon" className="bg-neutral-800 hover:bg-neutral-700">
-              <InstagramIcon className="size-6" />
+              <SiYoutube size={18} />
             </Button>
             <Button size="icon" className="bg-neutral-800 hover:bg-neutral-700">
-              <InstagramIcon className="size-6" />
+              <SiX size={18} />
             </Button>
           </div>
         </div>
