@@ -55,33 +55,33 @@ export const UserDetailSheetTrigger: React.FC<UserDetailSheetTriggerProps> = ({
             Data pribadi
           </h1>
           <div className="space-y-2">
-            <div className="flex items-center justify-start py-2 border-b border-neutral-200">
-              <strong className="w-[45%]">Nama Lengkap</strong>
+            <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
+              <strong className="w-[35%]">Nama Lengkap</strong>
               <p>{data.name}</p>
             </div>
-            <div className="flex items-center justify-start py-2 border-b border-neutral-200">
-              <strong className="w-[45%]">Nomor Telepon</strong>
+            <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
+              <strong className="w-[35%]">Nomor Telepon</strong>
               <p>{data.phoneNumber}</p>
             </div>
-            <div className="flex items-center justify-start py-2 border-b border-neutral-200">
-              <strong className="w-[45%]">Jabatan</strong>
-              <p>{data.position}n</p>
+            <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
+              <strong className="w-[35%]">Jabatan</strong>
+              <p>{data.position}</p>
             </div>
-            <div className="flex items-center justify-start py-2 border-b border-neutral-200">
-              <strong className="w-[45%]">Perusahaan</strong>
+            <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
+              <strong className="w-[35%]">Perusahaan</strong>
               <p>Skye Digipreneur</p>
             </div>
-            <div className="flex items-center justify-start py-2 border-b border-neutral-200">
-              <strong className="w-[45%]">Kota</strong>
+            <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
+              <strong className="w-[35%]">Kota</strong>
               <p>Bandung</p>
             </div>
-            <div className="flex items-center justify-start py-2 border-b border-neutral-200">
-              <strong className="w-[45%]">Tanggal Lahir</strong>
+            <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
+              <strong className="w-[35%]">Tanggal Lahir</strong>
               <p>-</p>
             </div>
           </div>
-          <div className="w-full justify-end items-center gap-2 my-4">
-            <SheetClose>
+          <div className="w-full flex justify-end items-center gap-2 my-4">
+            <SheetClose asChild>
               <Button variant="ghost">Kembali</Button>
             </SheetClose>
             <UserDeleteTrigger id={data.id} isOnSheet />

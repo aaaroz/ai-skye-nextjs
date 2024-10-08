@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import Link from "next/link";
-import { MoveLeftIcon, SettingsIcon, User2Icon } from "lucide-react";
+import { MoveLeftIcon, SettingsIcon, UserIcon } from "lucide-react";
 import {
   DocumentCard,
   HeadingWithIcon,
@@ -23,7 +23,7 @@ export const ProfileSection: React.FC = (): React.ReactElement => {
             text="Pengaturan Akun"
           />
         ) : (
-          <HeadingWithIcon icon={<User2Icon size={32} />} text="Profil Saya" />
+          <HeadingWithIcon icon={<UserIcon size={32} />} text="Profil Saya" />
         )}
         {pathname.includes("settings") ? (
           <Link href={dashboardUserRoute.concat("profile")}>

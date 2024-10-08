@@ -52,14 +52,15 @@ export const UserDeleteTrigger: React.FC<UserDeleteTriggerProps> = ({
         <DialogHeader>
           <DialogTitle>Apakah anda yakin?</DialogTitle>
           <DialogDescription>
-            Data yang telah dihapus, tidak dapak dikembalikan secara permanen.
-            Apakah anda yakin ingin menghapus nya?
+            Data pengguna yang telah dihapus, tidak dapat dikembalikan secara
+            permanen dan semua data yang terkait dengan pengguna ini akan
+            dihapus. Apakah anda yakin ingin menghapus nya?
           </DialogDescription>
           <DialogFooter className="flex gap-2 py-2">
             <DialogClose asChild>
-              <Button variant="ghost">Tidak, kembali</Button>
+              <Button variant="default">Tidak, kembali</Button>
             </DialogClose>
-            <Button variant="destructive" onClick={handleDelete}>
+            <Button variant="destructive" onClick={handleDelete} title="Hapus">
               Ya, saya yakin!
             </Button>
           </DialogFooter>

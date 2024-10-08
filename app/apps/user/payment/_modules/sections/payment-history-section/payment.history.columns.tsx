@@ -11,34 +11,56 @@ import { cn } from "@/libs/utils";
 
 export const paymentData: TPayment[] = [
   {
-    orderId: "ORD123456",
+    orderId: "PAY123456789",
     status: "pending",
-    createdAt: new Date("2024-09-15T10:30:00Z"),
+    createdAt: new Date("2024-10-01T10:00:00"),
     name: "John Doe",
+    phoneNumber: "081234567890",
+    packageName: "10000 Kata x 5",
+    paymentMethod: "QRIS",
+    total: 50000,
   },
   {
-    orderId: "ORD123457",
+    orderId: "PAY987654321",
     status: "settled",
-    createdAt: new Date("2024-09-10T14:00:00Z"),
-    name: "Jane Smith",
+    createdAt: new Date("2024-09-28T14:30:00"),
+    paidAt: new Date("2024-09-29T09:45:00"),
+    name: "John Doe",
+    phoneNumber: "081234567890",
+    packageName: "10000 Kata x 7",
+    paymentMethod: "E-WALLET",
+    total: 70000,
   },
   {
-    orderId: "ORD123458",
+    orderId: "PAY543216789",
     status: "failed",
-    createdAt: new Date("2024-09-12T09:45:00Z"),
-    name: "Alice Johnson",
+    createdAt: new Date("2024-09-30T16:45:00"),
+    name: "John Doe",
+    phoneNumber: "081234567890",
+    packageName: "10000 Kata x 3",
+    paymentMethod: "QRIS",
+    total: 30000,
   },
   {
-    orderId: "ORD123459",
-    status: "pending",
-    createdAt: new Date("2024-09-20T13:15:00Z"),
-    name: "Bob Williams",
-  },
-  {
-    orderId: "ORD123460",
+    orderId: "PAY678912345",
     status: "settled",
-    createdAt: new Date("2024-09-05T11:00:00Z"),
-    name: "Charlie Brown",
+    createdAt: new Date("2024-10-02T09:15:00"),
+    paidAt: new Date("2024-10-02T11:00:00"),
+    name: "John Doe",
+    phoneNumber: "081234567890",
+    packageName: "10000 Kata x 8",
+    paymentMethod: "E-WALLET",
+    total: 80000,
+  },
+  {
+    orderId: "PAY112233445",
+    status: "pending",
+    createdAt: new Date("2024-10-03T11:00:00"),
+    name: "John Doe",
+    phoneNumber: "081234567890",
+    packageName: "10000 Kata x 6",
+    paymentMethod: "QRIS",
+    total: 60000,
   },
 ];
 
@@ -47,6 +69,11 @@ export type TPayment = {
   status: "pending" | "settled" | "failed";
   createdAt: Date;
   name: string;
+  paidAt?: Date;
+  phoneNumber: string;
+  packageName: string;
+  paymentMethod: "QRIS" | "E-WALLET";
+  total: number;
 };
 
 export const paymentColumns: ColumnDef<TPayment>[] = [
@@ -87,9 +114,11 @@ export const paymentColumns: ColumnDef<TPayment>[] = [
           ? "Ditunda"
           : "Gagal";
       const badgeClassName = {
-        "bg-green-100 text-green-600": value === "Berhasil",
-        "bg-yellow-100 text-yellow-600": value === "Ditunda",
-        "bg-red-100 text-red-600": value === "Gagal",
+        "bg-green-100 text-green-600 hover:bg-green-100/80":
+          value === "Berhasil",
+        "bg-yellow-100 text-yellow-600 hover:bg-yellow-100/80":
+          value === "Ditunda",
+        "bg-red-100 text-red-600 hover:bg-red-100/80": value === "Gagal",
       };
       return (
         <Badge variant="default" className={cn(badgeClassName)}>

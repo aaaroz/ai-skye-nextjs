@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 const appName = process.env.APP_NAME;
@@ -25,7 +26,9 @@ export const HeroSection: React.FC = (): React.ReactElement => {
           mudah. Mau untuk kerjaan atau hobi? Kami punya alat keren buat bantu
           Anda ciptakan konten yang bikin orang terpesona!
         </p>
-        <Button className="rounded-full">Coba Gratis Sekarang</Button>
+        <Link href="/auth/register" title="Daftar sekarang juga">
+          <Button className="rounded-full">Coba Gratis Sekarang</Button>
+        </Link>
       </div>
     </section>
   );

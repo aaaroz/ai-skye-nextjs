@@ -63,7 +63,7 @@ export const UsersTable = <TData extends TUser, TValue>({
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="w-[200px] md:w-[400px]"
+          className="w-full"
         />
       </div>
       <div className="rounded-md border">

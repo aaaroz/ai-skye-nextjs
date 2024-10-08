@@ -20,8 +20,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ActionButton } from "@/components/dashboard-page";
-import { FileTextIcon } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -29,13 +27,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TTransaction } from "./transaction.columns";
+import { TransactionDetailSheetTrigger } from "./transaction.detail.sheet";
 
 interface TransactionTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const TransactionTable = <TData, TValue>({
+export const TransactionTable = <TData extends TTransaction, TValue>({
   columns,
   data,
 }: TransactionTableProps<TData, TValue>): React.ReactElement => {
@@ -120,9 +120,9 @@ export const TransactionTable = <TData, TValue>({
                   ))}
                   <TableCell>
                     <div className="flex gap-0.5">
-                      <ActionButton className="shrink-0">
-                        <FileTextIcon size={16} />
-                      </ActionButton>
+                      <TransactionDetailSheetTrigger
+                        orderId={row.original.orderId}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>

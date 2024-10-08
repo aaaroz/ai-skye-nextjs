@@ -1,4 +1,5 @@
 import * as React from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SectionContainer } from "../section-container";
 
@@ -18,9 +19,11 @@ export const CallToAction: React.FC = (): React.ReactElement => {
           </p>
         </div>
         <div className="w-full mt-5 md:mt-0 h-full items-center flex justify-start md:justify-center z-10">
-          <Button className="bg-neutral-800 hover:bg-neutral-700">
-            Coba Gratis Sekarang
-          </Button>
+          <Link href="/auth/register" title="Daftar sekarang juga!">
+            <Button className="bg-neutral-800 hover:bg-neutral-700">
+              Coba Gratis Sekarang
+            </Button>
+          </Link>
         </div>
       </div>
     </SectionContainer>

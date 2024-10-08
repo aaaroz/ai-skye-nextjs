@@ -3,7 +3,8 @@ import { FoldersIcon } from "lucide-react";
 import { HeadingWithIcon } from "@/components/dashboard-page";
 import { Separator } from "@/components/ui/separator";
 import { DocumentTable } from "./document.table";
-import { documentColumns, documentData } from "./document.columns";
+import { documentData } from "@/libs/entities";
+import { documentColumns } from "./document.columns";
 
 export const DocumentListSection: React.FC = (): React.ReactElement => {
   return (

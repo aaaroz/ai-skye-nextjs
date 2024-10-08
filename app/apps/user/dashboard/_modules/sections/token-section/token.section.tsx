@@ -2,6 +2,8 @@ import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { DocumentCard } from "./document.card";
 import { TokenCard } from "@/components/dashboard-page";
+import Link from "next/link";
+import { dashboardUserRoute } from "@/libs/entities";
 
 const documentData = [
   {
@@ -34,9 +36,16 @@ export const TokenSection: React.FC = (): React.ReactElement => {
             menghasilkan respon dari AI, untuk penggunaan selanjutnya anda bisa
             topup Kata di menu pembayaran.
           </p>
-          <Button className="text-neutral-800 bg-sky-100 hover:bg-sky-100/50">
-            Topup Disini
-          </Button>
+          <div className="pt-4">
+            <Link
+              href={dashboardUserRoute.concat("payment/top-up")}
+              className="mt-4"
+            >
+              <Button className="text-neutral-800 bg-sky-100 hover:bg-sky-100/50">
+                Topup Disini
+              </Button>
+            </Link>
+          </div>
         </div>
         <div className="w-full sm:w-1/2 flex justify-start sm:justify-end">
           <TokenCard />

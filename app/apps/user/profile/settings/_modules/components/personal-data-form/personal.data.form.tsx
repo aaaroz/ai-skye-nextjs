@@ -162,7 +162,7 @@ export const PersonalDataForm: React.FC = (): React.ReactElement => {
                     defaultValue={field.value}
                     className="flex flex-col space-y-1"
                   >
-                    <div className="w-full flex items-center">
+                    <div className="w-full flex justify-start items-center">
                       <FormItem className="flex items-center space-x-3 space-y-0">
                         <FormControl>
                           <RadioGroupItem
@@ -220,7 +220,7 @@ export const PersonalDataForm: React.FC = (): React.ReactElement => {
               </FormItem>
             )}
           />
-          <div className="w-full flex justify-end gap-2">
+          <div className="w-full flex justify-end pt-2 gap-2">
             <Button type="reset" variant="secondary" className="bg-neutral-200">
               Batalkan
             </Button>

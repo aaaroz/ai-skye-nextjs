@@ -27,6 +27,6 @@ export const dashboardAdminMenuItems: TSidebarMenuItem[] = [
   {
     title: "Transaksi",
     icon: <WalletIcon size={iconSize} />,
-    href: dashboardAdminRoute.concat("transaction"),
+    href: dashboardAdminRoute.concat("transactions"),
   },
 ];

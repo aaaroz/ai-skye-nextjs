@@ -22,12 +22,12 @@ import {
 import { decryptPhoneNumber, encryptPhoneNumber } from "@/libs/utils";
 import { useRouter } from "next/navigation";
 
-export const dataUser = {
+export const dataUserForgotPassword = {
   phoneNumber: "",
   encryptedPhoneNumber: "",
 };
 
-export const FormForgotPassword = () => {
+export const FormForgotPassword: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const form = useForm<TForgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -53,8 +53,8 @@ export const FormForgotPassword = () => {
     if (phoneNumber.length < 10) {
       toast.error("Gagal mengirim kode verifikasi, coba lagi!");
     } else {
-      dataUser.phoneNumber = phoneNumber;
-      dataUser.encryptedPhoneNumber = encryptedPhoneNumber;
+      dataUserForgotPassword.phoneNumber = phoneNumber;
+      dataUserForgotPassword.encryptedPhoneNumber = encryptedPhoneNumber;
       router.push(`/auth/verify?token=${encryptedPhoneNumber}`);
     }
   };

@@ -20,8 +20,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ActionButton } from "@/components/dashboard-page";
-import { FileTextIcon } from "lucide-react";
 import { PaymentHistoryTablePagination } from "./payment.history.table.pagination";
 import {
   Select,
@@ -30,13 +28,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PaymentDetailSheetTrigger } from "./payment.detail.sheet";
+import { TPayment } from "./payment.history.columns";
 
 interface PaymentHistoryTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const PaymentHistoryTable = <TData, TValue>({
+export const PaymentHistoryTable = <TData extends TPayment, TValue>({
   columns,
   data,
 }: PaymentHistoryTableProps<TData, TValue>): React.ReactElement => {
@@ -121,9 +121,9 @@ export const PaymentHistoryTable = <TData, TValue>({
                   ))}
                   <TableCell>
                     <div className="flex gap-0.5">
-                      <ActionButton className="shrink-0">
-                        <FileTextIcon size={16} />
-                      </ActionButton>
+                      <PaymentDetailSheetTrigger
+                        orderId={row.original.orderId}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>

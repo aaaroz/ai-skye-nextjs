@@ -1,6 +1,6 @@
 import {
   CpuIcon,
-  FilesIcon,
+  FoldersIcon,
   LayoutDashboardIcon,
   UserIcon,
   WalletIcon,
@@ -22,7 +22,7 @@ export const dashboardUserMenuItems: TSidebarMenuItem[] = [
   },
   {
     title: "Dokumen saya",
-    icon: <FilesIcon size={iconSize} />,
+    icon: <FoldersIcon size={iconSize} />,
     href: dashboardUserRoute.concat("documents"),
   },
   {

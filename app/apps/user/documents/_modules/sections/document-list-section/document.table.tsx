@@ -22,15 +22,18 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { ActionButton } from "@/components/dashboard-page";
-import { FileTextIcon, Trash2Icon } from "lucide-react";
+import { FileTextIcon } from "lucide-react";
 import { DocumentTablePagination } from "./document.table.pagination";
+import { DocumentDeleteTrigger } from "./document.delete.dialog";
+import { dashboardUserRoute, TDocument } from "@/libs/entities";
+import Link from "next/link";
 
 interface DocumentTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const DocumentTable = <TData, TValue>({
+export const DocumentTable = <TData extends TDocument, TValue>({
   columns,
   data,
 }: DocumentTableProps<TData, TValue>): React.ReactElement => {
@@ -62,7 +65,7 @@ export const DocumentTable = <TData, TValue>({
           onChange={(event) =>
             table.getColumn("title")?.setFilterValue(event.target.value)
           }
-          className="w-[200px] md:w-[400px]"
+          className="w-full"
         />
       </div>
       <div className="rounded-md border">
@@ -102,13 +105,13 @@ export const DocumentTable = <TData, TValue>({
                     </TableCell>
                   ))}
                   <TableCell>
-                    <div className="flex gap-0.5">
+                    <div className="flex gap-2">
+                      <Link href={dashboardUserRoute.concat(`documents/${row.original.id}`)}>
                       <ActionButton className="shrink-0">
                         <FileTextIcon size={16} />
                       </ActionButton>
-                      <ActionButton className="shrink-0" variant="destructive">
-                        <Trash2Icon size={16} />
-                      </ActionButton>
+                      </Link>
+                      <DocumentDeleteTrigger id={row.original.id} />
                     </div>
                   </TableCell>
                 </TableRow>
