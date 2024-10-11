@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { TDocument } from "../document";
 
 export const personalDataSchema = z.object({
   fullName: z
@@ -19,3 +20,21 @@ export const personalDataSchema = z.object({
 });
 
 export type TPersonalDataSchema = z.infer<typeof personalDataSchema>;
+
+export type TProfileData = {
+  wordCredits: number;
+  isBlocked: boolean;
+  name: string;
+  jabatan: string;
+  createdAt: string;
+  isVerified: boolean;
+  image_url: string;
+  phoneNumber: string;
+  role: string;
+  tempatTanggalLahir: string;
+  kota: string;
+  dokumenTersimpan: TDocument[];
+  wordUsed: number;
+  updatedAt: string;
+  perusahaan: string;
+};

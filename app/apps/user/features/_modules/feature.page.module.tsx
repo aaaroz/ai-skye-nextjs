@@ -14,7 +14,7 @@ export const FeaturesPageModule: React.FC = (): React.ReactElement => {
       <React.Suspense
         fallback={
           <section className="p-4 md:p-6 inline-flex w-full space-x-2 rounded-md overflow-auto bg-neutral-50">
-            <p className="w-full text-center">
+            <p className="w-full flex text-center">
               <Loader2Icon className="animate-spin" />
               Loading...
             </p>
@@ -26,7 +26,7 @@ export const FeaturesPageModule: React.FC = (): React.ReactElement => {
       <React.Suspense
         fallback={
           <section className="w-full py-4">
-            <p>
+            <p className="w-full flex text-center">
               <Loader2Icon className="animate-spin" />
               Loading...
             </p>

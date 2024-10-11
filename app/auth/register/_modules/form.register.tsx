@@ -18,20 +18,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { registerSchema, type TRegisterSchema } from "@/libs/entities";
 import { Checkbox } from "@/components/ui/checkbox";
-import { decryptPhoneNumber, encryptPhoneNumber } from "@/libs/utils";
 import { useRouter } from "next/navigation";
-
-export const dataUserRegister = {
-  phoneNumber: "",
-  encryptedPhoneNumber: "",
-};
+import { register } from "@/libs/actions";
 
 export const FormRegister: React.FC = (): React.ReactElement => {
   const router = useRouter();
   const form = useForm<TRegisterSchema>({
     resolver: zodResolver(registerSchema),
     defaultValues: {
-      fullName: "",
+      name: "",
       phoneNumber: "",
       password: "",
       confirmPassword: "",
@@ -40,25 +35,18 @@ export const FormRegister: React.FC = (): React.ReactElement => {
     mode: "all",
   });
 
-  const onSubmit = (data: TRegisterSchema) => {
-    const encryptedPhoneNumber = encryptPhoneNumber(data.phoneNumber);
-    //TODO = SEND OTP
-
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-
-    const phoneNumber = decryptPhoneNumber(encryptedPhoneNumber);
-    if (phoneNumber.length < 10) {
-      toast.error("Gagal mengirim kode verifikasi, coba lagi!");
-    } else {
-      dataUserRegister.phoneNumber = phoneNumber;
-      dataUserRegister.encryptedPhoneNumber = encryptedPhoneNumber;
-      router.push(`/auth/verify?token=${encryptedPhoneNumber}`);
+  const onSubmit = async (data: TRegisterSchema) => {
+    try {
+      const res = await register(data);
+      toast.success("Kode OTP Telah dikirimkan melalui WhatsApp anda");
+      router.push(
+        `/auth/verify?userId=${res.id}&phoneNumber=${res.phoneNumber}`
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error("Register gagal, silahkan coba lagi!", {
+        description: (error as Error).message,
+      });
     }
   };
   return (
@@ -67,7 +55,7 @@ export const FormRegister: React.FC = (): React.ReactElement => {
         <div className="space-y-4">
           <FormField
             control={form.control}
-            name="fullName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="capitalize text-xs md:text-sm">

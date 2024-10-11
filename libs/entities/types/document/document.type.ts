@@ -1,8 +1,8 @@
 export type TDocument = {
+  timestamp: string;
+  response: string;
   id: string;
-  title: string;
   category: "ecommerce" | "tiktok" | "instagram";
-  createdAt: Date;
-  wordUsed: number;
-  text: string;
+  tokensUsed: number;
+  title: string;
 };

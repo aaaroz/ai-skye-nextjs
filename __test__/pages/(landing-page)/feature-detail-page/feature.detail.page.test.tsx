@@ -2,21 +2,30 @@ import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
 import FeatureDetailPage from "@/app/(landing-page)/features/[slug]/page";
 import { FeatureDetailPageModule } from "@/app/(landing-page)/features/[slug]/_modules";
-import { dummyFeatures } from "@/libs/entities";
+import { Feature } from "@/libs/entities";
 
-const dummySlug = "konten-shopee-post";
-const dummyFeature = dummyFeatures.find((item) => item.slug === dummySlug);
+const dummyFeature: Feature = {
+  id: "1",
+  categoryname: "Content Creation",
+  featuresname: "AI Text Generator",
+  slug: "ai-text-generator",
+  deskripsi: "Generate high-quality text with AI technology.",
+  subdeskripsi:
+    "This feature helps users create various content types such as articles, social media posts, and more.",
+  data: [],
+};
+
 describe("FeatureDetailPage", () => {
   it("Should render successfully!", () => {
     const { baseElement } = render(
-      <FeatureDetailPage params={{ slug: dummySlug }} />
+      <FeatureDetailPage params={{ slug: dummyFeature.slug }} />
     );
 
     expect(baseElement).toBeTruthy();
   });
 
   it("Should have Feature Detail Page module", () => {
-    render(<FeatureDetailPage params={{ slug: dummySlug }} />);
+    render(<FeatureDetailPage params={{ slug: dummyFeature.slug }} />);
 
     const featureDetailPageModule = screen.getByTestId(
       "feature-detail-page-module"
@@ -26,7 +35,7 @@ describe("FeatureDetailPage", () => {
   });
 
   it("Should have Description Section", () => {
-    render(<FeatureDetailPageModule data={dummyFeature} />);
+    render(<FeatureDetailPageModule featureData={dummyFeature as Feature} />);
 
     const descriptionSection = screen.getByTestId("description-section");
 
@@ -34,7 +43,7 @@ describe("FeatureDetailPage", () => {
   });
 
   it("Should have Step Section", () => {
-    render(<FeatureDetailPageModule data={dummyFeature} />);
+    render(<FeatureDetailPageModule featureData={dummyFeature as Feature} />);
 
     const stepSection = screen.getByTestId("step-section");
 

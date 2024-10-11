@@ -45,9 +45,9 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
   const form = useForm<TPromptSchema>({
     resolver: zodResolver(promptSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      category: "",
+      nameprompt: "",
+      prompt: "",
+      categoryprompt: "",
     },
   });
   const onSubmit = (values: TPromptSchema) => {
@@ -78,13 +78,13 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
         <Form {...form}>
           <form
             id="form-add-prompt"
-            onSubmit={form.handleSubmit(onSubmit)}
+            // onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8"
           >
             <div className="w-full space-y-4">
               <FormField
                 control={form.control}
-                name="name"
+                name="nameprompt"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Nama prompt</FormLabel>
@@ -101,17 +101,17 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
               />
               <FormField
                 control={form.control}
-                name="category"
+                name="categoryprompt"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Kategori produk</FormLabel>
+                    <FormLabel>Kategori</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder="Pilih Kategori produk" />
+                          <SelectValue placeholder="Pilih Kategori prompt" />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
@@ -137,7 +137,7 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
               />
               <FormField
                 control={form.control}
-                name="description"
+                name="prompt"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Isi Perintah AI</FormLabel>
@@ -155,13 +155,17 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
                 )}
               />
             </div>
+            <DialogFooter>
+              <Button
+                form="form-add-prompt"
+                type="button"
+                onClick={form.handleSubmit(onSubmit)}
+              >
+                Tambahkan
+              </Button>
+            </DialogFooter>
           </form>
         </Form>
-        <DialogFooter>
-          <Button form="form-add-prompt" type="submit">
-            Tambahkan
-          </Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

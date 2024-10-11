@@ -1,16 +1,40 @@
+"use client";
 import * as React from "react";
-import { FeatureCard } from "./feature.card";
-import { dummyFeatures } from "@/libs/entities";
+import { FeatureCard, FeatureCardSkeleton } from "./feature.card";
+import { useFeatures } from "@/libs/hooks";
+import { usePathname } from "next/navigation";
 
-const dummyFeaturesInstagram = dummyFeatures.filter(
-  (feature) => feature.category === "instagram"
-);
-export const FeaturesInstagram = () => {
+export const FeaturesInstagram: React.FC = (): React.ReactElement => {
+  const pathname = usePathname();
+  const { features } = useFeatures();
+  const featuresInstagram =
+    pathname === "/"
+      ? features
+          ?.filter(
+            (feature) => feature.categoryname.toLowerCase() === "instagram"
+          )
+          .splice(0, 3)
+      : features?.filter(
+          (feature) => feature.categoryname.toLowerCase() === "instagram"
+        );
+
   return (
     <>
-      {dummyFeaturesInstagram.map(({ title, headline }, index) => (
-        <FeatureCard key={index} title={title} headline={headline} />
-      ))}
+      {featuresInstagram && featuresInstagram.length > 0 ? (
+        featuresInstagram.map(({ featuresname, subdeskripsi }, index) => (
+          <FeatureCard
+            key={index}
+            title={featuresname}
+            headline={subdeskripsi}
+          />
+        ))
+      ) : (
+        <>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <FeatureCardSkeleton key={index} />
+          ))}
+        </>
+      )}
     </>
   );
 };

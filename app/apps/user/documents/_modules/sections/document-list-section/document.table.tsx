@@ -106,10 +106,14 @@ export const DocumentTable = <TData extends TDocument, TValue>({
                   ))}
                   <TableCell>
                     <div className="flex gap-2">
-                      <Link href={dashboardUserRoute.concat(`documents/${row.original.id}`)}>
-                      <ActionButton className="shrink-0">
-                        <FileTextIcon size={16} />
-                      </ActionButton>
+                      <Link
+                        href={dashboardUserRoute.concat(
+                          `documents/${row.original.id}`
+                        )}
+                      >
+                        <ActionButton className="shrink-0">
+                          <FileTextIcon size={16} />
+                        </ActionButton>
                       </Link>
                       <DocumentDeleteTrigger id={row.original.id} />
                     </div>
@@ -119,7 +123,7 @@ export const DocumentTable = <TData extends TDocument, TValue>({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length + 1}
+                  colSpan={columns?.length + 1}
                   className="h-24 text-center"
                 >
                   Data tidak ditemukan.

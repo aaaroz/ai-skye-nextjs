@@ -1,6 +1,6 @@
 export const formatMaskedPhoneNumber = (phoneNumber: string): string => {
   // Pastikan nomor telepon dimulai dengan "0" untuk format lokal
-  if (phoneNumber.startsWith("0")) {
+  if (phoneNumber?.startsWith("0")) {
     // Ganti "0" dengan "+62" untuk format internasional
     const formattedPhone = "+62" + phoneNumber.slice(1);
 

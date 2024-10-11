@@ -1,42 +1,42 @@
 import * as React from "react";
 import { SubHeader } from "@/components/layout";
-import { TFeature } from "@/libs/entities";
+import { Feature } from "@/libs/entities";
 import { DescriptionSection, StepSection } from "./sections";
 
-const mockData: TFeature = {
+const mockData: Feature = {
   id: "",
-  title: "",
-  description: "",
-  headline: "",
-  category: "",
-  prompts: [],
+  featuresname: "",
+  deskripsi: "",
+  subdeskripsi: "",
+  categoryname: "",
   slug: "",
+  data: [],
 };
 interface FeatureDetailPageModuleProps {
-  data: TFeature | undefined; //use undefined for dummy data
+  featureData: Feature;
 }
 export const FeatureDetailPageModule: React.FC<
   FeatureDetailPageModuleProps
-> = ({ data }) => {
-  if (data) {
-    const { id, title, description, headline, category, prompts, slug } = data;
+> = ({ featureData }) => {
+  if (featureData) {
+    const { id, featuresname, deskripsi, subdeskripsi, categoryname, data } =
+      featureData;
 
     mockData.id = id;
-    mockData.title = title;
-    mockData.description = description;
-    mockData.headline = headline;
-    mockData.category = category;
-    mockData.prompts = prompts;
-    mockData.slug = slug;
+    mockData.featuresname = featuresname;
+    mockData.deskripsi = deskripsi;
+    mockData.subdeskripsi = subdeskripsi;
+    mockData.categoryname = categoryname;
+    mockData.data = data;
   }
   return (
     <div data-testid="feature-detail-page-module">
-      <SubHeader title={mockData.title} />
+      <SubHeader title={mockData.featuresname} />
       <DescriptionSection
-        description={mockData.description}
-        headline={mockData.headline}
+        description={mockData.deskripsi}
+        headline={mockData.subdeskripsi}
       />
-      <StepSection title={mockData.title} />
+      <StepSection title={mockData.featuresname} />
     </div>
   );
 };

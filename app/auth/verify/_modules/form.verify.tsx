@@ -15,24 +15,97 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { verifySchema, type TVerifySchema } from "@/libs/entities";
+import {
+  forgotPasswordInit,
+  getDataRegisterFromCookie,
+  login,
+  register,
+  removeDataRegisterFromCookie,
+  verifyOtpForgotPassword,
+  verifyOtpRegister,
+} from "@/libs/actions";
+import { useRouter } from "next/navigation";
 
-export const FormVerify: React.FC = (): React.ReactElement => {
+export const FormVerify: React.FC<{
+  id: string;
+  token?: string;
+  phoneNumber: string;
+}> = ({ id, token, phoneNumber }): React.ReactElement => {
+  const [isLoading, setIsLoading] = React.useState(false);
+  const router = useRouter();
   const form = useForm<TVerifySchema>({
     resolver: zodResolver(verifySchema),
     defaultValues: {
       codeVerification: "",
+      userId: id,
     },
     mode: "all",
   });
 
-  const onSubmit = (data: TVerifySchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit = async (data: TVerifySchema) => {
+    try {
+      if (token === "forg0t") {
+        const res = await verifyOtpForgotPassword(data);
+        toast.success(res.message);
+        router.push(
+          `/auth/reset-password?userId=${res.userId}&phoneNumber=${phoneNumber}`
+        );
+      } else {
+        const res = await verifyOtpRegister(data);
+        const { phoneNumber, password } = await getDataRegisterFromCookie();
+        await login({ phoneNumber, password });
+        toast.success(res.message);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal memverifikasi otp, silahkan coba lagi!", {
+        description: (error as Error).message,
+      });
+    } finally {
+      await removeDataRegisterFromCookie();
+    }
+  };
+
+  const handleResendOtp = async (forgotPhoneNumber: string) => {
+    try {
+      setIsLoading(true);
+      if (token === "forg0t") {
+        await forgotPasswordInit({
+          phoneNumber: forgotPhoneNumber,
+        });
+        toast.success(
+          `Kode OTP Telah dikirimkan ke Nomor ${forgotPhoneNumber}`,
+          { description: "Cek kembali whatsApp anda" }
+        );
+        return;
+      }
+      const { phoneNumber, name, password } = await getDataRegisterFromCookie();
+
+      if (!phoneNumber && !name && !password) {
+        toast.error(
+          "Gagal mengirim ulang otp, silahkan daftar kembali melalui halaman register."
+        );
+        router.push("/auth/register");
+      }
+      const res = await register({
+        phoneNumber,
+        name,
+        password,
+        confirmPassword: password,
+        termsAndConditions: true,
+      });
+      toast.success("Kode OTP Telah dikirimkan melalui WhatsApp anda");
+      router.push(
+        `/auth/verify?userId=${res.id}&phoneNumber=${res.phoneNumber}`
+      );
+    } catch (error) {
+      console.log(error);
+      toast.error("Register gagal, silahkan coba lagi!", {
+        description: (error as Error).message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -78,6 +151,8 @@ export const FormVerify: React.FC = (): React.ReactElement => {
             <p>Tidak Menerima Kode Verifikasi?</p>
             <Button
               variant="link"
+              disabled={isLoading}
+              onClick={() => handleResendOtp(phoneNumber)}
               className="px-0 text-sm hover:no-underline text-sky-600 hover:text-sky-600/70 font-medium transition-colors duration-200"
             >
               Kirim Ulang

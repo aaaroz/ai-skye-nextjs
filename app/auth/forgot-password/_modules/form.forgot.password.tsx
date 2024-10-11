@@ -19,13 +19,8 @@ import {
   forgotPasswordSchema,
   type TForgotPasswordSchema,
 } from "@/libs/entities";
-import { decryptPhoneNumber, encryptPhoneNumber } from "@/libs/utils";
 import { useRouter } from "next/navigation";
-
-export const dataUserForgotPassword = {
-  phoneNumber: "",
-  encryptedPhoneNumber: "",
-};
+import { forgotPasswordInit } from "@/libs/actions";
 
 export const FormForgotPassword: React.FC = (): React.ReactElement => {
   const router = useRouter();
@@ -38,24 +33,17 @@ export const FormForgotPassword: React.FC = (): React.ReactElement => {
   });
 
   const onSubmit = async (data: TForgotPasswordSchema) => {
-    const encryptedPhoneNumber = encryptPhoneNumber(data.phoneNumber);
-    //TODO = SEND OTP
-
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[320px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-
-    const phoneNumber = decryptPhoneNumber(encryptedPhoneNumber);
-    if (phoneNumber.length < 10) {
-      toast.error("Gagal mengirim kode verifikasi, coba lagi!");
-    } else {
-      dataUserForgotPassword.phoneNumber = phoneNumber;
-      dataUserForgotPassword.encryptedPhoneNumber = encryptedPhoneNumber;
-      router.push(`/auth/verify?token=${encryptedPhoneNumber}`);
+    try {
+      const res = await forgotPasswordInit(data);
+      toast.success("Kode OTP Telah dikirimkan melalui WhatsApp anda");
+      router.push(
+        `/auth/verify?userId=${res.userId}&phoneNumber=${data.phoneNumber}&token=forg0t`
+      );
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal mengirim OTP, silahkan coba lagi!", {
+        description: (error as Error).message,
+      });
     }
   };
   return (

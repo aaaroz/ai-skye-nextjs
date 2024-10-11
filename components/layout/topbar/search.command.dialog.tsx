@@ -29,9 +29,12 @@ import {
   dummyFeatures,
 } from "@/libs/entities";
 import { useRouter } from "next/navigation";
+import { useProfileData } from "@/libs/hooks";
+import { cn } from "@/libs/utils";
 
 export const SearchCommandDialog = () => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const { profileData } = useProfileData();
   const router = useRouter();
 
   React.useEffect(() => {
@@ -163,12 +166,15 @@ export const SearchCommandDialog = () => {
           </CommandGroup>
           <CommandSeparator />
           {/* make this group hidden when role is not admin */}
-          <CommandGroup heading="Administrator" className="">
+          <CommandGroup
+            heading="Administrator"
+            className={cn({ hidden: profileData?.role === "user" })}
+          >
             {dashboardAdminMenuItems.map(({ title, href }) => (
               <CommandItem
                 key={href}
-                value={title}
-                title={title}
+                value={`Administrator ${title}`}
+                title={`Administrator ${title}`}
                 onSelect={() => runCommand(() => router.push(href))}
               >
                 <FileIcon className="mr-2 h-4 w-4" />

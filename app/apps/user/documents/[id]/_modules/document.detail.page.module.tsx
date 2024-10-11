@@ -14,10 +14,10 @@ export const DocumentDetailPageModule: React.FC<DocumentDetailPageProps> = ({
       <DocumentDetailSection
         id={data.id}
         category={data.category}
-        createdAt={data.createdAt}
-        wordUsed={data.wordUsed}
+        timestamp={data.timestamp}
+        tokensUsed={data.tokensUsed}
         title={data.title}
-        text={data.text}
+        response={data.response}
       />
     </DashboardContentContainer>
   );

@@ -40,15 +40,22 @@ export const documentColumns: ColumnDef<TDocument>[] = [
       );
     },
     cell: ({ row }) => {
+      const value = row.getValue("category") as string;
+      const getVariant =
+        value.toLowerCase() === "tiktok"
+          ? "tiktok"
+          : value.toLowerCase() === "instagram"
+          ? "instagram"
+          : "ecommerce";
       return (
-        <CategoryBadge variant={row.getValue("category") ?? "default"}>
+        <CategoryBadge variant={getVariant ?? "default"}>
           {row.getValue("category")}
         </CategoryBadge>
       );
     },
   },
   {
-    accessorKey: "createdAt",
+    accessorKey: "timestamp",
     header: ({ column }) => {
       return (
         <Button
@@ -62,11 +69,11 @@ export const documentColumns: ColumnDef<TDocument>[] = [
       );
     },
     cell: ({ row }) => {
-      const date = format(row.getValue("createdAt") as Date, "dd MMMM yyyy", {
+      const date = format(row.getValue("timestamp") as Date, "dd MMMM yyyy", {
         locale: id,
       });
 
-      const time = format(row.getValue("createdAt") as Date, "K:mm aa", {
+      const time = format(row.getValue("timestamp") as Date, "K:mm aa", {
         locale: id,
       });
       return (
@@ -78,7 +85,7 @@ export const documentColumns: ColumnDef<TDocument>[] = [
     },
   },
   {
-    accessorKey: "wordUsed",
+    accessorKey: "tokensUsed",
     header: ({ column }) => {
       return (
         <Button
@@ -89,6 +96,45 @@ export const documentColumns: ColumnDef<TDocument>[] = [
           Kata yang digunakan
           <ArrowUpDown className="ml-2 size-3 shrink-0" />
         </Button>
+      );
+    },
+  },
+];
+
+export const documentColumnSkeleton: ColumnDef<TDocument>[] = [
+  {
+    accessorKey: "title",
+    header: "Judul Dokumen",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
+      );
+    },
+  },
+  {
+    accessorKey: "category",
+    header: "Kategori",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
+      );
+    },
+  },
+  {
+    accessorKey: "timestamp",
+    header: "Dibuat pada",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
+      );
+    },
+  },
+  {
+    accessorKey: "tokensUsed",
+    header: "Kata yang digunakan",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
       );
     },
   },

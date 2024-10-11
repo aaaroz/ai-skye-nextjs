@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { changePasswordSchema, TChangePasswordSchema } from "@/libs/entities";
 import { Button } from "@/components/ui/button";
+import { updatePassword } from "@/libs/actions";
 
 export const ChangePasswordForm: React.FC = (): React.ReactElement => {
   const form = useForm<TChangePasswordSchema>({
@@ -25,14 +26,19 @@ export const ChangePasswordForm: React.FC = (): React.ReactElement => {
     },
   });
 
-  const onSubmit = (values: TChangePasswordSchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit = async (values: TChangePasswordSchema) => {
+    try {
+      const res = await updatePassword(values);
+      toast.success("Kata sandi anda telah diperbarui!", {
+        description: res,
+      });
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal memperbarui kata sandi!", {
+        description: error as string,
+      });
+    }
   };
   return (
     <div className="p-4 md:p-6 space-y-4 md:space-y-6 rounded-md shadow-md overflow-auto bg-neutral-50 w-full h-fit lg:w-[60%]">
@@ -49,7 +55,8 @@ export const ChangePasswordForm: React.FC = (): React.ReactElement => {
                 </FormLabel>
                 <div className="w-full">
                   <FormControl>
-                    <Input type='password'
+                    <Input
+                      type="password"
                       placeholder="Masukan Kata sandi sekarang"
                       {...field}
                     />
@@ -69,7 +76,11 @@ export const ChangePasswordForm: React.FC = (): React.ReactElement => {
                 </FormLabel>
                 <div className="w-full">
                   <FormControl>
-                    <Input type='password' placeholder="Masukan Kata sandi baru" {...field} />
+                    <Input
+                      type="password"
+                      placeholder="Masukan Kata sandi baru"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </div>
@@ -86,7 +97,8 @@ export const ChangePasswordForm: React.FC = (): React.ReactElement => {
                 </FormLabel>
                 <div className="w-full">
                   <FormControl>
-                    <Input type='password'
+                    <Input
+                      type="password"
                       placeholder="Masukan Konfirmasi Kata sandi baru"
                       {...field}
                     />
@@ -98,10 +110,17 @@ export const ChangePasswordForm: React.FC = (): React.ReactElement => {
           />
 
           <div className="w-full flex justify-end gap-2">
-            <Button type="reset" variant="secondary" className="bg-neutral-200">
+            <Button
+              type="reset"
+              variant="secondary"
+              className="bg-neutral-200"
+              onClick={() => form.reset()}
+            >
               Batalkan
             </Button>
-            <Button type="submit">Simpan</Button>
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              Simpan
+            </Button>
           </div>
         </form>
       </Form>

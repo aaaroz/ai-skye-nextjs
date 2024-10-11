@@ -10,7 +10,8 @@ import {
 import { ActionButton, CategoryBadge } from "@/components/dashboard-page";
 import { categories, dashboardAdminRoute } from "@/libs/entities";
 import { cn } from "@/libs/utils";
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { EditIcon } from "lucide-react";
+import { FeatureDeleteTrigger } from "./feature.delete.dialog";
 
 interface FeatureCardProps {
   id: string;
@@ -24,11 +25,16 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
   headline,
   category,
 }): React.ReactElement => {
-  const categoryData = categories.find((item) => item.name === category);
+  const categoryData = categories.find(
+    (item) => item.name === category.toLowerCase()
+  );
   const backgroundTitle = {
-    "from-sky-600 via-sky-100 to-transparent": category === "tiktok",
-    "from-rose-600 via-rose-100 to-transparent": category === "instagram",
-    "from-orange-600 via-orange-100 to-transparent": category === "ecommerce",
+    "from-sky-600 via-sky-100 to-transparent":
+      category.toLowerCase() === "tiktok",
+    "from-rose-600 via-rose-100 to-transparent":
+      category.toLowerCase() === "instagram",
+    "from-orange-600 via-orange-100 to-transparent":
+      category.toLowerCase() === "ecommerce",
   };
   return (
     <Card className="w-full shadow-lg">
@@ -61,11 +67,27 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
               <EditIcon size={16} />
             </ActionButton>
           </Link>
-          <ActionButton variant="destructive" className="shrink-0">
-            <Trash2Icon size={16} />
-          </ActionButton>
+          <FeatureDeleteTrigger id={id} />
         </div>
       </CardFooter>
     </Card>
+  );
+};
+
+export const FeatureCardSkeleton: React.FC = () => {
+  return (
+    <div className="w-full shadow-lg p-4 rounded">
+      <div className="w-full">
+        <div className="h-12 w-full rounded animate-pulse bg-slate-300"></div>
+      </div>
+      <div>
+        <div className="h-5 w-3/4 rounded animate-pulse bg-slate-300 my-2"></div>
+        <div className="h-5 w-2/3 rounded animate-pulse bg-slate-300"></div>
+      </div>
+      <div className="flex flex-nowrap justify-between items-center pt-2 gap-2">
+        <div className="h-8 w-1/2 rounded animate-pulse bg-slate-300"></div>
+        <div className="h-8 w-1/3 rounded animate-pulse bg-slate-300"></div>
+      </div>
+    </div>
   );
 };

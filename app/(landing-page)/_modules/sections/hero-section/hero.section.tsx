@@ -17,7 +17,7 @@ export const HeroSection: React.FC = (): React.ReactElement => {
           <h1>AI Terus Melaju, Yuk Jangan Sampai Ketinggalan!</h1>
         </div>
         <h1 className="text-4xl font-bold md:text-5xl md:font-extrabold mb-4 max-w-2xl">
-          <span className="relative">AI</span> untuk UMKM: Inovasi Pintar{" "}
+          <span className="text-sky-600">AI</span> untuk UMKM: Inovasi Pintar{" "}
           <span className="text-sky-600">Usaha Makin Lancar!</span>{" "}
         </h1>
         <p className="text-sm md:text-base text-muted-foreground mb-6 max-w-2xl">

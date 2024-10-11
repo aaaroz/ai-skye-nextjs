@@ -1,3 +1,5 @@
+/** @type {import('ts-jest').JestConfigWithTsJest} **/
+
 import type { Config } from "jest";
 import { defaults } from "jest-config";
 import nextJest from "next/jest.js";
@@ -16,13 +18,32 @@ const config: Config = {
   coverageProvider: "v8",
   testEnvironment: "jsdom",
   moduleNameMapper: {
+    "parse5/lib/parser/index.js":
+      "<rootDir>/node_modules/hast-util-raw/node_modules/parse5/lib/parser/index.js",
+    "next-auth/(.*)": "<rootDir>/node_modules/next-auth/$1",
     "\\.(css|less|scss|sass)$": "identity-obj-proxy", // Mock CSS imports if necessary
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+
   preset: "ts-jest",
   moduleFileExtensions: [...defaults.moduleFileExtensions, "mts"],
+  testMatch: ["**/__test__/**/*.+(ts|tsx|js)"],
+  transform: {
+    "^.+\\.(ts|tsx)$": ["ts-jest", { useESM: true }],
+  },
+  extensionsToTreatAsEsm: [".ts"],
   // Add more setup options before each test is run
 };
+const exportConfig = async () => ({
+  ...(await createJestConfig(config)()),
+  transformIgnorePatterns: ["node_modules/(?!(mui-tel-input)/)"],
+  testPathIgnorePatterns: [
+    "<rootDir>/.next/",
+    "<rootDir>/node_modules/",
+    "<rootDir>/coverage",
+    "<rootDir>/dist",
+  ],
+});
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
-export default createJestConfig(config);
+export default exportConfig;
