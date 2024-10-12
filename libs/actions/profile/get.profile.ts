@@ -1,15 +1,12 @@
-"use server";
-
-import { auth } from "@/libs/auth";
-import { redirect } from "next/navigation";
+import { getSession } from "next-auth/react";
 import { TProfileResponse } from "./type";
 import { baseApiUrl } from "@/libs/entities";
 
 export const getProfile = async (userId: string) => {
-  const session = await auth();
+  const session = await getSession();
   const token = session?.user.token;
   if (!token) {
-    redirect("/auth/login");
+    throw new Error('401 - Unauthorized!');
   }
 
   const res: TProfileResponse = await fetch(

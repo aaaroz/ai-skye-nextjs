@@ -1,12 +1,9 @@
-"use server";
-
-import { auth } from "@/libs/auth";
 import {
   baseApiUrl,
   TAdminFeatureSchema,
   TSingleFeatureResponse,
 } from "@/libs/entities";
-import { redirect } from "next/navigation";
+import { getSession } from "next-auth/react";
 
 export const updateFeature = async ({
   id,
@@ -16,11 +13,11 @@ export const updateFeature = async ({
   category,
   prompts,
 }: TAdminFeatureSchema) => {
-  const session = await auth();
-  if (!session) {
-    redirect("/auth/login");
+  const session = await getSession();
+  if (!token) {
+    throw new Error("401 - Unauthorized!");
   }
-  const token = session.user.token;
+  const token = session?.user.token;
   const payload = {
     featuresname: name,
     selectedCategoryname: category,

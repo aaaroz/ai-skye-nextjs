@@ -1,9 +1,6 @@
-"use server";
-
-import { auth } from "@/libs/auth";
 import { baseApiUrl, TPersonalDataSchema } from "@/libs/entities";
-import { redirect } from "next/navigation";
 import { TUpdateProfileResponse } from "./type";
+import { getSession } from "next-auth/react";
 
 export const updateProfile = async ({
   fullName,
@@ -14,11 +11,11 @@ export const updateProfile = async ({
   birthDate,
   avatar,
 }: TPersonalDataSchema) => {
-  const session = await auth();
-  if (!session) {
-    redirect("/auth/login");
+  const session = await getSession();
+  const token = session?.user.token;
+  if (!token) {
+    throw new Error("401 - Unauthorized!");
   }
-  const token = session.user.token;
   const payload = {
     userId: session.user.id,
     updateData: {

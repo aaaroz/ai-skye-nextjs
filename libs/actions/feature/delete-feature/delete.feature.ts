@@ -1,5 +1,3 @@
-"use server";
-
 import { auth } from "@/libs/auth";
 import { baseApiUrl, TSingleFeatureResponse } from "@/libs/entities";
 import { redirect } from "next/navigation";

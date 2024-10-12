@@ -1,15 +1,13 @@
-"use server";
 
-import { auth } from "@/libs/auth";
 import { baseApiUrl, TSingleFeatureResponse } from "@/libs/entities";
-import { redirect } from "next/navigation";
+import { getSession } from "next-auth/react";
 
 export const getFeatureById = async (id: string) => {
-  const session = await auth();
-  const token = session?.user.token;
+  const session = await getSession();
   if (!token) {
-    redirect("/auth/login");
+    throw new Error('401 - Unauthorized!');
   }
+  const token = session?.user.token;
   const res: TSingleFeatureResponse = await fetch(
     `${baseApiUrl}/api/features/${id}`,
     {

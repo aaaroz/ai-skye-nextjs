@@ -1,19 +1,15 @@
-"use server";
-
-import { auth } from "@/libs/auth";
-import { redirect } from "next/navigation";
+import { getSession } from "next-auth/react";
 import { baseApiUrl } from "@/libs/entities";
 import { TSaveDocumentResponse } from "./type";
 import { getDocumentById } from "../get-document-by-id";
 
 export const saveDocument = async (text: string, title: string, id: string) => {
   const document = await getDocumentById(id);
-  const session = await auth();
+  const session = await getSession();
   const token = session?.user.token;
   if (!token) {
-    redirect("/auth/login");
+    throw new Error('401 - Unauthorized!');
   }
-
   const payload = {
     title: title,
     category: document.category,
