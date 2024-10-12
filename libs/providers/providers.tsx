@@ -1,12 +1,18 @@
 import * as React from "react";
 import { AuthProvider } from "./auth-provider";
-import { FeatureContextProvider, ProfileContextProvider } from "../context";
+import {
+  FeatureContextProvider,
+  GenerateAIProvider,
+  ProfileContextProvider,
+} from "../context";
 
 export const Providers = ({ children }: React.PropsWithChildren) => {
   return (
     <AuthProvider>
       <FeatureContextProvider>
-        <ProfileContextProvider>{children}</ProfileContextProvider>
+        <GenerateAIProvider>
+          <ProfileContextProvider>{children}</ProfileContextProvider>
+        </GenerateAIProvider>
       </FeatureContextProvider>
     </AuthProvider>
   );

@@ -1,11 +1,11 @@
 "use server";
 
+import { auth } from "@/libs/auth";
 import {
   baseApiUrl,
   TAdminFeatureSchema,
   TSingleFeatureResponse,
 } from "@/libs/entities";
-import { getSession } from "next-auth/react";
 
 export const addFeature = async ({
   name,
@@ -14,7 +14,7 @@ export const addFeature = async ({
   category,
   prompts,
 }: TAdminFeatureSchema) => {
-  const session = await getSession();
+  const session = await auth();
   const token = session?.user.token;
   if (!token) {
     throw new Error("401 - Unauthorized!");

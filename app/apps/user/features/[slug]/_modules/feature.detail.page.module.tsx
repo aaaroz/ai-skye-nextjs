@@ -22,7 +22,7 @@ export const FeaturesAIPageModule: React.FC<FeatureAIPageModuleProps> = ({
         headline={data?.subdeskripsi as string}
       />
       <div className="flex flex-col lg:flex-row gap-6 py-4">
-        <FeatureFormSection promptsData={data?.data as TPrompt[]} />
+        <FeatureFormSection featureName={data?.featuresname as string} promptsData={data?.data as TPrompt[]} />
         <FeatureResultSection />
       </div>
     </DashboardContentContainer>

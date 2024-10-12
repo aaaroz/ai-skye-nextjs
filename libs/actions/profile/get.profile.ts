@@ -1,11 +1,11 @@
 "use server";
 
-import { getSession } from "next-auth/react";
 import { TProfileResponse } from "./type";
 import { baseApiUrl } from "@/libs/entities";
+import { auth } from "@/libs/auth";
 
 export const getProfile = async (userId?: string) => {
-  const session = await getSession();
+  const session = await auth();
   const token = session?.user.token;
   if (!token) {
     throw new Error("401 - Unauthorized!");

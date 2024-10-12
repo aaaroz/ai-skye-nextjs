@@ -13,7 +13,12 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { featureAISchema, TFeatureAISchema, TPrompt } from "@/libs/entities";
+import {
+  baseApiUrl,
+  featureAISchema,
+  TFeatureAISchema,
+  TPrompt,
+} from "@/libs/entities";
 import {
   Select,
   SelectContent,
@@ -24,6 +29,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { FeaturePromptList } from "./feature.prompt.list";
 import { toast } from "sonner";
+import { useGenerateAI } from "@/libs/hooks";
+import { getSession } from "next-auth/react";
 
 const emptyPrompt: TPrompt = {
   nameprompt: "",
@@ -33,27 +40,87 @@ const emptyPrompt: TPrompt = {
 
 export const FeatureForm: React.FC<{
   promptsData: TPrompt[];
-}> = ({ promptsData }): React.ReactElement => {
+  featureName: string;
+}> = ({ promptsData, featureName }): React.ReactElement => {
   const [selectedPrompt, setSelectedPrompt] =
     React.useState<TPrompt>(emptyPrompt);
 
   const form = useForm<TFeatureAISchema>({
     resolver: zodResolver(featureAISchema),
     defaultValues: {
+      featureName,
       maxToken: 3000,
       productCategory: "makanan",
       productName: "",
       prompt: "",
     },
   });
-  const onSubmit = (values: TFeatureAISchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const { setResultText, setIsGenerating } = useGenerateAI();
+  const onSubmit = async (values: TFeatureAISchema) => {
+    setResultText(""); // Clear the previous result
+    try {
+      const session = await getSession();
+      const token = session?.user.token;
+      if (!token) {
+        throw new Error("401 - Unauthorized!");
+      }
+      setIsGenerating(true);
+      const response = await fetch(`${baseApiUrl}/api/send-prompt`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          categoryname: "Instagram",
+          featuresname: "Perubahan",
+          prompt: values.prompt,
+          max_words: 100,
+          brandName: "Brand kurse",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error: " + response.statusText);
+      }
+      const reader = response.body ? response.body.getReader() : null;
+      if (!reader) {
+        throw new Error("Response body is null, unable to read stream.");
+      }
+
+      let { value, done } = await reader.read();
+      const decoder = new TextDecoder("utf-8");
+      let combinedMessage = ""; // Final message to store for logging
+
+      while (!done) {
+        const chunk = decoder.decode(value, { stream: true });
+        const messages = chunk.match(/{.*?}/g); // Match JSON objects
+        if (messages) {
+          messages.forEach((message) => {
+            const msgObj = JSON.parse(message);
+
+            // Only show each word, not the final message
+            if (!msgObj.success) {
+              setResultText((prev) => prev + msgObj.message + " "); // Append the message content
+            } else {
+              // Store the final combined message for logging (don't show in UI)
+              combinedMessage = msgObj.message;
+            }
+          });
+        }
+
+        ({ value, done } = await reader.read());
+      }
+      toast.success("Response AI Telah didapatkan!");
+
+      // Log final message for debugging purposes, not for UI display
+      console.log("Final combined message:", combinedMessage);
+    } catch (error) {
+      console.error("Error:", error);
+      setResultText(`Error: ${error as string}`);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   React.useEffect(() => {

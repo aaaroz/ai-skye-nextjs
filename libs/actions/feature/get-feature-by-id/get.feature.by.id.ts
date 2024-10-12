@@ -1,10 +1,10 @@
 "use server";
 
+import { auth } from "@/libs/auth";
 import { baseApiUrl, TSingleFeatureResponse } from "@/libs/entities";
-import { getSession } from "next-auth/react";
 
 export const getFeatureById = async (id: string) => {
-  const session = await getSession();
+  const session = await auth();
   if (!session) {
     throw new Error('401 - Unauthorized!');
   }
