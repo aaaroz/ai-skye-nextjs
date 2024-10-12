@@ -5,7 +5,6 @@ import { defaults } from "jest-config";
 import nextJest from "next/jest.js";
 
 const createJestConfig = nextJest({
-  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
   dir: "./",
 });
 
@@ -21,7 +20,6 @@ const config: Config = {
     "parse5/lib/parser/index.js":
       "<rootDir>/node_modules/hast-util-raw/node_modules/parse5/lib/parser/index.js",
     "next-auth/(.*)": "<rootDir>/node_modules/next-auth/$1",
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy", // Mock CSS imports if necessary
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 
@@ -45,5 +43,4 @@ const exportConfig = async () => ({
   ],
 });
 
-// createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
 export default exportConfig;
