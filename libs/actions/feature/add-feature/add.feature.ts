@@ -1,3 +1,5 @@
+"use server";
+
 import {
   baseApiUrl,
   TAdminFeatureSchema,
@@ -15,7 +17,7 @@ export const addFeature = async ({
   const session = await getSession();
   const token = session?.user.token;
   if (!token) {
-    throw new Error('401 - Unauthorized!');
+    throw new Error("401 - Unauthorized!");
   }
   const payload = {
     featuresname: name,

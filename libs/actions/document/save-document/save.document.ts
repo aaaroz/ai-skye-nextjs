@@ -1,3 +1,4 @@
+"use server";
 import { getSession } from "next-auth/react";
 import { baseApiUrl } from "@/libs/entities";
 import { TSaveDocumentResponse } from "./type";
@@ -8,7 +9,7 @@ export const saveDocument = async (text: string, title: string, id: string) => {
   const session = await getSession();
   const token = session?.user.token;
   if (!token) {
-    throw new Error('401 - Unauthorized!');
+    throw new Error("401 - Unauthorized!");
   }
   const payload = {
     title: title,

@@ -1,3 +1,5 @@
+"use server";
+
 import { getSession } from "next-auth/react";
 import { TProfileResponse } from "./type";
 import { baseApiUrl } from "@/libs/entities";

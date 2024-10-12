@@ -1,3 +1,5 @@
+"use server";
+
 import { baseApiUrl, TVerifySchema } from "@/libs/entities";
 import { TVerifyUpdateResponse } from "./type";
 import { auth } from "@/libs/auth";

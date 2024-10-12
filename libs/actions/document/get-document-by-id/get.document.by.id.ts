@@ -1,13 +1,15 @@
+"use server";
+
 import { getSession } from "next-auth/react";
 import { baseApiUrl } from "@/libs/entities";
 import { TGetSingleDocumentResponse } from "./type";
 
 export const getDocumentById = async (id: string) => {
-    const session = await getSession();
-    const token = session?.user.token;
-    if (!token) {
-      throw new Error('401 - Unauthorized!');
-    }
+  const session = await getSession();
+  const token = session?.user.token;
+  if (!token) {
+    throw new Error("401 - Unauthorized!");
+  }
 
   const res: TGetSingleDocumentResponse = await fetch(
     `${baseApiUrl}/api/get-history/${id}`,

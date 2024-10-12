@@ -1,3 +1,4 @@
+"use server";
 
 import { baseApiUrl, TSingleFeatureResponse } from "@/libs/entities";
 import { getSession } from "next-auth/react";

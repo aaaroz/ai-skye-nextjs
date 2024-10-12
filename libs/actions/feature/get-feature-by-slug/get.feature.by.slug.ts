@@ -1,3 +1,5 @@
+"use server";
+
 import { baseApiUrl, TSingleFeatureResponse } from "@/libs/entities";
 
 export const getFeatureBySlug = async (slug: string) => {
