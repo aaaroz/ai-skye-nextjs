@@ -34,7 +34,7 @@ import { AddPromptDialogTrigger } from "./add.prompt.dialog";
 import { PromptCard } from "./prompt.card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { addFeature, getFeatureById, updateFeature } from "@/libs/actions";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useFeatures } from "@/libs/hooks";
 
 const removeObjectAtIndex = (
@@ -47,9 +47,9 @@ const removeObjectAtIndex = (
   return [...arr.slice(0, index), ...arr.slice(index + 1)];
 };
 
-export const FormSection: React.FC<{ id?: string }> = ({
-  id,
-}): React.ReactElement => {
+export const FormSection: React.FC = (): React.ReactElement => {
+  const searchParams = useSearchParams()
+  const id = searchParams?.get('editId')
   const router = useRouter();
   const { toggleShouldFetchData } = useFeatures();
   const form = useForm<TAdminFeatureSchema>({
