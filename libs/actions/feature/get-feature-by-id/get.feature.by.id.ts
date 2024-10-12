@@ -4,10 +4,10 @@ import { getSession } from "next-auth/react";
 
 export const getFeatureById = async (id: string) => {
   const session = await getSession();
-  if (!token) {
+  if (!session) {
     throw new Error('401 - Unauthorized!');
   }
-  const token = session?.user.token;
+  const token = session.user.token;
   const res: TSingleFeatureResponse = await fetch(
     `${baseApiUrl}/api/features/${id}`,
     {

@@ -14,10 +14,10 @@ export const updateFeature = async ({
   prompts,
 }: TAdminFeatureSchema) => {
   const session = await getSession();
-  if (!token) {
+  if (!session) {
     throw new Error("401 - Unauthorized!");
   }
-  const token = session?.user.token;
+  const token = session.user.token;
   const payload = {
     featuresname: name,
     selectedCategoryname: category,
