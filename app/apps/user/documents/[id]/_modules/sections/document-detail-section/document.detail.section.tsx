@@ -40,3 +40,4 @@ export const DocumentDetailSection: React.FC<TDocument> = ({
     </section>
   );
 };
+
