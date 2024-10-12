@@ -2,8 +2,6 @@ import * as React from "react";
 import { NextPage } from "next";
 import { DashboardUserPageModule } from "./_modules";
 
-export const runtime = "edge";
-
 const DashboardUserPage: NextPage = (): React.ReactElement => {
   return <DashboardUserPageModule />;
 };

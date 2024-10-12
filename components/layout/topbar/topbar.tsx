@@ -9,15 +9,8 @@ import { SidebarCollapseTrigger } from "./sidebar.collapse.trigger";
 import { dashboardUserRoute } from "@/libs/entities";
 import { ShortcutDialogTrigger } from "./shortcut.dialog.trigger";
 import { LogoutDialogTrigger } from "./logout.dialog.trigger";
-import { auth } from "@/libs/auth";
-import { redirect } from "next/navigation";
 
-export const Topbar: React.FC = async (): Promise<React.ReactElement> => {
-  const session = await auth();
-  if (!session) {
-    redirect("/auth/login");
-  }
-
+export const Topbar: React.FC = (): React.ReactElement => {
   return (
     <header className="sticky z-50 top-0 h-20 px-4 md:px-8 flex justify-between items-center bg-background shadow-md">
       <div className="flex flex-row-reverse md:flex-row items-center gap-2 sm:gap-8">
