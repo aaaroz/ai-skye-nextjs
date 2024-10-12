@@ -7,11 +7,10 @@ import { getDocumentById } from "@/libs/actions";
 import { HeadingWithIcon } from "@/components/dashboard-page";
 import { FileTextIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-import { useParams } from "next/navigation";
 
-export const DocumentDetailPageModule: React.FC = (): React.ReactElement => {
-  const params = useParams<{ id: string }>();
-  const id = params.id;
+export const DocumentDetailPageModule: React.FC<{ id: string }> = ({
+  id,
+}): React.ReactElement => {
   const [data, setData] = React.useState<TDocument | null>(null);
 
   const fetchData = React.useCallback(async () => {
