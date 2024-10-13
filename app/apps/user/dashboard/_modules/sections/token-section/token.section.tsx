@@ -1,9 +1,11 @@
+"use client";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { DocumentCard } from "./document.card";
 import { TokenCard } from "@/components/dashboard-page";
 import Link from "next/link";
 import { dashboardUserRoute } from "@/libs/entities";
+import { useProfileData } from "@/libs/hooks";
 
 const documentData = [
   {
@@ -24,12 +26,13 @@ const documentData = [
   },
 ];
 export const TokenSection: React.FC = (): React.ReactElement => {
+  const { profileData } = useProfileData();
   return (
     <section className="p-4 space-y-4 rounded-md bg-neutral-50">
       <div className="flex flex-col sm:flex-row items-center rounded-sm p-6 space-y-6 bg-sky-800">
         <div className="w-full sm:w-1/2 space-y-4 text-neutral-50">
           <h1 className="text-xl md:text-2xl font-bold">
-            Selamat Datang, John Doe
+            Selamat Datang, {profileData?.name}
           </h1>
           <p className="text-sm md:text-base font-normal">
             Pada penggunaan awal anda mendapatkan free 3000 Kata untuk

@@ -126,7 +126,7 @@ export const DocumentTable = <TData extends TDocument, TValue>({
                   colSpan={columns?.length + 1}
                   className="h-24 text-center"
                 >
-                  Data tidak ditemukan.
+                  Tidak ada dokumen yang tersimpan.
                 </TableCell>
               </TableRow>
             )}

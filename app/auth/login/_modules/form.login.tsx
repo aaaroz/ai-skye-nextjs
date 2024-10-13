@@ -54,7 +54,6 @@ export const FormLogin: React.FC = (): React.ReactElement => {
 
   const checkCredentials = React.useCallback(async () => {
     const credentials = await getCredentials();
-    console.log(credentials);
     if (credentials) {
       form.setValue("isRememberMe", true);
       form.setValue("phoneNumber", credentials.phoneNumber);

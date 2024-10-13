@@ -2,83 +2,17 @@
 
 import * as React from "react";
 import { ColumnDef } from "@tanstack/react-table";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/libs/utils";
+import { TTransaction } from "@/libs/entities";
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 
-export const paymentData: TPayment[] = [
+export const paymentColumns: ColumnDef<TTransaction>[] = [
   {
-    orderId: "PAY123456789",
-    status: "pending",
-    createdAt: new Date("2024-10-01T10:00:00"),
-    name: "John Doe",
-    phoneNumber: "081234567890",
-    packageName: "10000 Kata x 5",
-    paymentMethod: "QRIS",
-    total: 50000,
-  },
-  {
-    orderId: "PAY987654321",
-    status: "settled",
-    createdAt: new Date("2024-09-28T14:30:00"),
-    paidAt: new Date("2024-09-29T09:45:00"),
-    name: "John Doe",
-    phoneNumber: "081234567890",
-    packageName: "10000 Kata x 7",
-    paymentMethod: "E-WALLET",
-    total: 70000,
-  },
-  {
-    orderId: "PAY543216789",
-    status: "failed",
-    createdAt: new Date("2024-09-30T16:45:00"),
-    name: "John Doe",
-    phoneNumber: "081234567890",
-    packageName: "10000 Kata x 3",
-    paymentMethod: "QRIS",
-    total: 30000,
-  },
-  {
-    orderId: "PAY678912345",
-    status: "settled",
-    createdAt: new Date("2024-10-02T09:15:00"),
-    paidAt: new Date("2024-10-02T11:00:00"),
-    name: "John Doe",
-    phoneNumber: "081234567890",
-    packageName: "10000 Kata x 8",
-    paymentMethod: "E-WALLET",
-    total: 80000,
-  },
-  {
-    orderId: "PAY112233445",
-    status: "pending",
-    createdAt: new Date("2024-10-03T11:00:00"),
-    name: "John Doe",
-    phoneNumber: "081234567890",
-    packageName: "10000 Kata x 6",
-    paymentMethod: "QRIS",
-    total: 60000,
-  },
-];
-
-export type TPayment = {
-  orderId: string;
-  status: "pending" | "settled" | "failed";
-  createdAt: Date;
-  name: string;
-  paidAt?: Date;
-  phoneNumber: string;
-  packageName: string;
-  paymentMethod: "QRIS" | "E-WALLET";
-  total: number;
-};
-
-export const paymentColumns: ColumnDef<TPayment>[] = [
-  {
-    accessorKey: "orderId",
+    accessorKey: "order_id",
     header: ({ column }) => {
       return (
         <Button
@@ -89,6 +23,13 @@ export const paymentColumns: ColumnDef<TPayment>[] = [
           ID Pesanan
           <ArrowUpDown className="ml-2 size-3 shrink-0" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="max-w-xs truncate">
+          <strong>{row.getValue("order_id")}</strong>
+        </div>
       );
     },
   },
@@ -108,7 +49,7 @@ export const paymentColumns: ColumnDef<TPayment>[] = [
     },
     cell: ({ row }) => {
       const value =
-        row.getValue("status") === "settled"
+        row.getValue("status") === "settlement"
           ? "Berhasil"
           : row.getValue("status") === "pending"
           ? "Ditunda"
@@ -142,23 +83,21 @@ export const paymentColumns: ColumnDef<TPayment>[] = [
       );
     },
     cell: ({ row }) => {
-      const date = format(row.getValue("createdAt") as Date, "dd MMMM yyyy", {
-        locale: id,
-      });
+      const rawValue = row.getValue("createdAt") as string;
+      const date = new Date(rawValue.replace(" UTC+07:00", ""));
+      const formattedDate = format(date, "dd MMMM yyyy", { locale: id });
+      const formattedTime = format(date, "K:mm aa", { locale: id });
 
-      const time = format(row.getValue("createdAt") as Date, "K:mm aa", {
-        locale: id,
-      });
       return (
         <div className="flex flex-col">
-          <strong>{date}</strong>
-          <span className="text-muted-foreground">{time}</span>
+          <strong>{formattedDate}</strong>
+          <span className="text-muted-foreground">{formattedTime}</span>
         </div>
       );
     },
   },
   {
-    accessorKey: "name",
+    accessorKey: "first_name",
     header: ({ column }) => {
       return (
         <Button
@@ -169,6 +108,51 @@ export const paymentColumns: ColumnDef<TPayment>[] = [
           Dibayar oleh
           <ArrowUpDown className="ml-2 size-3 shrink-0" />
         </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const firstName = row.getValue("first_name");
+      const lastName = row.original.last_name;
+      const fullName = `${firstName} ${lastName}`;
+      return fullName;
+    },
+  },
+];
+
+export const paymentColumnSkeleton: ColumnDef<TTransaction>[] = [
+  {
+    accessorKey: "order_id",
+    header: "ID Pesanan",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
+      );
+    },
+  },
+  {
+    accessorKey: "status",
+    header: "Status",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
+      );
+    },
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Dibuat pada",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
+      );
+    },
+  },
+  {
+    accessorKey: "first_name",
+    header: "Dibayar oleh",
+    cell: () => {
+      return (
+        <div className="w-full rounded-md h-5 bg-neutral-200 animate-pulse" />
       );
     },
   },

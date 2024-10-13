@@ -80,7 +80,7 @@ export const NewestDocument: React.FC = (): React.ReactElement => {
         </div>
       ) : (
         <div className="w-full h-40 flex justify-center items-center text-muted-foreground">
-          <p>Tidak ada dokumen yang tersimpan</p>
+          <p>Belum ada dokumen yang tersimpan</p>
         </div>
       )}
     </div>

@@ -1,18 +1,18 @@
 "use server";
 
-import { TProfileResponse } from "./type";
 import { baseApiUrl } from "@/libs/entities";
 import { auth } from "@/libs/auth";
+import { TSingleTransactionResponse } from "../type";
 
-export const getProfile = async (userId?: string) => {
+export const getUserTransactionById = async (orderId: string) => {
   const session = await auth();
   const token = session?.user.token;
   if (!token) {
     throw new Error("401 - Unauthorized!");
   }
 
-  const res: TProfileResponse = await fetch(
-    `${baseApiUrl}/api/profile/${userId}`,
+  const res: TSingleTransactionResponse = await fetch(
+    `${baseApiUrl}/api/transactions/${orderId}`,
     {
       method: "GET",
       headers: {
@@ -23,13 +23,13 @@ export const getProfile = async (userId?: string) => {
     }
   ).then((response) => response.json());
 
-  if (res.status === "error") {
+  if (res.status !== 200) {
     console.error(res);
-    if (res.error) {
-      throw new Error(res.error);
+    if (!res.body.success) {
+      throw new Error(res.body.message);
     }
-    throw new Error("Network response was not ok");
+    throw new Error("Something went wrong!");
   }
 
-  return res.data;
+  return res.body.transaction;
 };
