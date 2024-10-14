@@ -1,15 +1,16 @@
 "use server";
 
 import { baseApiUrl } from "@/libs/entities";
-import { TSaveDocumentResponse } from "./type";
+import { getDocumentById } from "../get-document-by-id";
 import { auth } from "@/libs/auth";
+import { TUpdateDocumentResponse } from "./type";
 
-export const saveDocument = async (
+export const updateDocument = async (
   text: string,
   title: string,
-  category: string,
-  tokensUsed: number
+  id: string
 ) => {
+  const document = await getDocumentById(id);
   const session = await auth();
   const token = session?.user.token;
   if (!token) {
@@ -17,16 +18,16 @@ export const saveDocument = async (
   }
   const payload = {
     title: title,
+    category: document.category,
     response: text,
-    category,
-    tokensUsed,
+    tokensUsed: document.tokensUsed,
     save: true,
   };
 
-  const res: TSaveDocumentResponse = await fetch(
-    `${baseApiUrl}/api/save-history`,
+  const res: TUpdateDocumentResponse = await fetch(
+    `${baseApiUrl}/api/update-history/${id}`,
     {
-      method: "POST",
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",

@@ -13,12 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  baseApiUrl,
-  featureAISchema,
-  TFeatureAISchema,
-  TPrompt,
-} from "@/libs/entities";
+import { featureAISchema, TFeatureAISchema, TPrompt } from "@/libs/entities";
 import {
   Select,
   SelectContent,
@@ -31,6 +26,7 @@ import { FeaturePromptList } from "./feature.prompt.list";
 import { toast } from "sonner";
 import { useGenerateAI } from "@/libs/hooks";
 import { getSession } from "next-auth/react";
+import { Loader2Icon } from "lucide-react";
 
 const emptyPrompt: TPrompt = {
   nameprompt: "",
@@ -55,33 +51,40 @@ export const FeatureForm: React.FC<{
       prompt: "",
     },
   });
-  const { setResultText, setIsGenerating } = useGenerateAI();
+
+  const { setResultText, setIsGenerating, setCompletionResponse } =
+    useGenerateAI();
+
   const onSubmit = async (values: TFeatureAISchema) => {
-    setResultText(""); // Clear the previous result
     try {
-      const session = await getSession();
-      const token = session?.user.token;
-      if (!token) {
-        throw new Error("401 - Unauthorized!");
-      }
       setIsGenerating(true);
-      const response = await fetch(`${baseApiUrl}/api/send-prompt`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          categoryname: "Instagram",
-          featuresname: "Perubahan",
-          prompt: values.prompt,
-          max_words: 100,
-          brandName: "Brand kurse",
-        }),
-      });
+      const session = await getSession();
+      if (!session) {
+        throw new Error("404 - Unauthorized!");
+      }
+
+      const token = session.user.token;
+
+      const response = await fetch(
+        `https://backend.kontenkilat.id/api/send-prompt`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            categoryprompt: values.productCategory,
+            featuresname: values.featureName,
+            prompt: values.prompt,
+            max_words: values.maxToken,
+            brandName: values.productName,
+          }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error("Error: " + response.statusText);
+        throw new Error(response.statusText);
       }
       const reader = response.body ? response.body.getReader() : null;
       if (!reader) {
@@ -103,18 +106,17 @@ export const FeatureForm: React.FC<{
             if (!msgObj.success) {
               setResultText((prev) => prev + msgObj.message + " "); // Append the message content
             } else {
-              // Store the final combined message for logging (don't show in UI)
               combinedMessage = msgObj.message;
+              setCompletionResponse(msgObj);
+              setResultText(combinedMessage);
             }
           });
         }
 
         ({ value, done } = await reader.read());
       }
-      toast.success("Response AI Telah didapatkan!");
 
-      // Log final message for debugging purposes, not for UI display
-      console.log("Final combined message:", combinedMessage);
+      toast.success("Response AI Telah didapatkan!");
     } catch (error) {
       console.error("Error:", error);
       setResultText(`Error: ${error as string}`);
@@ -221,7 +223,14 @@ export const FeatureForm: React.FC<{
             onSelectPrompt={setSelectedPrompt}
           />
         </div>
-        <Button className="w-full" type="submit">
+        <Button
+          className="w-full"
+          type="submit"
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting && (
+            <Loader2Icon className="animate-spin mr-2.5" />
+          )}
           Submit
         </Button>
       </form>

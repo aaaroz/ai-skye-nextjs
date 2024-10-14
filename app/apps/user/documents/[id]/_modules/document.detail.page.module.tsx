@@ -43,13 +43,10 @@ export const DocumentDetailPageModule: React.FC<{ id: string }> = ({
             text="Dokumen Saya"
           />
           <div className="space-y-1">
-            <div className="h-8 w-10 rounded bg-neutral-300 animate-pulse" />
+            <div className="h-5 w-20 rounded bg-neutral-300 animate-pulse" />
             <div className="space-y-2 font-normal">
-              <div className="h-8 w-10 rounded bg-neutral-300 animate-pulse" />
-              <div className="h-8 w-10 rounded bg-neutral-300 animate-pulse" />
-            </div>
-            <div className="my-2">
-              <div className="h-8 w-10 rounded bg-neutral-300 animate-pulse" />
+              <div className="h-5 w-56 rounded bg-neutral-300 animate-pulse" />
+              <div className="h-5 w-40 rounded bg-neutral-300 animate-pulse" />
             </div>
           </div>
           <Separator />

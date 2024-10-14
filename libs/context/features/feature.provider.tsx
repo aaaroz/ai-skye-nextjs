@@ -3,7 +3,8 @@ import * as React from "react";
 import { TFeatureContextProvider } from "./type";
 import { Feature } from "@/libs/entities";
 import { FeatureContext } from "./feature.context";
-import { getAllFeatures } from "@/libs/actions";
+// import { getAllFeatures } from "@/libs/actions";
+import { getAllFeaturesClient } from "@/libs/clients";
 
 export const FeatureContextProvider = ({
   children,
@@ -14,7 +15,7 @@ export const FeatureContextProvider = ({
     React.useState<boolean>(false);
 
   const fetchFeatures = React.useCallback(async () => {
-    const features = await getAllFeatures();
+    const features = await getAllFeaturesClient();
     setFeatures(features);
   }, []);
 

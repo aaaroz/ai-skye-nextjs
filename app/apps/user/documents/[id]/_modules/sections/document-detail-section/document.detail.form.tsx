@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import Markdown from "markdown-to-jsx";
 import MarkdownIt from "markdown-it";
-import { saveDocument } from "@/libs/actions";
+import { updateDocument } from "@/libs/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useProfileData } from "@/libs/hooks";
 
 interface DocumentDetailFormProps {
   title: string;
@@ -25,15 +26,17 @@ export const DocumentDetailForm: React.FC<DocumentDetailFormProps> = ({
   const [value, setValue] = React.useState({ text, title });
   const md = MarkdownIt();
   const router = useRouter();
+  const { toggleShouldFetchData } = useProfileData();
 
   const handleSaveDoc = async () => {
     try {
       setIsLoading(true);
-      const res = await saveDocument(value.text, value.title, id);
+      const res = await updateDocument(value.text, value.title, id);
       toast.success("Dokumen berhasil disimpan!", {
         description: res,
       });
       router.refresh();
+      toggleShouldFetchData(true)
     } catch (error) {
       console.error(error);
       toast.error("Terjadi kesalahan saat menyimpan dokumen", {
@@ -57,7 +60,7 @@ export const DocumentDetailForm: React.FC<DocumentDetailFormProps> = ({
         <Button
           variant={isEditing ? "default" : "outline"}
           size="icon"
-          className="shrink-0 hidden"
+          className="shrink-0"
           onClick={() => setIsEditing((prev) => !prev)}
           disabled={isLoading}
         >
