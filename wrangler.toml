@@ -19,6 +19,7 @@ pages_build_output_dir = ".vercel/output/static"
 [vars]
 APP_NAME = "KontenKilat.id"
 NEXT_PUBLIC_APP_KEY = "skye_ai_saas_public_app_key"
+NEXT_PUBLIC_BASE_API_URL = "https://backend.kontenkilat.id"
 
 # Bind the Workers AI model catalog. Run machine learning models, powered by serverless GPUs, on Cloudflare’s global network
 # Docs: https://developers.cloudflare.com/pages/functions/bindings/#workers-ai
