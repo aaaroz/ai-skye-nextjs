@@ -1,58 +1,32 @@
-export const runtime = "edge";
+import * as React from "react";
+import Link from "next/link";
+import { Logo } from "@/components/common/logo";
+import { Button } from "@/components/ui/button";
+import { AlertTriangleIcon } from "lucide-react";
 
-export default function NotFound() {
+const NotFoundPage = () => {
   return (
-    <>
-      <title>404: This page could not be found.</title>
-      <div style={styles.error}>
-        <div>
-          <style
-            dangerouslySetInnerHTML={{
-              __html: `body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}`,
-            }}
-          />
-          <h1 className="next-error-h1" style={styles.h1}>
-            404
-          </h1>
-          <div style={styles.desc}>
-            <h2 style={styles.h2}>This page could not be found.</h2>
-          </div>
-        </div>
+    <section className="container min-h-screen flex flex-col gap-4 justify-center items-center">
+      <Logo />
+      <div className="max-w-md flex flex-col items-center justify-center rounded border space-y-4 p-6">
+        <h1 className="inline-flex items-center gap-2.5 text-2xl md:text-4xl font-bold">
+          <AlertTriangleIcon />
+          Oooopss!{" "}
+        </h1>
+        <h2 className="text-lg md:text-2xl text-center font-semibold">
+          Halaman Tidak Ditemukan!
+        </h2>
+        <p className="text-sm md:text-base text-center text-muted-foreground">
+          Maaf, halaman yang Anda cari tidak tersedia atau telah dipindahkan.
+          Silakan periksa kembali URL yang Anda masukkan atau gunakan tombol di
+          bawah ini untuk kembali ke halaman utama.
+        </p>
+        <Link href="/">
+          <Button>Kembali ke halaman utama</Button>
+        </Link>
       </div>
-    </>
+    </section>
   );
-}
+};
 
-const styles = {
-  error: {
-    fontFamily:
-      'system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji"',
-    height: "100vh",
-    textAlign: "center",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  desc: {
-    display: "inline-block",
-  },
-
-  h1: {
-    display: "inline-block",
-    margin: "0 20px 0 0",
-    padding: "0 23px 0 0",
-    fontSize: 24,
-    fontWeight: 500,
-    verticalAlign: "top",
-    lineHeight: "49px",
-  },
-
-  h2: {
-    fontSize: 14,
-    fontWeight: 400,
-    lineHeight: "49px",
-    margin: 0,
-  },
-} as const;
+export default NotFoundPage;

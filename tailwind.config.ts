@@ -15,6 +15,7 @@ const config: Config = {
         padding: {
           DEFAULT: "1rem",
           sm: "2rem",
+          md: "3rem",
           lg: "4rem",
           xl: "5rem",
           "2xl": "6rem",
@@ -23,9 +24,7 @@ const config: Config = {
       fontFamily: {
         inter: [
           ["var(--font-inter)", "sans-serif"],
-          {
-            fontFeatureSettings: '"ss03","cv02","cv11"',
-          },
+          { fontFeatureSettings: '"ss03","cv02","cv11"' },
         ],
       },
       colors: {
@@ -37,6 +36,28 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: {
+            height: "0",
+          },
+          to: {
+            height: "var(--radix-accordion-content-height)",
+          },
+        },
+        "accordion-up": {
+          from: {
+            height: "var(--radix-accordion-content-height)",
+          },
+          to: {
+            height: "0",
+          },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
