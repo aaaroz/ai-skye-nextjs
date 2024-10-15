@@ -46,3 +46,22 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
     </Card>
   );
 };
+
+export const FeatureCardSkeleton: React.FC = () => {
+  return (
+    <div className="w-full shadow-lg p-4 rounded">
+      <div className="w-full">
+        <div className="h-6 w-[250px] rounded animate-pulse bg-slate-300"></div>
+      </div>
+      <div>
+        <div className="h-4 w-[250px] rounded animate-pulse bg-slate-300"></div>
+        <div className="h-4 w-3/4 rounded animate-pulse bg-slate-300 my-2"></div>
+        <div className="h-4 w-2/3 rounded animate-pulse bg-slate-300"></div>
+      </div>
+      <div className="flex flex-wrap justify-between items-center pt-2">
+        <div className="h-8 w-1/2 rounded animate-pulse bg-slate-300"></div>
+        <div className="h-8 w-1/2 rounded animate-pulse bg-slate-300"></div>
+      </div>
+    </div>
+  );
+};

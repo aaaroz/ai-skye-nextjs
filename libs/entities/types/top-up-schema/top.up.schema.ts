@@ -10,6 +10,7 @@ export const topUpSchema = z.object({
     .int()
     .nonnegative(),
   total: z.coerce.number().min(0).int().nonnegative(),
+  tax: z.coerce.number().min(0).int().nonnegative(),
 });
 
 export type TTopUpSchema = z.infer<typeof topUpSchema>;

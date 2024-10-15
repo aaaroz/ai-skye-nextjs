@@ -22,15 +22,15 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { TransactionTablePagination } from "./transaction.table.pagination";
-import { TTransaction } from "./transaction.columns";
 import { TransactionDetailSheetTrigger } from "./transaction.detail.sheet";
+import { TTransactionAdmin } from "@/libs/actions/transaction/type";
 
 interface TransactionTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const TransactionTable = <TData extends TTransaction, TValue>({
+export const TransactionTable = <TData extends TTransactionAdmin, TValue>({
   columns,
   data,
 }: TransactionTableProps<TData, TValue>): React.ReactElement => {
@@ -58,9 +58,11 @@ export const TransactionTable = <TData extends TTransaction, TValue>({
       <div className="flex items-center w-full">
         <Input
           placeholder="Cari data berdasarkan nama..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("first_name")?.getFilterValue() as string) ?? ""
+          }
           onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("first_name")?.setFilterValue(event.target.value)
           }
           className="w-full"
         />
@@ -104,7 +106,8 @@ export const TransactionTable = <TData extends TTransaction, TValue>({
                   <TableCell>
                     <div className="flex gap-0.5">
                       <TransactionDetailSheetTrigger
-                        orderId={row.original.orderId}
+                        orderId={row.original.order_id}
+                        transactionData={data}
                       />
                     </div>
                   </TableCell>

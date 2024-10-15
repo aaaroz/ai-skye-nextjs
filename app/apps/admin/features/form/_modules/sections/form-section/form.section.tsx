@@ -1,11 +1,12 @@
 "use client";
 import * as React from "react";
-import { Edit2Icon, PlusIcon } from "lucide-react";
+import { Edit2Icon, Loader2Icon, PlusIcon } from "lucide-react";
 import { HeadingWithIcon } from "@/components/dashboard-page";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   adminFeatureSchema,
+  dashboardAdminRoute,
   TAdminFeatureSchema,
   TPromptSchema,
 } from "@/libs/entities";
@@ -32,6 +33,9 @@ import { Textarea } from "@/components/ui/textarea";
 import { AddPromptDialogTrigger } from "./add.prompt.dialog";
 import { PromptCard } from "./prompt.card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { addFeature, getFeatureById, updateFeature } from "@/libs/actions";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useFeatures } from "@/libs/hooks";
 
 const removeObjectAtIndex = (
   arr: TPromptSchema[],
@@ -43,9 +47,11 @@ const removeObjectAtIndex = (
   return [...arr.slice(0, index), ...arr.slice(index + 1)];
 };
 
-export const FormSection: React.FC<{ id?: string }> = ({
-  id,
-}): React.ReactElement => {
+export const FormSection: React.FC = (): React.ReactElement => {
+  const searchParams = useSearchParams()
+  const id = searchParams?.get('editId')
+  const router = useRouter();
+  const { toggleShouldFetchData } = useFeatures();
   const form = useForm<TAdminFeatureSchema>({
     resolver: zodResolver(adminFeatureSchema),
     defaultValues: {
@@ -55,14 +61,29 @@ export const FormSection: React.FC<{ id?: string }> = ({
       category: "",
     },
   });
-  const onSubmit = (values: TAdminFeatureSchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit = async (values: TAdminFeatureSchema) => {
+    try {
+      if (id) {
+        const res = await updateFeature({ ...values, id });
+        toast.success("Berhasil mengupdate data fitur", {
+          description: `${res.featuresname} telah diupdate`,
+        });
+        router.push(dashboardAdminRoute.concat("features"));
+        toggleShouldFetchData(true);
+      } else {
+        const res = await addFeature({ ...values });
+        toast.success("Berhasil menambahkan data fitur", {
+          description: `${res.featuresname} telah ditambahkan`,
+        });
+        router.push(dashboardAdminRoute.concat("features"));
+        toggleShouldFetchData(true);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Terjadi kesalahan saat mengupdate data", {
+        description: `${error}`,
+      });
+    }
   };
 
   const setPromptValue = React.useCallback(
@@ -83,6 +104,21 @@ export const FormSection: React.FC<{ id?: string }> = ({
     [form]
   );
 
+  const fetchFeature = React.useCallback(async () => {
+    const feature = await getFeatureById(id as string);
+    form.setValue("name", feature.featuresname);
+    form.setValue("description", feature.deskripsi);
+    form.setValue("subDescription", feature.subdeskripsi as string);
+    form.setValue("category", feature.categoryname.toLowerCase());
+    form.setValue("prompts", feature.data);
+  }, [form, id]);
+
+  React.useEffect(() => {
+    if (id) {
+      fetchFeature();
+    }
+  }, [fetchFeature, id]);
+
   return (
     <section className="p-4 md:p-6 space-y-6 rounded-md shadow-md bg-neutral-50 w-full h-fit">
       <HeadingWithIcon
@@ -95,7 +131,7 @@ export const FormSection: React.FC<{ id?: string }> = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-8"
         >
-          <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="w-full grid  lg:grid-cols-2 gap-6">
             <FormField
               control={form.control}
               name="name"
@@ -195,12 +231,12 @@ export const FormSection: React.FC<{ id?: string }> = ({
                 {form.watch("prompts")?.length ? (
                   form
                     .watch("prompts")
-                    .map(({ name, description, category }, index) => (
+                    .map(({ nameprompt, prompt, categoryprompt }, index) => (
                       <PromptCard
                         key={index}
-                        name={name}
-                        description={description}
-                        category={category}
+                        name={nameprompt}
+                        description={prompt}
+                        category={categoryprompt}
                         onClickCard={() => handleDeletePrompt(index)}
                       />
                     ))
@@ -216,8 +252,17 @@ export const FormSection: React.FC<{ id?: string }> = ({
           </div>
           <div className="flex w-full gap-2 justify-end">
             <Button variant="secondary">Batalkan</Button>
-            <Button form="form-feature" type="submit">
+            <Button
+              form="form-feature"
+              type="submit"
+              disabled={form.formState.isSubmitting}
+            >
               {id ? "Simpan Perubahan" : "Tambahkan Fitur"}
+              {form.formState.isSubmitting ? (
+                <Loader2Icon className="ml-3 animate-spin" />
+              ) : (
+                ""
+              )}
             </Button>
           </div>
         </form>

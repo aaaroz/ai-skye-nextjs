@@ -27,15 +27,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { TTransaction } from "./transaction.columns";
 import { TransactionDetailSheetTrigger } from "./transaction.detail.sheet";
 
+import { TTransactionAdmin } from "@/libs/actions/transaction/type";
 interface TransactionTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const TransactionTable = <TData extends TTransaction, TValue>({
+export const TransactionTable = <TData extends TTransactionAdmin, TValue>({
   columns,
   data,
 }: TransactionTableProps<TData, TValue>): React.ReactElement => {
@@ -76,9 +76,10 @@ export const TransactionTable = <TData extends TTransaction, TValue>({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Semua</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="settled">Settled</SelectItem>
-            <SelectItem value="failed">Failed</SelectItem>
+            <SelectItem value="pending">Ditunda</SelectItem>
+            <SelectItem value="settlement">Berhasil</SelectItem>
+            <SelectItem value="failed">Gagal</SelectItem>
+            <SelectItem value="expire">Terlewat</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -121,7 +122,8 @@ export const TransactionTable = <TData extends TTransaction, TValue>({
                   <TableCell>
                     <div className="flex gap-0.5">
                       <TransactionDetailSheetTrigger
-                        orderId={row.original.orderId}
+                        orderId={row.original.order_id}
+                        transactionData={data}
                       />
                     </div>
                   </TableCell>

@@ -1,5 +1,5 @@
 export type TPrompt = {
-  title: string;
-  description: string;
-  category: string;
+  categoryprompt: string;
+  nameprompt: string;
+  prompt: string;
 };

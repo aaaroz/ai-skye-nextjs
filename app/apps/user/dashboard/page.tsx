@@ -1,7 +1,10 @@
 import * as React from "react";
-import { NextPage } from "next";
 import { DashboardUserPageModule } from "./_modules";
+import { Metadata, NextPage } from "next";
 
+export const metadata: Metadata = {
+  title: "Dashboard User",
+};
 const DashboardUserPage: NextPage = (): React.ReactElement => {
   return <DashboardUserPageModule />;
 };

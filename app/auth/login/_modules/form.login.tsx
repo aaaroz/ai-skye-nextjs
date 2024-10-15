@@ -1,5 +1,6 @@
 "use client";
 import * as React from "react";
+import Link from "next/link";
 import { Loader2Icon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,9 +16,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { loginSchema, type TLoginSchema } from "@/libs/entities";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
-import Link from "next/link";
 import { toast } from "sonner";
+import {
+  getCredentials,
+  login,
+  removeCredentials,
+  storeCredentials,
+} from "@/libs/actions";
 
 export const FormLogin: React.FC = (): React.ReactElement => {
   const form = useForm<TLoginSchema>({
@@ -25,19 +30,45 @@ export const FormLogin: React.FC = (): React.ReactElement => {
     defaultValues: {
       phoneNumber: "",
       password: "",
+      isRememberMe: false,
     },
     mode: "all",
   });
 
-  const onSubmit = (data: TLoginSchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit = async (data: TLoginSchema) => {
+    try {
+      await login(data);
+      if (data.isRememberMe) {
+        await storeCredentials(data.phoneNumber, data.password);
+      } else {
+        await removeCredentials();
+      }
+      toast.success("Login Berhasil!, Selamat datang di KontenKilat!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Login gagal, silahkan coba lagi!", {
+        description: (error as Error).message,
+      });
+    }finally{
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
+    }
   };
+
+  const checkCredentials = React.useCallback(async () => {
+    const credentials = await getCredentials();
+    if (credentials) {
+      form.setValue("isRememberMe", true);
+      form.setValue("phoneNumber", credentials.phoneNumber);
+      form.setValue("password", credentials.password);
+    }
+  }, [form]);
+
+  React.useEffect(() => {
+    checkCredentials();
+  }, [checkCredentials]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-2">
@@ -83,14 +114,26 @@ export const FormLogin: React.FC = (): React.ReactElement => {
             )}
           />
           <div className="flex justify-between items-center">
-            <div className="items-center flex space-x-2">
-              <Checkbox id="remember-me" />
-              <div className="grid gap-1.5 leading-none">
-                <Label htmlFor="remember-me" className="text-sm font-medium">
-                  Ingatkan saya
-                </Label>
-              </div>
-            </div>
+            <FormField
+              control={form.control}
+              name="isRememberMe"
+              render={({ field }) => (
+                <FormItem className="items-center flex space-x-2">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="leading-none">
+                    <FormLabel className="text-sm font-medium">
+                      Ingatkan saya
+                    </FormLabel>
+                  </div>
+                </FormItem>
+              )}
+            />
+
             <Link
               href="/auth/forgot-password"
               className="text-sm text-sky-600 hover:text-sky-600/70 font-medium transition-colors duration-200"

@@ -4,6 +4,7 @@ import { FeaturesInstagram } from "./features.instagram";
 import { FeaturesTiktok } from "./features.tiktok";
 import { FeaturesEcommerce } from "./features.ecommerce";
 import { TFeatureCategory } from "@/libs/entities/types";
+import { FeaturesAll } from "./features.all";
 
 interface FeatureTabsProps {
   showAllFeatures?: boolean;
@@ -40,9 +41,7 @@ export const FeatureTabs: React.FC<FeatureTabsProps> = ({
       </TabsList>
       <TabsContent value="all">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 w-full gap-6">
-          <FeaturesInstagram />
-          <FeaturesTiktok />
-          <FeaturesEcommerce />
+          <FeaturesAll />
         </div>
       </TabsContent>
       <TabsContent value="instagram">

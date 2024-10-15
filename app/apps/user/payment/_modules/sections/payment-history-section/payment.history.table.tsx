@@ -29,14 +29,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PaymentDetailSheetTrigger } from "./payment.detail.sheet";
-import { TPayment } from "./payment.history.columns";
+import { TTransaction } from "@/libs/entities";
 
 interface PaymentHistoryTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const PaymentHistoryTable = <TData extends TPayment, TValue>({
+export const PaymentHistoryTable = <TData extends TTransaction, TValue>({
   columns,
   data,
 }: PaymentHistoryTableProps<TData, TValue>): React.ReactElement => {
@@ -69,6 +69,7 @@ export const PaymentHistoryTable = <TData extends TPayment, TValue>({
               table.getColumn("status")?.setFilterValue(undefined);
               return;
             }
+
             table.getColumn("status")?.setFilterValue(value as string);
           }}
         >
@@ -77,9 +78,10 @@ export const PaymentHistoryTable = <TData extends TPayment, TValue>({
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Semua</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="settled">Settled</SelectItem>
-            <SelectItem value="failed">Failed</SelectItem>
+            <SelectItem value="pending">Ditunda</SelectItem>
+            <SelectItem value="settlement">Berhasil</SelectItem>
+            <SelectItem value="failed">Gagal</SelectItem>
+            <SelectItem value="expire">Terlewat</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -122,7 +124,7 @@ export const PaymentHistoryTable = <TData extends TPayment, TValue>({
                   <TableCell>
                     <div className="flex gap-0.5">
                       <PaymentDetailSheetTrigger
-                        orderId={row.original.orderId}
+                        orderId={row.original.order_id}
                       />
                     </div>
                   </TableCell>
@@ -134,7 +136,7 @@ export const PaymentHistoryTable = <TData extends TPayment, TValue>({
                   colSpan={columns.length + 1}
                   className="h-24 text-center"
                 >
-                  Data tidak ditemukan.
+                  Tidak ada data pembayaran.
                 </TableCell>
               </TableRow>
             )}

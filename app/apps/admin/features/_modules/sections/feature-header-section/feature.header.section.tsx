@@ -1,39 +1,39 @@
 "use client";
 import * as React from "react";
+import Link from "next/link";
 import { CpuIcon, Loader2Icon, PlusIcon } from "lucide-react";
 import { HeadingWithIcon } from "@/components/dashboard-page";
 import { Input } from "@/components/ui/input";
-import { useDebounce, useFeatureDashboard } from "@/libs/hooks";
-import { dashboardAdminRoute, dummyFeatures } from "@/libs/entities";
+import { useDebounce, useFeatures } from "@/libs/hooks";
+import { dashboardAdminRoute, Feature } from "@/libs/entities";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 export const FeatureHeaderSection: React.FC = (): React.ReactElement => {
-  const [searchQuery, setSearchQuery] = React.useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = React.useState<string>("");
   const { debouncedValue, isLoading } = useDebounce(
     searchQuery?.toLowerCase() as string,
     400
   );
-  const { setFeatures } = useFeatureDashboard();
+  const { features, setFilteredFeatures } = useFeatures();
 
   const filterFeatures = React.useCallback(() => {
-    const filteredFeature = dummyFeatures.filter(
+    const filteredFeature = features?.filter(
       (feature) =>
-        feature.title.toLowerCase().includes(debouncedValue) ||
-        feature.description.toLowerCase().includes(debouncedValue) ||
-        feature.category.toLowerCase().includes(debouncedValue)
+        feature.featuresname.toLowerCase().includes(debouncedValue) ||
+        feature.subdeskripsi.toLowerCase().includes(debouncedValue) ||
+        feature.categoryname.toLowerCase().includes(debouncedValue)
     );
 
-    setFeatures(filteredFeature);
-  }, [debouncedValue, setFeatures]);
+    setFilteredFeatures(filteredFeature as Feature[]);
+  }, [debouncedValue, setFilteredFeatures, features]);
 
   React.useEffect(() => {
     if (debouncedValue) {
       filterFeatures();
     } else {
-      setFeatures(dummyFeatures);
+      setFilteredFeatures(features as Feature[]);
     }
-  }, [filterFeatures, debouncedValue, setFeatures]);
+  }, [filterFeatures, debouncedValue, setFilteredFeatures, features]);
 
   return (
     <section className="p-4 md:p-6 space-y-6 rounded-md bg-neutral-50">

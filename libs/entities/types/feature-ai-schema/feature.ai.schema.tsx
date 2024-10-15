@@ -13,6 +13,7 @@ export const featureAISchema = z.object({
   prompt: z
     .string({ required_error: "Perintah AI tidak boleh kosong!" })
     .min(8, "Perintah AI tidak boleh kurang dari 8 digit!"),
+  featureName: z.string(),
 });
 
 export type TFeatureAISchema = z.infer<typeof featureAISchema>;

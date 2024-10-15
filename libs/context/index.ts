@@ -1,2 +1,5 @@
 export * from "./sidebar-collapse";
-export * from "./feature-dashboard";
+export * from "./admin-dashboard";
+export * from "./features";
+export * from "./profile";
+export * from "./generate-ai";

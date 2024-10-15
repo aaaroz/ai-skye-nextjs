@@ -1,7 +1,11 @@
 import * as React from "react";
+import { Metadata, NextPage } from "next";
 import { VerifyPageModule } from "./_modules";
 import { LoaderIcon } from "lucide-react";
-import { NextPage } from "next";
+
+export const metadata: Metadata = {
+  title: "Verifikasi OTP",
+};
 
 const VerifyPage: NextPage = (): React.ReactElement => {
   return (

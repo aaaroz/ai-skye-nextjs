@@ -16,10 +16,12 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { useProfileData } from "@/libs/hooks";
+import { format } from "date-fns";
 
 export const description = "An interactive bar chart";
 
-const getTwoMonthsDates = () => {
+const getTwoMonthsDates = (wordUsedPerDay: { [key: string]: number }) => {
   const now = new Date();
   const twoMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 2, 1);
   const lastDayOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
@@ -30,16 +32,17 @@ const getTwoMonthsDates = () => {
     day <= lastDayOfMonth;
     day.setDate(day.getDate() + 1)
   ) {
+    // Create a new date object for each loop iteration to avoid mutation issues
+    const formattedDate = format(new Date(day), "yyyy-MM-dd");
+
     dates.push({
-      date: day.toISOString().split("T")[0],
-      word: Math.floor(Math.random() * 800 + 100),
+      date: formattedDate,
+      word: wordUsedPerDay ? wordUsedPerDay[formattedDate] : 0,
     });
   }
 
   return dates;
 };
-
-const chartData: { date: string; word: number }[] = getTwoMonthsDates();
 
 const chartConfig = {
   counts: {
@@ -52,6 +55,13 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export const GraphicChart: React.FC = (): React.ReactElement => {
+  const { profileData } = useProfileData();
+  let chartData: { date: string; word: number }[] = [];
+  if (profileData) {
+    chartData = getTwoMonthsDates(
+      profileData?.wordUsedPerDay as { [key: string]: number }
+    );
+  }
   return (
     <Card>
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
@@ -67,7 +77,7 @@ export const GraphicChart: React.FC = (): React.ReactElement => {
               Kata yang dihasilkan
             </span>
             <span className="text-lg font-bold leading-none sm:text-3xl">
-              0
+              {profileData?.wordUsed}
             </span>
           </div>
         </div>

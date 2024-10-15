@@ -18,25 +18,37 @@ import {
   resetPasswordSchema,
   type TResetPasswordSchema,
 } from "@/libs/entities";
+import { login, resetPassword } from "@/libs/actions";
 
-export const FormResetPassword: React.FC = (): React.ReactElement => {
+export const FormResetPassword: React.FC<{
+  id: string;
+  phoneNumber: string;
+}> = ({ id, phoneNumber }): React.ReactElement => {
   const form = useForm<TResetPasswordSchema>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
+      userId: id,
     },
     mode: "all",
   });
 
-  const onSubmit = (data: TResetPasswordSchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit = async (data: TResetPasswordSchema) => {
+    try {
+      const res = await resetPassword(data);
+      await login({ phoneNumber, password: data.password });
+      toast.success(res.message);
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal mengubah password baru, silahkan coba lagi!", {
+        description: (error as Error).message,
+      });
+    } finally {
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      }
+    }
   };
   return (
     <Form {...form}>

@@ -1,17 +1,35 @@
+"use client";
 import * as React from "react";
-import { FeatureCard } from "./feature.card";
-import { dummyFeatures } from "@/libs/entities";
-
-const dummyFeaturesTiktok = dummyFeatures.filter(
-  (feature) => feature.category === "tiktok"
-);
+import { FeatureCard, FeatureCardSkeleton } from "./feature.card";
+import { usePathname } from "next/navigation";
+import { useFeatures } from "@/libs/hooks";
 
 export const FeaturesTiktok = () => {
+  const pathname = usePathname();
+  const { features } = useFeatures();
+  const featuresTiktok =
+    pathname === "/"
+      ? features
+          ?.filter((feature) => feature.categoryname.toLowerCase() === "tiktok")
+          .splice(0, 3)
+      : features?.filter((feature) => feature.categoryname.toLowerCase() === "tiktok");
   return (
     <>
-      {dummyFeaturesTiktok.map(({ title, headline }, index) => (
-        <FeatureCard key={index} title={title} headline={headline} />
-      ))}
+      {featuresTiktok && featuresTiktok.length > 0 ? (
+        featuresTiktok.map(({ featuresname, subdeskripsi }, index) => (
+          <FeatureCard
+            key={index}
+            title={featuresname}
+            headline={subdeskripsi}
+          />
+        ))
+      ) : (
+        <>
+          {Array.from({ length: 3 }).map((_, index) => (
+            <FeatureCardSkeleton key={index} />
+          ))}
+        </>
+      )}
     </>
   );
 };

@@ -12,33 +12,23 @@ import { ActionButton } from "@/components/dashboard-page";
 import { FileTextIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { transactionData } from "./transaction.columns";
 import { cn, formatRupiah } from "@/libs/utils";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
+import { TTransactionAdmin } from "@/libs/actions/transaction/type";
 
 interface TransactionDetailSheetTriggerProps {
   orderId: string;
+  transactionData: TTransactionAdmin[];
 }
 export const TransactionDetailSheetTrigger: React.FC<
   TransactionDetailSheetTriggerProps
-> = ({ orderId }): React.ReactElement => {
-  const data = transactionData.find((item) => item.orderId === orderId);
+> = ({ orderId, transactionData }): React.ReactElement => {
+  const data = transactionData.find((item) => item.order_id === orderId);
+
   if (!data) {
     return <TransactionDetailSheetFallback />;
   }
 
-  const date = data.paidAt
-    ? format(data.paidAt as Date, "dd MMMM yyyy", {
-        locale: id,
-      })
-    : "-";
-
-  const time = data.paidAt
-    ? format(data.paidAt as Date, "K:mm aa", {
-        locale: id,
-      })
-    : "-";
+  const date = data.createdAt;
 
   return (
     <Sheet>
@@ -65,11 +55,11 @@ export const TransactionDetailSheetTrigger: React.FC<
           <div className="space-y-2">
             <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
               <strong className="w-[35%]">Nama Lengkap</strong>
-              <p>{data.name}</p>
+              <p>{`${data.first_name} ${data.last_name}`}</p>
             </div>
             <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
               <strong className="w-[35%]">Nomor Telepon</strong>
-              <p>{data.phoneNumber}</p>
+              <p>{data.phone}</p>
             </div>
           </div>
           <h1 className="text-base md:text-lg font-semibold py-4">
@@ -78,31 +68,26 @@ export const TransactionDetailSheetTrigger: React.FC<
           <div className="space-y-2">
             <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
               <strong className="w-[35%]">ID Pesanan</strong>
-              <p>{data.orderId}</p>
+              <p>{data.order_id}</p>
             </div>
             <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
               <strong className="w-[35%]">Nama Paket</strong>
-              <p>{data.packageName}</p>
+              <p>{data.packagename}</p>
             </div>
             <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
               <strong className="w-[35%]">Metode Pembayaran</strong>
-              <p>{data.paymentMethod}</p>
+              <p>{data.payment_type?.toUpperCase()}</p>
             </div>
             <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
               <strong className="w-[35%]">Tanggal Pembayaran</strong>
-              {data.paidAt ? (
-                <div className="flex flex-col">
-                  <strong>{date}</strong>
-                  <span className="text-muted-foreground">{time}</span>
-                </div>
-              ) : (
-                <p>Belum dibayar</p>
-              )}
+              <div className="flex flex-col">
+                <span>{date}</span>
+              </div>
             </div>
             <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
               <strong className="w-[35%]">Jumlah</strong>
               <p className="text-2xl md:text-3xl font-bold">
-                {formatRupiah(data.total)}
+                {formatRupiah(data.gross_amount ? data.gross_amount : 0)}
               </p>
             </div>
           </div>

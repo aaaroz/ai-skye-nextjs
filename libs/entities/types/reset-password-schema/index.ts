@@ -8,6 +8,7 @@ export const resetPasswordSchema = z
     confirmPassword: z
       .string({ required_error: "Konfirmasi kata sandi harus diisi!" })
       .min(8, "Konfirmasi kata sandi tidak boleh kurang dari 8 digit!"),
+    userId: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],

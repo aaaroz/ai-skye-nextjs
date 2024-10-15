@@ -8,9 +8,9 @@ export const adminFeatureSchema = z.object({
   prompts: z
     .array(
       z.object({
-        name: z.string(),
-        description: z.string(),
-        category: z.string(),
+        nameprompt: z.string(),
+        prompt: z.string(),
+        categoryprompt: z.string(),
       }),
       { required_error: "Prompts harus ditambahkan!" }
     )
@@ -19,9 +19,11 @@ export const adminFeatureSchema = z.object({
 });
 
 export const promptSchema = z.object({
-  name: z.string().min(3, "Nama prompt minimal 3 huruf"),
-  description: z.string().min(3, "Deskripsi prompt minimal 3 huruf"),
-  category: z.string({ required_error: "Kategori prompt tidak boleh kosong!" }),
+  nameprompt: z.string().min(3, "Nama prompt minimal 3 huruf"),
+  prompt: z.string().min(3, "Deskripsi prompt minimal 3 huruf"),
+  categoryprompt: z.string({
+    required_error: "Kategori prompt tidak boleh kosong!",
+  }),
 });
 
 export type TPromptSchema = z.infer<typeof promptSchema>;

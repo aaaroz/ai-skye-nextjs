@@ -13,9 +13,11 @@ import {
 import { LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { DropdownMenuShortcut } from "@/components/ui/dropdown-menu";
+import { logout } from "@/libs/actions";
 
 export const LogoutDialogTrigger: React.FC = (): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "Backspace" && (e.metaKey || e.ctrlKey)) {
@@ -36,6 +38,16 @@ export const LogoutDialogTrigger: React.FC = (): React.ReactElement => {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+  const handleLogout = async () => {
+    try {
+      setIsLoading(true);
+      await logout();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div className="relative w-full">
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -58,7 +70,9 @@ export const LogoutDialogTrigger: React.FC = (): React.ReactElement => {
             <DialogClose asChild>
               <Button variant="outline">Tidak, Batalkan</Button>
             </DialogClose>
-            <Button>Ya, Saya yakin</Button>
+            <Button disabled={isLoading} onClick={handleLogout}>
+              Ya, Saya yakin
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

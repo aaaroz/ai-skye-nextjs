@@ -5,3 +5,4 @@ export * from "./dashboard-user";
 export * from "./dummy-prompts";
 export * from "./dashboard-admin";
 export * from "./document-data";
+export * from "./base-api-url";

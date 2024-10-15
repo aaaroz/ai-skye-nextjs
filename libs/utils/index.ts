@@ -6,3 +6,5 @@ export * from "./decrypt-phone-number";
 export * from "./format-masked-phone-number";
 export * from "./generate-secret-key";
 export * from "./format-rupiah";
+export * from "./create-initial-name";
+export * from "./update-chart-transaction";

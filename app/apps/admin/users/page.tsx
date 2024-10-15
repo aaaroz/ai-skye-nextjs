@@ -1,6 +1,10 @@
 import * as React from "react";
-import { NextPage } from "next";
+import { Metadata, NextPage } from "next";
 import { UsersPageModule } from "./_modules";
+
+export const metadata: Metadata = {
+  title: "Pengguna",
+};
 
 const UsersPage: NextPage = (): React.ReactElement => {
   return <UsersPageModule />;

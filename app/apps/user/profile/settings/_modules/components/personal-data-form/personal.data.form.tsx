@@ -18,8 +18,28 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { cn } from "@/libs/utils";
+import { useProfileData } from "@/libs/hooks";
+import { updateProfile, verifyOtpUpdateProfile } from "@/libs/actions";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+
+const payloadVerifyInit = {
+  userId: "",
+  enteredOtp: "",
+  oldPhoneNumber: "",
+};
 
 export const PersonalDataForm: React.FC = (): React.ReactElement => {
+  const [payloadVerify, setPayloadVerify] = React.useState(payloadVerifyInit);
+  const [isOpen, setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(personalDataSchema),
     defaultValues: {
@@ -30,16 +50,80 @@ export const PersonalDataForm: React.FC = (): React.ReactElement => {
       city: "",
     },
   });
+  const { profileData, toggleShouldFetchData } = useProfileData();
+  const onSubmit = async (values: TPersonalDataSchema) => {
+    try {
+      const res = await updateProfile(values);
+      if (res.status === "otp_required") {
+        toast.success("Anda mengubah nomor telepon anda!", {
+          description: res.message,
+        });
 
-  const onSubmit = (values: TPersonalDataSchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+        setPayloadVerify({
+          userId: res.userId as string,
+          enteredOtp: "",
+          oldPhoneNumber: res.oldPhoneNumber as string,
+        });
+        setIsOpen(true);
+      } else {
+        toast.success("Data profile berhasil diperbarui!");
+        toggleShouldFetchData(true);
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Terjadi kesalahan saat mengupdate profile", {
+        description: `${error}`,
+      });
+    }
   };
+
+  const handleSubmitOtp = async () => {
+    try {
+      setIsLoading(true);
+      const res = await verifyOtpUpdateProfile({
+        codeVerification: payloadVerify.enteredOtp,
+        userId: payloadVerify.userId,
+      });
+      toast.success("OTP telah diverifikasi, Nomor Telepon anda telah diubah", {
+        description: res,
+      });
+      toggleShouldFetchData(true);
+    } catch (error) {
+      console.error(error);
+      toast.error("Terjadi Kesalahan saat memverifikasi otp", {
+        description: `${error}`,
+      });
+    } finally {
+      setIsLoading(false);
+      setIsOpen(false);
+    }
+  };
+
+  const setValues = React.useCallback(() => {
+    if (profileData) {
+      form.setValue("fullName", profileData.name);
+      form.setValue("phoneNumber", profileData.phoneNumber);
+      form.setValue("position", profileData.jabatan);
+      form.setValue("company", profileData.perusahaan);
+      form.setValue("city", profileData.kota);
+      form.setValue(
+        "birthDate",
+        profileData.tempatTanggalLahir
+          ? new Date(profileData.tempatTanggalLahir)
+          : new Date()
+      );
+      form.setValue(
+        "avatar",
+        profileData?.image_url?.length > 0
+          ? profileData?.image_url
+          : "/avatars/avatar-male.png"
+      );
+    }
+  }, [form, profileData]);
+
+  React.useEffect(() => {
+    setValues();
+  }, [setValues]);
   return (
     <div className="p-4 md:p-6 space-y-4 md:space-y-6 rounded-md shadow-md bg-neutral-50 w-full h-fit lg:w-[40%]">
       <h1 className="text-xl md:text-2xl font-bold">Data Pribadi</h1>
@@ -221,13 +305,57 @@ export const PersonalDataForm: React.FC = (): React.ReactElement => {
             )}
           />
           <div className="w-full flex justify-end pt-2 gap-2">
-            <Button type="reset" variant="secondary" className="bg-neutral-200">
+            <Button
+              type="reset"
+              variant="secondary"
+              className="bg-neutral-200"
+              onClick={() => setValues()}
+            >
               Batalkan
             </Button>
-            <Button type="submit">Simpan</Button>
+            <Button type="submit" disabled={form.formState.isSubmitting}>
+              Simpan
+            </Button>
           </div>
         </form>
       </Form>
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Verifikasi OTP!</DialogTitle>
+            <DialogDescription>
+              Anda mengubah nomor telepon anda, silahkan buka WhatsApp nomor
+              telepon lama, kami telah mengirimkan OTP ke nomor tersebut.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="otp" className="text-right">
+              Kode OTP
+            </Label>
+            <Input
+              id="otp"
+              defaultValue="xxxxxx"
+              value={payloadVerify.enteredOtp}
+              onChange={(e) =>
+                setPayloadVerify({
+                  ...payloadVerify,
+                  enteredOtp: e.target.value,
+                })
+              }
+              className="col-span-3"
+            />
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              onClick={handleSubmitOtp}
+              disabled={isLoading}
+            >
+              Submit
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
