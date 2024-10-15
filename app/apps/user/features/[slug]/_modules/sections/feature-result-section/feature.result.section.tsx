@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { CopyIcon, Edit2Icon, EyeIcon, SaveIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useGenerateAI } from "@/libs/hooks";
+import { useGenerateAI, useProfileData } from "@/libs/hooks";
 import Markdown from "markdown-to-jsx";
 import MarkdownIt from "markdown-it";
 import { saveDocument } from "@/libs/actions";
@@ -21,28 +21,31 @@ export const FeatureResultSection: React.FC = (): React.ReactElement => {
   const { resultText, isGenerating, completionResponse, setResultText } =
     useGenerateAI();
 
+  const { toggleShouldFetchData } = useProfileData();
   const handleSaveDoc = async () => {
     try {
       setIsLoading(true);
       const res = await saveDocument(
         resultText,
         newTitle,
-        completionResponse?.categoryprompt as string,
+        completionResponse?.categoryname as string,
         completionResponse?.totalWordsGenerated as number
       );
       toast.success("Dokumen berhasil disimpan!", {
         description: res,
       });
       router.refresh();
+      toggleShouldFetchData(true);
     } catch (error) {
       console.error(error);
       toast.error("Terjadi kesalahan saat menyimpan dokumen", {
-        description: error as string,
+        description: "try again later!",
       });
     } finally {
       setIsLoading(false);
     }
   };
+
   React.useEffect(() => {
     if (completionResponse) {
       setNewTitle(completionResponse.featuresname as string);
@@ -99,7 +102,7 @@ export const FeatureResultSection: React.FC = (): React.ReactElement => {
                 },
               },
             }}
-            className="text-sm inline-flex space-y-2 min-h-[900px] w-full rounded-md p-4 text-muted-foreground whitespace-pre-line border border-neutral-200"
+            className="text-sm inline-flex flex-col space-y-2 min-h-[900px] w-full rounded-md p-4 text-muted-foreground border border-neutral-200"
           >
             {md.render(resultText)}
           </Markdown>

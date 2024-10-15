@@ -18,28 +18,98 @@ import { Separator } from "@/components/ui/separator";
 import { MinusIcon, PlusIcon } from "lucide-react";
 import { formatRupiah } from "@/libs/utils";
 import { topUpSchema, TTopUpSchema } from "@/libs/entities";
+import { useProfileData } from "@/libs/hooks";
+import { createPaymentMidtrans } from "@/libs/actions";
 
 const packagePrice = 10000;
 
 export const TopUpFormSection: React.FC = (): React.ReactElement => {
+  const [snapLoaded, setSnapLoaded] = React.useState(false);
+  const [snapToken, setSnapToken] = React.useState<string | null>(null);
+
+  const { profileData } = useProfileData();
   const form = useForm<TTopUpSchema>({
     resolver: zodResolver(topUpSchema),
     defaultValues: {
       email: "",
       qty: 1,
       total: 10000,
+      tax: 11,
     },
   });
 
-  const onSubmit = (values: TTopUpSchema) => {
-    toast("You submitted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const onSubmit = async (values: TTopUpSchema) => {
+    const payload = {
+      email: values.email,
+      firstName: profileData?.name.split(" ")[0] as string,
+      lastName: (profileData?.name.split(" ")[1] as string) || " ",
+      phone: profileData?.phoneNumber as string,
+      tax: values.tax,
+      items: [
+        {
+          id: "WPC-10K",
+          name: "Paket Hemat",
+          price: packagePrice,
+          quantity: values.qty,
+        },
+      ],
+    };
+
+    try {
+      const response = await createPaymentMidtrans(payload);
+      console.log(response);
+      const snapToken = response.body.token;
+      setSnapToken(snapToken);
+    } catch (error) {
+      console.error("Error during checkout:", error);
+      toast.error("Error during checkout:", {
+        description: error as string,
+      });
+    }
   };
+
+  React.useEffect(() => {
+    const snapScript = document.createElement("script");
+    snapScript.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    snapScript.setAttribute(
+      "data-client-key",
+      process.env.NEXT_PUBLIC_CLIENT_KEY as string
+    );
+    snapScript.async = true;
+
+    snapScript.onload = () => {
+      setSnapLoaded(true);
+    };
+
+    document.body.appendChild(snapScript);
+
+    return () => {
+      document.body.removeChild(snapScript);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    if (snapLoaded && snapToken) {
+      window.snap.pay(snapToken, {
+        onSuccess: function (result) {
+          console.log("Payment success:", result);
+          toast.success("Pembayaran Berhasil!");
+        },
+        onPending: function (result) {
+          console.log("Payment pending:", result);
+          toast.warning("Pembayaran Ditunda!");
+        },
+        onError: function (result) {
+          console.error("Payment failed:", result);
+          toast.error("Pembayaran Gagal!");
+        },
+        onClose: function () {
+          toast.warning("Pembayaran ditutup, tanpa memenuhi transaksi!");
+        },
+      });
+    }
+  }, [snapLoaded, snapToken]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -132,12 +202,13 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
                   </div>
                 </div>
                 <div className="flex justify-between w-full items-center">
-                  <p>Token</p>
+                  <p>Kata</p>
                   <strong>
                     {formatRupiah(packagePrice * form.watch("qty")).replace(
                       "Rp",
                       ""
-                    )}
+                    )}{" "}
+                    Kata
                   </strong>
                 </div>
                 <div className="flex justify-between w-full items-center">
@@ -146,9 +217,16 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
                 </div>
                 <div className="flex justify-between w-full items-center">
                   <p>
-                    Pajak <span className="text-neutral-200">{`(0%)`}</span>
+                    Pajak{" "}
+                    <span className="text-xs text-neutral-500">{`(${
+                      form.watch("tax") / 100
+                    }%)`}</span>
                   </p>
-                  <strong>{formatRupiah(0)}</strong>
+                  <strong>
+                    {formatRupiah(
+                      (form.watch("total") * form.watch("tax")) / 100
+                    )}
+                  </strong>
                 </div>
               </div>
               <Separator />
@@ -157,7 +235,10 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
                   Total Pembayaran
                 </h1>
                 <strong className="text-xl sm:text-2xl md:text-3xl text-sky-800">
-                  {formatRupiah(form.watch("total"))}
+                  {formatRupiah(
+                    form.watch("total") +
+                      (form.watch("total") * form.watch("tax")) / 100
+                  )}
                 </strong>
               </div>
             </div>

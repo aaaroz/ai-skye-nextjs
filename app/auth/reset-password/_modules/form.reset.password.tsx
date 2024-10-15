@@ -44,6 +44,10 @@ export const FormResetPassword: React.FC<{
       toast.error("Gagal mengubah password baru, silahkan coba lagi!", {
         description: (error as Error).message,
       });
+    } finally {
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      }
     }
   };
   return (

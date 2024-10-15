@@ -4,3 +4,5 @@ export * from "./profile";
 export * from "./document";
 export * from "./transaction";
 export * from "./generate-ai";
+export * from "./payment";
+export * from "./analytics";

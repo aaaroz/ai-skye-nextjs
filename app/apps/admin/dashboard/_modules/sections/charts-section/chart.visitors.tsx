@@ -1,5 +1,5 @@
 "use client";
-
+import * as React from "react";
 import { TrendingUp } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 
@@ -17,10 +17,18 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { getMonthlyVisitors } from "@/libs/actions";
+import { TMonthlyVisitorsCount } from "@/libs/actions/analytics/type";
 
 export const description = "A radial chart with stacked sections";
 
-const chartData = [{ month: "Oktober", desktop: 1260, mobile: 570 }];
+const chartData: TMonthlyVisitorsCount = [
+  {
+    month: "Oktober",
+    desktop: 1,
+    mobile: 1,
+  },
+];
 
 const chartConfig = {
   desktop: {
@@ -34,15 +42,28 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export const ChartVisitors = () => {
-  const totalVisitors = chartData[0].desktop + chartData[0].mobile;
+  const [totalVisitors, setTotalVisitors] = React.useState(0);
+  const fetchData = React.useCallback(async () => {
+    const visitors = await getMonthlyVisitors();
+    if (visitors) {
+      chartData[0].desktop = visitors[0].desktop;
+      chartData[0].mobile = visitors[0].mobile;
+      setTotalVisitors(visitors[0].desktop + visitors[0].mobile);
+    }
+  }, []);
 
+  React.useEffect(() => {
+    fetchData();
+  }, [fetchData]);
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle className="tex-tbase md:text-lg">
           Total Pengunjung Bulan ini
         </CardTitle>
-        <CardDescription>Oktober 2024</CardDescription>
+        <CardDescription>
+          {chartData[0]?.month} {new Date().getFullYear()}
+        </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-1 items-center pb-0">
         <ChartContainer

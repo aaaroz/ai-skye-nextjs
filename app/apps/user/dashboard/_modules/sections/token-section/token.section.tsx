@@ -26,7 +26,17 @@ const documentData = [
   },
 ];
 export const TokenSection: React.FC = (): React.ReactElement => {
-  const { profileData } = useProfileData();
+  const { profileData, documents } = useProfileData();
+  if(documents){
+    const countAllDocs = documents.length
+    const countTiktokDocs = documents.filter(document => document.category.toLowerCase() === "tiktok").length
+    const countInstagramDocs = documents.filter(document => document.category.toLowerCase()==='instagram').length
+    const countEcommerceDocs = documents.filter(document => document.category.toLowerCase()==='ecommerce').length
+    documentData[0].count = countAllDocs
+    documentData[1].count=countTiktokDocs
+    documentData[2].count=countInstagramDocs
+    documentData[3].count=countEcommerceDocs
+  }
   return (
     <section className="p-4 space-y-4 rounded-md bg-neutral-50">
       <div className="flex flex-col sm:flex-row items-center rounded-sm p-6 space-y-6 bg-sky-800">

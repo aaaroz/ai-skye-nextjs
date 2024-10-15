@@ -35,6 +35,9 @@ export type TProfileData = {
   kota: string;
   dokumenTersimpan: TDocument[];
   wordUsed: number;
+  wordUsedPerDay: {
+    [key: string]: number;
+  };
   updatedAt: string;
   perusahaan: string;
 };

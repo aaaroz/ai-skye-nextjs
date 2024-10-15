@@ -31,5 +31,5 @@ export const getUserTransactions = async () => {
     throw new Error("Something went wrong!");
   }
 
-  return res.body.transactions;
+  return res.body;
 };

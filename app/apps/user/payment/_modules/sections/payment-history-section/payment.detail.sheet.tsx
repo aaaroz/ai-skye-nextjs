@@ -16,8 +16,6 @@ import { Button } from "@/components/ui/button";
 import { cn, formatRupiah } from "@/libs/utils";
 import { TTransaction } from "@/libs/entities";
 import { getUserTransactionById } from "@/libs/actions";
-import { id } from "date-fns/locale";
-import { format } from "date-fns";
 
 interface PaymentDetailSheetTriggerProps {
   orderId: string;
@@ -38,12 +36,8 @@ export const PaymentDetailSheetTrigger: React.FC<
   if (!data) {
     return <PaymentDetailSheetFallback />;
   }
-  const date = new Date(data.updatedAt.replace(" UTC+07:00", ""));
   const dateValue = data.updatedAt
-    ? format(date, "dd MMMM yyyy", { locale: id })
-    : "-";
-  const timeValue = data.updatedAt
-    ? format(date, "K:mm aa", { locale: id })
+    ?data.updatedAt
     : "-";
 
   const firstName = data.first_name;
@@ -102,8 +96,7 @@ export const PaymentDetailSheetTrigger: React.FC<
               <strong className="w-[35%]">Tanggal Pembayaran</strong>
               {data.updatedAt ? (
                 <div className="flex flex-col">
-                  <strong>{dateValue}</strong>
-                  <span className="text-muted-foreground">{timeValue}</span>
+                  <span>{dateValue}</span>
                 </div>
               ) : (
                 <p>Belum dibayar</p>

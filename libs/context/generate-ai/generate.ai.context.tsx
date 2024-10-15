@@ -6,7 +6,7 @@ type TCompletionResponse = {
   isFinal?: boolean;
   success?: boolean;
   totalWordsGenerated?: number;
-  categoryprompt?: string;
+  categoryname?: string;
   featuresname?: string;
   newWordCredits?: number;
   newWordUsed?: number;

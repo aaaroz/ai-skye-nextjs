@@ -1,19 +1,22 @@
 "use server";
 import { auth } from "@/libs/auth";
 import { baseApiUrl, TFeatureAISchema } from "@/libs/entities";
+import { getFeatureBySlug } from "../feature";
+import { createSlug } from "@/libs/utils";
 
 export const generateAI = async ({
-  productCategory,
   featureName,
   prompt,
   maxToken,
   productName,
 }: TFeatureAISchema) => {
+  const feature = await getFeatureBySlug(createSlug(featureName));
   const session = await auth();
-  const token = session?.user.token;
-  if (!token) {
-    throw new Error("401 - Unauthorized!");
+  if (!session) {
+    throw new Error("404 - Unauthorized!");
   }
+
+  const token = session.user.token;
 
   const response = await fetch(`${baseApiUrl}/api/send-prompt`, {
     method: "POST",
@@ -22,7 +25,7 @@ export const generateAI = async ({
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify({
-      categoryprompt: productCategory,
+      categoryname: feature.categoryname,
       featuresname: featureName,
       prompt: prompt,
       max_words: maxToken,
@@ -38,29 +41,5 @@ export const generateAI = async ({
     throw new Error("Response body is null, unable to read stream.");
   }
 
-  let { value, done } = await reader.read();
-  const decoder = new TextDecoder("utf-8");
-  let resultText = ""; // Final message to store for logging
-
-  while (!done) {
-    const chunk = decoder.decode(value, { stream: true });
-    const messages = chunk.match(/{.*?}/g); // Match JSON objects
-    if (messages) {
-      messages.forEach((message) => {
-        const msgObj = JSON.parse(message);
-
-        // Only show each word, not the final message
-        if (!msgObj.success) {
-          resultText += msgObj.message + " "; // Append the message content
-        } else {
-          // Store the final combined message for logging (don't show in UI)
-          resultText = msgObj.message;
-        }
-      });
-    }
-
-    ({ value, done } = await reader.read());
-  }
-
-  return resultText;
+  return reader;
 };

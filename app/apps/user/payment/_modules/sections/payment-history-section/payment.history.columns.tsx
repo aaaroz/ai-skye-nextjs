@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/libs/utils";
 import { TTransaction } from "@/libs/entities";
-import { format } from "date-fns";
-import { id } from "date-fns/locale";
 
 export const paymentColumns: ColumnDef<TTransaction>[] = [
   {
@@ -53,13 +51,17 @@ export const paymentColumns: ColumnDef<TTransaction>[] = [
           ? "Berhasil"
           : row.getValue("status") === "pending"
           ? "Ditunda"
+          : row.getValue("status") === "expire"
+          ? "Terlewat"
           : "Gagal";
+
       const badgeClassName = {
         "bg-green-100 text-green-600 hover:bg-green-100/80":
           value === "Berhasil",
         "bg-yellow-100 text-yellow-600 hover:bg-yellow-100/80":
           value === "Ditunda",
-        "bg-red-100 text-red-600 hover:bg-red-100/80": value === "Gagal",
+        "bg-red-100 text-red-600 hover:bg-red-100/80":
+          value === "Gagal" || value === "Terlewat",
       };
       return (
         <Badge variant="default" className={cn(badgeClassName)}>
@@ -84,14 +86,10 @@ export const paymentColumns: ColumnDef<TTransaction>[] = [
     },
     cell: ({ row }) => {
       const rawValue = row.getValue("createdAt") as string;
-      const date = new Date(rawValue.replace(" UTC+07:00", ""));
-      const formattedDate = format(date, "dd MMMM yyyy", { locale: id });
-      const formattedTime = format(date, "K:mm aa", { locale: id });
 
       return (
         <div className="flex flex-col">
-          <strong>{formattedDate}</strong>
-          <span className="text-muted-foreground">{formattedTime}</span>
+          <span>{rawValue}</span>
         </div>
       );
     },

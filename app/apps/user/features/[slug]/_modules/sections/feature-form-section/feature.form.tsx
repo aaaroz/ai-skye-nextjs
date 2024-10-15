@@ -27,6 +27,8 @@ import { toast } from "sonner";
 import { useGenerateAI } from "@/libs/hooks";
 import { getSession } from "next-auth/react";
 import { Loader2Icon } from "lucide-react";
+import { createSlug } from "@/libs/utils";
+import { getFeatureBySlug } from "@/libs/actions";
 
 const emptyPrompt: TPrompt = {
   nameprompt: "",
@@ -58,6 +60,7 @@ export const FeatureForm: React.FC<{
   const onSubmit = async (values: TFeatureAISchema) => {
     try {
       setIsGenerating(true);
+      const feature = await getFeatureBySlug(createSlug(values.featureName));
       const session = await getSession();
       if (!session) {
         throw new Error("404 - Unauthorized!");
@@ -74,7 +77,7 @@ export const FeatureForm: React.FC<{
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            categoryprompt: values.productCategory,
+            categoryname: feature.categoryname,
             featuresname: values.featureName,
             prompt: values.prompt,
             max_words: values.maxToken,
@@ -87,6 +90,7 @@ export const FeatureForm: React.FC<{
         throw new Error(response.statusText);
       }
       const reader = response.body ? response.body.getReader() : null;
+
       if (!reader) {
         throw new Error("Response body is null, unable to read stream.");
       }
@@ -107,19 +111,20 @@ export const FeatureForm: React.FC<{
               setResultText((prev) => prev + msgObj.message + " "); // Append the message content
             } else {
               combinedMessage = msgObj.message;
-              setCompletionResponse(msgObj);
               setResultText(combinedMessage);
+              setCompletionResponse(msgObj);
             }
           });
         }
-
         ({ value, done } = await reader.read());
       }
 
       toast.success("Response AI Telah didapatkan!");
     } catch (error) {
       console.error("Error:", error);
-      setResultText(`Error: ${error as string}`);
+      toast.error("Gagal Mendapatkan respon AI", {
+        description: error as string,
+      });
     } finally {
       setIsGenerating(false);
     }

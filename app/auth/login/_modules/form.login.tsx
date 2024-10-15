@@ -49,6 +49,10 @@ export const FormLogin: React.FC = (): React.ReactElement => {
       toast.error("Login gagal, silahkan coba lagi!", {
         description: (error as Error).message,
       });
+    }finally{
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
     }
   };
 

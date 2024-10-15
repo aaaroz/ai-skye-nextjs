@@ -63,6 +63,10 @@ export const FormVerify: React.FC<{
       });
     } finally {
       await removeDataRegisterFromCookie();
+
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      }
     }
   };
 

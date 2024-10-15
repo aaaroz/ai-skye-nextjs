@@ -43,13 +43,12 @@ const emptyTransactions: TTransaction[] = [
 ];
 
 export const PaymentHistorySection: React.FC = (): React.ReactElement => {
-  const [paymentData, setPaymentData] = React.useState<TTransaction[] | null>(
-    null
-  );
+  const [paymentData, setPaymentData] = React.useState<TTransaction[]>([]);
 
   const fetchData = React.useCallback(async () => {
     const payment = await getUserTransactions();
-    setPaymentData(payment);
+
+    setPaymentData(payment.transactions as TTransaction[]);
   }, []);
 
   React.useEffect(() => {

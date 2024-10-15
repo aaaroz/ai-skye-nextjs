@@ -1,7 +1,7 @@
 "use client";
 import * as React from "react";
 import { TProfileContextProvider } from "./type";
-import { TProfileData } from "@/libs/entities";
+import { TDocument, TProfileData } from "@/libs/entities";
 import { getProfile } from "@/libs/actions";
 import { useSession } from "next-auth/react";
 import { ProfileContext } from "./profile.context";
@@ -12,6 +12,7 @@ export const ProfileContextProvider = ({
   const [profileData, setProfileData] = React.useState<TProfileData | null>(
     null
   );
+  const [documents, setDocuments] = React.useState<TDocument[]>([]);
   const [shouldFetchData, toggleShouldFetchData] =
     React.useState<boolean>(false);
   const { data } = useSession();
@@ -19,9 +20,10 @@ export const ProfileContextProvider = ({
   const fetchProfile = React.useCallback(async () => {
     if (data) {
       const res = await getProfile(data?.user.id);
+      setDocuments(res.dokumenTersimpan);
       setProfileData(res);
     }
-  }, [data]);
+  }, [data, setProfileData, setDocuments]);
 
   React.useEffect(() => {
     if (shouldFetchData) {
@@ -37,6 +39,8 @@ export const ProfileContextProvider = ({
         setProfileData,
         shouldFetchData,
         toggleShouldFetchData,
+        documents,
+        setDocuments,
       }}
     >
       {children}
