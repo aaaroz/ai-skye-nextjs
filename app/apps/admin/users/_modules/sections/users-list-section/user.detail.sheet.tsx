@@ -10,23 +10,26 @@ import {
 } from "@/components/ui/sheet";
 import { ActionButton } from "@/components/dashboard-page";
 import { FileTextIcon } from "lucide-react";
-import { userData } from "./users.columns";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { UserDeleteTrigger } from "./user.delete.dialog";
 import { Button } from "@/components/ui/button";
+import { TUserAdminDashboard } from "@/libs/actions/users/type";
+import { createInitialName } from "@/libs/utils";
 
 interface UserDetailSheetTriggerProps {
   id: string;
+  userData: TUserAdminDashboard[];
 }
 export const UserDetailSheetTrigger: React.FC<UserDetailSheetTriggerProps> = ({
   id,
+  userData,
 }): React.ReactElement => {
   const data = userData.find((item) => item.id === id);
   if (!data) {
     return <UserDetailSheetFallback />;
   }
-  const initialName = data.name.split(" ")[0][0] + data.name.split(" ")[1][0];
+  const initialName = createInitialName(data.name);
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -43,7 +46,9 @@ export const UserDetailSheetTrigger: React.FC<UserDetailSheetTriggerProps> = ({
           <div className="w-full flex flex-col space-y-0.5 py-4 items-center">
             <Avatar className="size-14">
               <AvatarFallback>{initialName}</AvatarFallback>
-              <AvatarImage src={data.imgUrl} />
+              <AvatarImage
+                src={data.imgUrl ? data.imgUrl : "/avatars/avatar-male.png"}
+              />
             </Avatar>
             <h1 className="text-lg md:text-xl font-semibold">{data.name}</h1>
             <h2 className="text-sm md:text-base text-muted-foreground">
@@ -65,19 +70,19 @@ export const UserDetailSheetTrigger: React.FC<UserDetailSheetTriggerProps> = ({
             </div>
             <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
               <strong className="w-[35%]">Jabatan</strong>
-              <p>{data.position}</p>
+              <p>{data.position || '-'}</p>
             </div>
             <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
               <strong className="w-[35%]">Perusahaan</strong>
-              <p>Skye Digipreneur</p>
+              <p>{data.company || '-'}</p>
             </div>
             <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
               <strong className="w-[35%]">Kota</strong>
-              <p>Bandung</p>
+              <p>{data.city || '-'}</p>
             </div>
             <div className="flex items-center gap-8 text-sm justify-start py-2 border-b border-neutral-200">
               <strong className="w-[35%]">Tanggal Lahir</strong>
-              <p>-</p>
+              <p>{data.birthDate}</p>
             </div>
           </div>
           <div className="w-full flex justify-end items-center gap-2 my-4">

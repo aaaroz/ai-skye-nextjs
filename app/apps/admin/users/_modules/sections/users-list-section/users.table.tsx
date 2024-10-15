@@ -23,15 +23,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { UsersTablePagination } from "./users.table.pagination";
 import { UserDetailSheetTrigger } from "./user.detail.sheet";
-import { TUser } from "./users.columns";
 import { UserDeleteTrigger } from "./user.delete.dialog";
+import { TUserAdminDashboard } from "@/libs/actions/users/type";
 
 interface UsersTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
 }
 
-export const UsersTable = <TData extends TUser, TValue>({
+export const UsersTable = <TData extends TUserAdminDashboard, TValue>({
   columns,
   data,
 }: UsersTableProps<TData, TValue>): React.ReactElement => {
@@ -104,7 +104,7 @@ export const UsersTable = <TData extends TUser, TValue>({
                   ))}
                   <TableCell>
                     <div className="flex gap-2">
-                      <UserDetailSheetTrigger id={row.original.id} />
+                      <UserDetailSheetTrigger id={row.original.id} userData={data}/>
                       <UserDeleteTrigger id={row.original.id} />
                     </div>
                   </TableCell>

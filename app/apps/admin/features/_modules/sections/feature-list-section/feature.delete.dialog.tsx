@@ -40,6 +40,7 @@ export const FeatureDeleteTrigger: React.FC<FeatureDeleteTriggerProps> = ({
       });
     } finally {
       setIsLoading(false);
+      setIsOpen(false);
     }
   };
   return (
@@ -63,7 +64,7 @@ export const FeatureDeleteTrigger: React.FC<FeatureDeleteTriggerProps> = ({
             <Button
               variant="destructive"
               onClick={handleDelete}
-              title="Hapus"
+              title="Hapus Fitur"
               disabled={isLoading}
             >
               Ya, saya yakin!

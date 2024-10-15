@@ -1,11 +1,25 @@
+'use client'
 import * as React from "react";
 import { Users2Icon } from "lucide-react";
 import { HeadingWithIcon } from "@/components/dashboard-page";
 import { Separator } from "@/components/ui/separator";
 import { UsersTable } from "./users.table";
-import { userColumns, userData } from "./users.columns";
+import { userColumns } from "./users.columns";
+import { TUserAdminDashboard } from "@/libs/actions/users/type";
+import { getAllUsers } from "@/libs/actions";
 
 export const UsersListSection: React.FC = (): React.ReactElement => {
+  const [userData,setUserData]=React.useState<TUserAdminDashboard[]>([])
+  
+  const fetchData = React.useCallback(async ()=>{
+    const userData = await getAllUsers()
+    setUserData(userData)
+  },[])
+
+  React.useEffect(()=>{
+    fetchData()
+  },[fetchData])
+
   return (
     <section className="p-4 md:p-6 space-y-6 rounded-md bg-neutral-50">
       <HeadingWithIcon

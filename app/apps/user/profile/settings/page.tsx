@@ -1,6 +1,10 @@
 import * as React from "react";
-import { NextPage } from "next";
+import { Metadata, NextPage } from "next";
 import { ProfileSettingsPageModule } from "./_modules";
+
+export const metadata: Metadata = {
+  title: "Pengaturan Akun",
+};
 
 
 const ProfileSettingsPage: NextPage = (): React.ReactElement => {

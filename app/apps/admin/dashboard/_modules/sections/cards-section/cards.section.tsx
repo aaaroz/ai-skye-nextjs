@@ -3,7 +3,7 @@ import * as React from "react";
 import { cardData } from "./card-data";
 import { CardItem } from "./card-item";
 import { useAdminDashboard, useFeatures } from "@/libs/hooks";
-import { getTotalVisitors } from "@/libs/actions";
+import { getTotalUsers, getTotalVisitors } from "@/libs/actions";
 import { TTransactionAdmin } from "@/libs/actions/transaction/type";
 
 export const CardsSection: React.FC = (): React.ReactElement => {
@@ -22,6 +22,10 @@ export const CardsSection: React.FC = (): React.ReactElement => {
   }
 
   const fetchData = React.useCallback(async () => {
+    const totalUsers = await getTotalUsers();
+    if (totalUsers) {
+      cardData[2].count = totalUsers;
+    }
     const visitors = await getTotalVisitors();
     if (visitors) {
       cardData[3].count = visitors.desktop + visitors.mobile;

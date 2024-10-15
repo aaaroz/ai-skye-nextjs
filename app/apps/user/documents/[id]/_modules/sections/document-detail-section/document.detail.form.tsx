@@ -83,7 +83,7 @@ export const DocumentDetailForm: React.FC<DocumentDetailFormProps> = ({
         {isEditing ? (
           <Textarea
             value={value.text}
-            className="min-h-[400px]"
+            className="min-h-[800px]"
             onChange={(e) => setValue({ ...value, text: e.target.value })}
             disabled={isLoading}
           />
@@ -98,7 +98,7 @@ export const DocumentDetailForm: React.FC<DocumentDetailFormProps> = ({
                 },
               },
             }}
-            className="text-sm space-y-2 rounded-md p-4 text-muted-foreground whitespace-pre-line border border-neutral-200"
+            className="text-sm min-h-[800px] space-y-2 rounded-md p-4 text-muted-foreground whitespace-pre-line border border-neutral-200"
           >
             {md.render(value.text)}
           </Markdown>

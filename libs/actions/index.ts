@@ -6,3 +6,4 @@ export * from "./transaction";
 export * from "./generate-ai";
 export * from "./payment";
 export * from "./analytics";
+export * from './users'

@@ -48,7 +48,7 @@ export const DocumentListSection: React.FC = (): React.ReactElement => {
           data={profileData?.dokumenTersimpan as TDocument[]}
         />
       ) : (
-        <DocumentTable columns={documentColumnSkeleton} data={skeletonData} />
+        <DocumentTable columns={documentColumnSkeleton} data={skeletonData} isSkeleton/>
       )}
     </section>
   );

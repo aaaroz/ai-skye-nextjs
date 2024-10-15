@@ -5,7 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/libs/utils";
+import { cn, formatRupiah } from "@/libs/utils";
 import { TTransactionAdmin } from "@/libs/actions/transaction/type";
 
 // export const transactionData: TTransaction[] = [
@@ -172,6 +172,9 @@ export const transactionColumns: ColumnDef<TTransactionAdmin>[] = [
           <ArrowUpDown className="ml-2 size-3 shrink-0" />
         </Button>
       );
+    },
+    cell: ({ row }) => {
+      return <strong>{formatRupiah(row.getValue("gross_amount"))}</strong>;
     },
   },
 ];

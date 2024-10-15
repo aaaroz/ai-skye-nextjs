@@ -1,6 +1,5 @@
 "use client";
 import * as React from "react";
-import { TrendingUp } from "lucide-react";
 import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
 
 import {
@@ -125,7 +124,7 @@ export const ChartVisitors = () => {
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="flex items-center gap-2 font-medium leading-none">
-          Meningkat 5.2% bulan ini <TrendingUp className="h-4 w-4" />
+          Menampilkan total pengunjung bulan ini
         </div>
       </CardFooter>
     </Card>

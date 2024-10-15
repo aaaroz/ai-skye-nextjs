@@ -5,6 +5,7 @@ import {
   CpuIcon,
   FileIcon,
   FolderIcon,
+  LoaderIcon,
   SearchIcon,
   Settings,
   User,
@@ -25,16 +26,15 @@ import {
   dashboardUserAccountItems,
   dashboardUserMenuItems,
   dashboardUserRoute,
-  documentData,
-  dummyFeatures,
 } from "@/libs/entities";
 import { useRouter } from "next/navigation";
-import { useProfileData } from "@/libs/hooks";
+import { useFeatures, useProfileData } from "@/libs/hooks";
 import { cn } from "@/libs/utils";
 
 export const SearchCommandDialog = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { profileData } = useProfileData();
+  const { features } = useFeatures();
   const router = useRouter();
 
   React.useEffect(() => {
@@ -98,29 +98,36 @@ export const SearchCommandDialog = () => {
             </CommandItem>
           </CommandGroup>
           <CommandGroup heading="AI Generator">
-            {dummyFeatures.map(({ title, id }) => (
-              <CommandItem
-                key={id}
-                value={title}
-                title={title}
-                onSelect={() =>
-                  runCommand(() =>
-                    router.push(dashboardUserRoute.concat(`features/${id}`))
-                  )
-                }
-              >
-                <CpuIcon className="mr-2 h-4 w-4" />
-                <span>{title}</span>
+            {features ? (
+              features.map(({ featuresname, slug }) => (
+                <CommandItem
+                  key={slug}
+                  value={`Fitur ${featuresname}`}
+                  title={`Fitur ${featuresname}`}
+                  onSelect={() =>
+                    runCommand(() =>
+                      router.push(dashboardUserRoute.concat(`features/${slug}`))
+                    )
+                  }
+                >
+                  <CpuIcon className="mr-2 h-4 w-4" />
+                  <span className="line-clamp-1">{featuresname}</span>
+                </CommandItem>
+              ))
+            ) : (
+              <CommandItem value="Loading..." title="Loading..." disabled>
+                <LoaderIcon className="mr-2 h-4 w-4 animate-spin" />
+                <span>Loading...</span>
               </CommandItem>
-            ))}
+            )}
           </CommandGroup>
           <CommandGroup heading="Dokumen saya">
-            {documentData.length > 0 ? (
-              documentData.map(({ title, id }) => (
+            {profileData && profileData?.dokumenTersimpan.length > 0 ? (
+              profileData?.dokumenTersimpan.map(({ title, id }) => (
                 <CommandItem
                   key={id}
-                  value={title}
-                  title={title}
+                  value={`dokumen ${title}`}
+                  title={`dokumen ${title}`}
                   onSelect={() =>
                     runCommand(() =>
                       router.push(dashboardUserRoute.concat(`documents/${id}`))
@@ -128,11 +135,15 @@ export const SearchCommandDialog = () => {
                   }
                 >
                   <FolderIcon className="mr-2 h-4 w-4" />
-                  <span>{title}</span>
+                  <span className="line-clamp-1">{title}</span>
                 </CommandItem>
               ))
             ) : (
-              <CommandItem value="Belum ada dokumen" title="Belum ada dokumen">
+              <CommandItem
+                value="Belum ada dokumen"
+                title="Belum ada dokumen"
+                disabled
+              >
                 <X className="mr-2 h-4 w-4" />
                 <span>Belum ada dokumen</span>
               </CommandItem>

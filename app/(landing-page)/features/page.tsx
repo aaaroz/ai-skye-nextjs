@@ -1,6 +1,10 @@
 import * as React from "react";
-import { NextPage } from "next";
 import { FeaturesPageModule } from "./_modules";
+import { Metadata, NextPage } from "next";
+
+export const metadata: Metadata = {
+  title: "Fitur AI",
+};
 
 const FeaturesPage: NextPage = (): React.ReactElement => {
   return <FeaturesPageModule />;

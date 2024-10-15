@@ -14,6 +14,8 @@ import { ActionButton } from "@/components/dashboard-page";
 import { Trash2Icon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useProfileData } from "@/libs/hooks";
+import { deleteDocument } from "@/libs/actions/document/delete-document";
 
 interface DocumentDeleteTriggerProps {
   id: string;
@@ -22,15 +24,24 @@ export const DocumentDeleteTrigger: React.FC<DocumentDeleteTriggerProps> = ({
   id,
 }): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const { toggleShouldFetchData } = useProfileData();
 
-  const handleDelete = () => {
-    toast("You deleted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(id, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+      await deleteDocument(id);
+      toast.success("Dokumen telah dihapus!");
+      toggleShouldFetchData(true);
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal menghapus dokumen!", {
+        description: `${error}`,
+      });
+    } finally {
+      setIsOpen(false);
+      setIsLoading(false);
+    }
   };
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -51,7 +62,12 @@ export const DocumentDeleteTrigger: React.FC<DocumentDeleteTriggerProps> = ({
             <DialogClose asChild>
               <Button variant="default">Tidak, kembali</Button>
             </DialogClose>
-            <Button variant="destructive" onClick={handleDelete}>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              title="Hapus Dokumen"
+              disabled={isLoading}
+            >
               Ya, saya yakin!
             </Button>
           </DialogFooter>

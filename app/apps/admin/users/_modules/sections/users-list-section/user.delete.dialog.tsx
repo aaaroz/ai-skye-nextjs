@@ -14,6 +14,7 @@ import { ActionButton } from "@/components/dashboard-page";
 import { AlertCircleIcon, UserXIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { blockUser } from "@/libs/actions";
 
 interface UserDeleteTriggerProps {
   id: string;
@@ -24,15 +25,24 @@ export const UserDeleteTrigger: React.FC<UserDeleteTriggerProps> = ({
   isOnSheet,
 }): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
 
-  const handleDelete = () => {
-    toast("You deleted the following values:", {
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-neutral-800 p-4">
-          <code className="text-white">{JSON.stringify(id, null, 2)}</code>
-        </pre>
-      ),
-    });
+  const handleDelete = async () => {
+    try {
+      setIsLoading(true);
+      const res = await blockUser(id);
+      toast.success("Pengguna telah diblokir!", {
+        description: res,
+      });
+    } catch (error) {
+      console.error(error);
+      toast.error("Gagal memblokir Pengguna!", {
+        description: `${error}`,
+      });
+    } finally {
+      setIsLoading(false);
+      setIsOpen(false);
+    }
   };
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -40,7 +50,7 @@ export const UserDeleteTrigger: React.FC<UserDeleteTriggerProps> = ({
         {isOnSheet ? (
           <Button className="shrink-0" variant="destructive">
             <AlertCircleIcon size={16} className="mr-2.5" />
-            Hapus Pengguna
+            Block Pengguna
           </Button>
         ) : (
           <ActionButton className="shrink-0" variant="destructive">
@@ -52,15 +62,18 @@ export const UserDeleteTrigger: React.FC<UserDeleteTriggerProps> = ({
         <DialogHeader>
           <DialogTitle>Apakah anda yakin?</DialogTitle>
           <DialogDescription>
-            Data pengguna yang telah dihapus, tidak dapat dikembalikan secara
-            permanen dan semua data yang terkait dengan pengguna ini akan
-            dihapus. Apakah anda yakin ingin menghapus nya?
+            Pengguna yang telah di block tidak dapat masuk kembali ke dashboard kontenkilat, dan tidak dapat membuat akun kembali dengan nomor telepon yang sama, apakah anda yakin ingin mem-block pengguna ini?
           </DialogDescription>
           <DialogFooter className="flex gap-2 py-2">
             <DialogClose asChild>
               <Button variant="default">Tidak, kembali</Button>
             </DialogClose>
-            <Button variant="destructive" onClick={handleDelete} title="Hapus">
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              title="Block Pengguna ini"
+              disabled={isLoading}
+            >
               Ya, saya yakin!
             </Button>
           </DialogFooter>

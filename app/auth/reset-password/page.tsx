@@ -2,7 +2,13 @@ import * as React from "react";
 import { ResetPasswordPageModule } from "./_modules";
 import { LoaderIcon } from "lucide-react";
 
-const ResetPasswordPage: React.FC = (): React.ReactElement => {
+import { Metadata, NextPage } from "next";
+
+export const metadata: Metadata = {
+  title: "Ganti Kata Sandi Baru",
+};
+
+const ResetPasswordPage: NextPage = (): React.ReactElement => {
   return (
     <React.Suspense
       fallback={

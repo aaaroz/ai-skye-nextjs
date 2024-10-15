@@ -1,6 +1,10 @@
 import * as React from "react";
-import { NextPage } from "next";
 import { DocumentsPageModule } from "./_modules";
+import { Metadata, NextPage } from "next";
+
+export const metadata: Metadata = {
+  title: "Semua Dokumen",
+};
 
 
 const DocumentsPage: NextPage = (): React.ReactElement => {

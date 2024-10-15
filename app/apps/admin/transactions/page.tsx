@@ -1,7 +1,10 @@
 import * as React from "react";
-import { NextPage } from "next";
 import { TransactionPageModule } from "./_modules";
+import { Metadata, NextPage } from "next";
 
+export const metadata: Metadata = {
+  title: "Semua Transaksi",
+};
 
 const TransactionPage: NextPage = (): React.ReactElement => {
   return <TransactionPageModule />;
