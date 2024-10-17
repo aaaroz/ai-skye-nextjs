@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { FilePlusIcon } from "lucide-react";
+import { AlertCircleIcon, FilePlusIcon } from "lucide-react";
 import * as papa from "papaparse";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,6 +36,12 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import {
+  TooltipContent,
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface AddPromptDialogTriggerProps {
   onCreatePrompt: (values: TPromptSchema) => void;
@@ -79,7 +85,7 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
       });
       setIsOpen(false);
     }
-  }, [importedData,onCreatePrompt]);
+  }, [importedData, onCreatePrompt]);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -101,7 +107,24 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
           </DialogDescription>
         </DialogHeader>
         <div className="space-x-2 items-center flex">
-          <Label>Import prompt via csv</Label>
+          <Label htmlFor="import-prompt" className="flex items-center">
+            Import prompt via csv{" "}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <AlertCircleIcon size={16} className="shrink-0" />
+                </TooltipTrigger>
+                <TooltipContent className="text-xs space-y-2 max-w-xs">
+                  <p>Example CSV format</p>
+                  <Separator />
+                  <p>categoryprompt,nameprompt,prompt</p>
+                  <p>{`example category, nama prompt, isi prompt`}</p>
+                  <Separator />
+                  <p className="text-muted-foreground">{`Tambahkan {NamaProduk} beserta symbol tutup kurung-nya untuk mengenerate nama produk kedalam prompt`}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </Label>
           <Input
             name="import-prompt"
             accept=".csv"
