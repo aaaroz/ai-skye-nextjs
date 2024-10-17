@@ -18,6 +18,7 @@ const inter = localFont({
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl || ""),
   title: {
     template: "%s - KontenKilat",
     default: "KontenKilat",
