@@ -63,8 +63,10 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
 
     try {
       const response = await createPaymentMidtrans(payload);
-      const snapToken = response.body.token;
-      setSnapToken(snapToken);
+      if(response.body){
+        const snapToken = response.body.token;
+        setSnapToken(snapToken);
+      }
     } catch (error) {
       console.error("Error during checkout:", error);
       toast.error("Error during checkout:", {
@@ -75,10 +77,10 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
 
   React.useEffect(() => {
     const snapScript = document.createElement("script");
-    snapScript.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    snapScript.src = process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL as string;
     snapScript.setAttribute(
       "data-client-key",
-      process.env.NEXT_PUBLIC_CLIENT_KEY as string
+      process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY as string
     );
     snapScript.async = true;
 

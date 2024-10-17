@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import * as React from "react";
 import {
@@ -16,13 +15,11 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { cn, formatRupiah } from "@/libs/utils";
 import { TTransaction } from "@/libs/entities";
-import { createPaymentMidtrans, getUserTransactionById } from "@/libs/actions";
+import { getPaymentMidtrans, getUserTransactionById } from "@/libs/actions";
 import { PaymentNotificationDialog } from "../../../top-up/_modules/sections/top-up-form-section/payment.notification.dialog";
 import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-const packagePrice = 10000;
-const defaultTax = 11;
 interface PaymentDetailSheetTriggerProps {
   orderId: string;
 }
@@ -34,6 +31,7 @@ export const PaymentDetailSheetTrigger: React.FC<
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [isFailed, setIsFailed] = React.useState(false);
   const [isPending, setIsPending] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [snapToken, setSnapToken] = React.useState<string | null>(null);
   const searchParams = useSearchParams();
 
@@ -44,10 +42,10 @@ export const PaymentDetailSheetTrigger: React.FC<
 
   React.useEffect(() => {
     const snapScript = document.createElement("script");
-    snapScript.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    snapScript.src = process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL as string;
     snapScript.setAttribute(
       "data-client-key",
-      process.env.NEXT_PUBLIC_CLIENT_KEY as string
+      process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY as string
     );
     snapScript.async = true;
 
@@ -100,34 +98,23 @@ export const PaymentDetailSheetTrigger: React.FC<
   if (!data) {
     return <PaymentDetailSheetFallback />;
   }
-  // const onSubmit = async () => {
-  //   const payload = {
-  //     email: data.email,
-  //     firstName: data.first_name,
-  //     lastName: data.last_name || " ",
-  //     phone: data?.phone,
-  //     tax: defaultTax,
-  //     items: [
-  //       {
-  //         id: "WPC-10K",
-  //         name: "Paket Hemat",
-  //         price: packagePrice,
-  //         quantity: data.packagename.match(/\d+/),
-  //       },
-  //     ],
-  //   };
-
-  //   try {
-  //     const response = await createPaymentMidtrans(payload);
-  //     const snapToken = response.body.token;
-  //     setSnapToken(snapToken);
-  //   } catch (error) {
-  //     console.error("Terjadi kesalahan saat melakukan pembayaran", error);
-  //     toast.error("Terjadi kesalahan saat melakukan pembayaran", {
-  //       description: error as string,
-  //     });
-  //   }
-  // };
+  const handlePayment = async () => {
+    try {
+      setIsLoading(true);
+      const response = await getPaymentMidtrans(data.order_id);
+      const snapToken = response.token;
+      if (snapToken) {
+        setSnapToken(snapToken as string);
+      }
+    } catch (error) {
+      console.error("Terjadi kesalahan saat melakukan pembayaran", error);
+      toast.error("Terjadi kesalahan saat melakukan pembayaran", {
+        description: error as string,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
   const dateValue = data.updatedAt ? data.updatedAt : "-";
 
   const firstName = data.first_name;
@@ -154,7 +141,7 @@ export const PaymentDetailSheetTrigger: React.FC<
               <TransactionStatus status={data.status} />
             </div>
             <Separator />
-            <h1 className="text-base md:text-lg font-semibold py-4">
+            <h1 className="text-base md:text-lg font-semibold py-2">
               Informasi Pelanggan
             </h1>
             <div className="space-y-2">
@@ -167,7 +154,7 @@ export const PaymentDetailSheetTrigger: React.FC<
                 <p>{data.phone}</p>
               </div>
             </div>
-            <h1 className="text-base md:text-lg font-semibold py-4">
+            <h1 className="text-base md:text-lg font-semibold py-2">
               Informasi Pembayaran
             </h1>
             <div className="space-y-2">
@@ -181,7 +168,7 @@ export const PaymentDetailSheetTrigger: React.FC<
               </div>
               <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
                 <strong className="w-[35%]">Metode Pembayaran</strong>
-                <p>{data.payment_type}</p>
+                <p>{data.payment_type.toUpperCase()}</p>
               </div>
               <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
                 <strong className="w-[35%]">Tanggal Pembayaran</strong>
@@ -195,7 +182,7 @@ export const PaymentDetailSheetTrigger: React.FC<
               </div>
               <div className="flex items-center gap-8 text-sm py-1.5 justify-start border-b border-neutral-200">
                 <strong className="w-[35%]">Jumlah</strong>
-                <p className="text-2xl md:text-3xl font-bold text-sky-800">
+                <p className="text-xl md:text-2xl font-bold text-sky-800">
                   {formatRupiah(data.gross_amount)}
                 </p>
               </div>
@@ -203,7 +190,9 @@ export const PaymentDetailSheetTrigger: React.FC<
             <div className="w-full flex justify-end items-end gap-2 my-4">
               {/* <Button variant="outline">Lihat Invoice</Button> */}
               {data.status === "pending" ? (
-                <Button>Bayar Sekarang</Button>
+                <Button onClick={handlePayment} disabled={isLoading}>
+                  Bayar Sekarang
+                </Button>
               ) : (
                 <SheetClose asChild>
                   <Button>Tutup</Button>
@@ -218,13 +207,11 @@ export const PaymentDetailSheetTrigger: React.FC<
         open={isSuccess}
         onOpenChange={setIsSuccess}
       />
-
       <PaymentNotificationDialog
         state="pending"
         open={isPending}
         onOpenChange={setIsPending}
       />
-
       <PaymentNotificationDialog
         state="failed"
         open={isFailed}
