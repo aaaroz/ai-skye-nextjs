@@ -3,7 +3,7 @@ import { getAllFeatures } from "@/libs/actions";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const response = await getAllFeatures();
-  const urlProd = "https://kontenkilat.id";
+  const urlProd = "https://www.kontenkilat.id";
 
   const featuresRoute = response.map(({ slug }) => {
     return {
