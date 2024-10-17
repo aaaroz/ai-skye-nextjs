@@ -22,7 +22,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
 }): React.ReactElement => {
   const slug = createSlug(title);
   return (
-    <Card className="w-full shadow-lg">
+    <Card className="w-full h-fit shadow-lg">
       <CardHeader className="w-full">
         <div className="py-2 rounded bg-gradient-to-l from-sky-800 via-sky-100 to-transparent">
           <CardTitle className="text-xl">{title}</CardTitle>

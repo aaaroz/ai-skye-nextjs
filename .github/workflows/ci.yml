@@ -22,6 +22,7 @@ jobs:
       NEXT_FIREBASE_STORAGE_BUCKET: ${{ secrets.NEXT_FIREBASE_STORAGE_BUCKET }}
       NEXT_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.NEXT_FIREBASE_MESSAGING_SENDER_ID }}
       NEXT_FIREBASE_APP_ID: ${{ secrets.NEXT_FIREBASE_APP_ID }}
+      NEXT_PUBLIC_BASE_URL: "https://kontenkilat.id"
 
     steps:
       - uses: actions/checkout@v4

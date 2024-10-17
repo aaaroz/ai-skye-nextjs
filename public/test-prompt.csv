@@ -1,0 +1,5 @@
+categoryprompt,nameprompt,prompt
+makanan,Video Tiktok Family Friendly,Buatkan ide konten video tiktok family friendly untuk mempromosikan produk makanan yang bernama {NamaProduk}
+makanan,Video Seru dan Lucu,Buatkan ide konten video tiktok seru dan lucu untuk mempromosikan produk makanan yang bernama {NamaProduk}
+makanan,Video Tiktok Menarik,Buatkan ide konten video tiktok menarik untuk mempromosikan produk makanan yang bernama {NamaProduk}
+makanan,Video Tiktok Challenge,Buatkan ide konten video tiktok challenge untuk mempromosikan produk makanan yang bernama {NamaProduk}

@@ -43,16 +43,15 @@ export const FormLogin: React.FC = (): React.ReactElement => {
       } else {
         await removeCredentials();
       }
+      if (typeof window !== "undefined") {
+        window.location.reload();
+      }
       toast.success("Login Berhasil!, Selamat datang di KontenKilat!");
     } catch (error) {
       console.error(error);
       toast.error("Login gagal, silahkan coba lagi!", {
-        description: (error as Error).message,
+        description: `${error}`,
       });
-    }finally{
-      if (typeof window !== 'undefined') {
-        window.location.reload();
-      }
     }
   };
 

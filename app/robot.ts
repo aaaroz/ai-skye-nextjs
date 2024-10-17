@@ -7,6 +7,7 @@ export const robots = (): MetadataRoute.Robots => {
       allow: ["/", "/features"],
       disallow: [],
     },
+    sitemap: `${process.env.NEXT_PUBLIC_BASE_URL}/sitemap.xml`,
   };
 };
 export default robots;

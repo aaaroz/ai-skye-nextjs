@@ -29,6 +29,7 @@ import { getSession } from "next-auth/react";
 import { Loader2Icon } from "lucide-react";
 import { createSlug } from "@/libs/utils";
 import { getFeatureBySlug } from "@/libs/actions";
+import { useRouter } from "next/navigation";
 
 const emptyPrompt: TPrompt = {
   nameprompt: "",
@@ -42,6 +43,7 @@ export const FeatureForm: React.FC<{
 }> = ({ promptsData, featureName }): React.ReactElement => {
   const [selectedPrompt, setSelectedPrompt] =
     React.useState<TPrompt>(emptyPrompt);
+  const router = useRouter();
 
   const form = useForm<TFeatureAISchema>({
     resolver: zodResolver(featureAISchema),
@@ -60,6 +62,10 @@ export const FeatureForm: React.FC<{
   const onSubmit = async (values: TFeatureAISchema) => {
     try {
       setIsGenerating(true);
+      router.push("#hasil-respon-ai", {
+        scroll: true,
+      });
+
       const feature = await getFeatureBySlug(createSlug(values.featureName));
       const session = await getSession();
       if (!session) {
@@ -198,24 +204,6 @@ export const FeatureForm: React.FC<{
                 <FormDescription>
                   Masukan maksimal kata yang akan digunakan
                 </FormDescription>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="prompt"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Perintah AI</FormLabel>
-                <FormControl>
-                  <Textarea placeholder="Buatkan saya konten..." {...field} />
-                </FormControl>
-                <FormDescription>
-                  Masukan perintah AI atau pilih perintah AI dari list Prompt AI
-                  dibawah ini
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -226,6 +214,26 @@ export const FeatureForm: React.FC<{
             selectedCategory={form.watch("productCategory")}
             selectedPrompt={selectedPrompt as TPrompt}
             onSelectPrompt={setSelectedPrompt}
+          />
+          <FormField
+            control={form.control}
+            name="prompt"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Perintah AI</FormLabel>
+                <FormControl>
+                  <Textarea
+                    placeholder="Buatkan saya konten..."
+                    {...field}
+                    readOnly={selectedPrompt.prompt.length === 0 ? true : false}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Pilih perintah AI yang ada pada list diatas!
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
           />
         </div>
         <Button

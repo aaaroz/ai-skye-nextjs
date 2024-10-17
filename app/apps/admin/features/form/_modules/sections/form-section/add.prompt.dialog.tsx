@@ -1,6 +1,7 @@
 "use client";
 import * as React from "react";
-import { FilePlusIcon } from "lucide-react";
+import { AlertCircleIcon, FilePlusIcon } from "lucide-react";
+import * as papa from "papaparse";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -15,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/libs/utils";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { promptSchema, TPromptSchema } from "@/libs/entities";
+import { promptSchema, TPrompt, TPromptSchema } from "@/libs/entities";
 import {
   Form,
   FormControl,
@@ -33,6 +34,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  TooltipContent,
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface AddPromptDialogTriggerProps {
   onCreatePrompt: (values: TPromptSchema) => void;
@@ -42,6 +51,7 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
   onCreatePrompt,
 }): React.ReactElement => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  const [importedData, setImportedData] = React.useState<TPrompt[]>([]);
   const form = useForm<TPromptSchema>({
     resolver: zodResolver(promptSchema),
     defaultValues: {
@@ -55,6 +65,27 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
     form.reset();
     setIsOpen(false);
   };
+
+  const handleImportCsv = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      papa.parse(file as File, {
+        header: true,
+        complete: (res: papa.ParseResult<TPrompt>) => {
+          setImportedData(res.data);
+        },
+      });
+    }
+  };
+
+  React.useEffect(() => {
+    if (importedData) {
+      importedData.forEach((item) => {
+        onCreatePrompt(item);
+      });
+      setIsOpen(false);
+    }
+  }, [importedData, onCreatePrompt]);
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -71,14 +102,47 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Tambahkan Prompt</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="sr-only">
             Berikan beberapa detail prompt/perintah AI yang akan ditambahkan.
           </DialogDescription>
         </DialogHeader>
+        <div className="space-x-2 items-center flex">
+          <Label htmlFor="import-prompt" className="flex items-center">
+            Import prompt via csv{" "}
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <AlertCircleIcon size={16} className="shrink-0" />
+                </TooltipTrigger>
+                <TooltipContent className="text-xs space-y-2 max-w-xs">
+                  <p>Example CSV format</p>
+                  <Separator />
+                  <p>categoryprompt,nameprompt,prompt</p>
+                  <p>{`example category, nama prompt, isi prompt`}</p>
+                  <Separator />
+                  <p className="text-muted-foreground">{`Tambahkan {NamaProduk} beserta symbol tutup kurung-nya untuk mengenerate nama produk kedalam prompt`}</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </Label>
+          <Input
+            name="import-prompt"
+            accept=".csv"
+            type="file"
+            onChange={handleImportCsv}
+          />
+        </div>
+        <div className="w-full flex items-center justify-center gap-4">
+          <Separator className="w-1/4" />
+          <span className="place-items-center text-xs">
+            Atau tambahkan manual
+          </span>
+          <Separator className="w-1/4" />
+        </div>
         <Form {...form}>
           <form
             id="form-add-prompt"
-            // onSubmit={form.handleSubmit(onSubmit)}
+            onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-8"
           >
             <div className="w-full space-y-4">
@@ -94,7 +158,6 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
                         {...field}
                       />
                     </FormControl>
-                    <FormDescription>Masukan nama prompt</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -128,9 +191,6 @@ export const AddPromptDialogTrigger: React.FC<AddPromptDialogTriggerProps> = ({
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    <FormDescription>
-                      Kategori produk yang relevan dengan produk
-                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

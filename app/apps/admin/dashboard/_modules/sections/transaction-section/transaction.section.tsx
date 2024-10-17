@@ -9,6 +9,7 @@ import { transactionColumns } from "./transaction.columns";
 import { dashboardAdminRoute } from "@/libs/entities";
 import { useAdminDashboard } from "@/libs/hooks";
 import { TTransactionAdmin } from "@/libs/actions/transaction/type";
+import { translateMonthToEnglish } from "@/libs/utils";
 
 export const TransactionSection: React.FC = (): React.ReactElement => {
   const { transactionData } = useAdminDashboard();
@@ -18,11 +19,14 @@ export const TransactionSection: React.FC = (): React.ReactElement => {
   });
 
   const latestTransaction = transactions
-    .sort(
-      (a, b) =>
-        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    )
+    .sort((a, b) => {
+      return (
+        new Date(translateMonthToEnglish(b.createdAt)).getTime() -
+        new Date(translateMonthToEnglish(a.createdAt)).getTime()
+      );
+    })
     .slice(0, 5);
+
   return (
     <section className="p-4 md:p-6 space-y-6 rounded-md bg-neutral-50">
       <Link href={dashboardAdminRoute.concat("transactions")}>

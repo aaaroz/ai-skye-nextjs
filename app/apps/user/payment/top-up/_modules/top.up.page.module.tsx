@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Separator } from "@/components/ui/separator";
 import { HeadingWithIcon } from "@/components/dashboard-page";
-import { BanknoteIcon } from "lucide-react";
+import { BanknoteIcon, LoaderIcon } from "lucide-react";
 import { TopUpFormSection } from "./sections";
 
 export const TopUpPageModule: React.FC = (): React.ReactElement => {
@@ -16,7 +16,16 @@ export const TopUpPageModule: React.FC = (): React.ReactElement => {
         dapat memberikan service transaksi yang aman bagi anda.
       </p>
       <Separator />
-      <TopUpFormSection />
+      <React.Suspense
+        fallback={
+          <div className="w-full h-40 text-center flex gap-2 items-center">
+            <LoaderIcon className="animate-spin" />
+            <span>Loading...</span>
+          </div>
+        }
+      >
+        <TopUpFormSection />
+      </React.Suspense>
     </section>
   );
 };

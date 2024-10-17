@@ -14,7 +14,9 @@ export const AdminDashboardContextProvider = ({
 
   const fetchData = React.useCallback(async () => {
     const transaction = await getTransactionAdmin();
-    setTransactionData(transaction);
+    if (transaction) {
+      setTransactionData(transaction as TUserTransaction[]);
+    }
   }, []);
 
   React.useEffect(() => {

@@ -20,12 +20,18 @@ import { formatRupiah } from "@/libs/utils";
 import { topUpSchema, TTopUpSchema } from "@/libs/entities";
 import { useProfileData } from "@/libs/hooks";
 import { createPaymentMidtrans } from "@/libs/actions";
+import { PaymentNotificationDialog } from "./payment.notification.dialog";
+import { useSearchParams } from "next/navigation";
 
 const packagePrice = 10000;
 
 export const TopUpFormSection: React.FC = (): React.ReactElement => {
   const [snapLoaded, setSnapLoaded] = React.useState(false);
+  const [isSuccess, setIsSuccess] = React.useState(false);
+  const [isFailed, setIsFailed] = React.useState(false);
+  const [isPending, setIsPending] = React.useState(false);
   const [snapToken, setSnapToken] = React.useState<string | null>(null);
+  const searchParams = useSearchParams();
 
   const { profileData } = useProfileData();
   const form = useForm<TTopUpSchema>({
@@ -57,23 +63,24 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
 
     try {
       const response = await createPaymentMidtrans(payload);
-      console.log(response);
-      const snapToken = response.body.token;
-      setSnapToken(snapToken);
+      if (response.body) {
+        const snapToken = response.body.token;
+        setSnapToken(snapToken);
+      }
     } catch (error) {
       console.error("Error during checkout:", error);
       toast.error("Error during checkout:", {
-        description: error as string,
+        description: `${error}`,
       });
     }
   };
 
   React.useEffect(() => {
     const snapScript = document.createElement("script");
-    snapScript.src = "https://app.sandbox.midtrans.com/snap/snap.js";
+    snapScript.src = process.env.NEXT_PUBLIC_MIDTRANS_SNAP_URL as string;
     snapScript.setAttribute(
       "data-client-key",
-      process.env.NEXT_PUBLIC_CLIENT_KEY as string
+      process.env.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY as string
     );
     snapScript.async = true;
 
@@ -108,7 +115,17 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
         },
       });
     }
-  }, [snapLoaded, snapToken]);
+    if (searchParams?.get("transaction_status") === "settlement") {
+      setIsSuccess(true);
+    } else if (searchParams?.get("transaction_status") === "pending") {
+      setIsPending(true);
+    } else if (
+      searchParams?.get("transaction_status") === "expire" ||
+      searchParams?.get("transaction_status") === "failed"
+    ) {
+      setIsFailed(true);
+    }
+  }, [snapLoaded, snapToken, searchParams]);
 
   return (
     <Form {...form}>
@@ -252,6 +269,23 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
           </div>
         </div>
       </form>
+      <PaymentNotificationDialog
+        state="success"
+        open={isSuccess}
+        onOpenChange={setIsSuccess}
+      />
+
+      <PaymentNotificationDialog
+        state="pending"
+        open={isPending}
+        onOpenChange={setIsPending}
+      />
+
+      <PaymentNotificationDialog
+        state="failed"
+        open={isFailed}
+        onOpenChange={setIsFailed}
+      />
     </Form>
   );
 };

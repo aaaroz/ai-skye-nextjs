@@ -1,10 +1,11 @@
 import * as React from "react";
 import Link from "next/link";
+import { NextPage } from "next";
 import { Logo } from "@/components/common/logo";
-import { Button } from "@/components/ui/button";
 import { AlertTriangleIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
-const NotFoundPage = () => {
+const UnauthorizedPage: NextPage = (): React.ReactElement => {
   return (
     <section className="container min-h-screen flex flex-col gap-8 justify-center items-center">
       <Logo />
@@ -14,12 +15,12 @@ const NotFoundPage = () => {
           Oooopss!{" "}
         </h1>
         <h2 className="text-lg md:text-2xl text-center font-semibold">
-          Halaman Tidak Ditemukan!
+          Akses Ditolak!
         </h2>
         <p className="text-sm md:text-base text-justify text-muted-foreground">
-          Maaf, halaman yang Anda cari tidak tersedia atau telah dipindahkan.
-          Silakan periksa kembali URL yang Anda masukkan atau gunakan tombol di
-          bawah ini untuk kembali ke halaman utama.
+          Sepertinya kamu belum punya izin untuk masuk ke sini. Mungkin kamu
+          sedang tersesat di area terlarang. Silahkan kembali ke halaman utama
+          KontenKilat
         </p>
         <Link href="/">
           <Button>Kembali ke halaman utama</Button>
@@ -29,4 +30,4 @@ const NotFoundPage = () => {
   );
 };
 
-export default NotFoundPage;
+export default UnauthorizedPage;

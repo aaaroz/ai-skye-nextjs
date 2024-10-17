@@ -48,8 +48,8 @@ const removeObjectAtIndex = (
 };
 
 export const FormSection: React.FC = (): React.ReactElement => {
-  const searchParams = useSearchParams()
-  const id = searchParams?.get('editId')
+  const searchParams = useSearchParams();
+  const id = searchParams?.get("editId");
   const router = useRouter();
   const { toggleShouldFetchData } = useFeatures();
   const form = useForm<TAdminFeatureSchema>({

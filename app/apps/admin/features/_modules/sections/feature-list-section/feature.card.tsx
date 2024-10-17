@@ -37,7 +37,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
       category.toLowerCase() === "ecommerce",
   };
   return (
-    <Card className="w-full shadow-lg">
+    <Card className="w-full h-fit shadow-lg">
       <CardHeader className="w-full p-4">
         <div className={cn("py-2 rounded bg-gradient-to-l", backgroundTitle)}>
           <CardTitle className="text-lg">{title}</CardTitle>
@@ -46,7 +46,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
       <CardContent className="p-4 pt-0">
         <p className="text-base text-muted-foreground">{headline}</p>
       </CardContent>
-      <CardFooter className="flex flex-wrap justify-between items-center p-4 pt-0">
+      <CardFooter className="flex flex-wrap justify-between items-center space-y-2 p-4 pt-0">
         <CategoryBadge
           variant={
             categoryData?.name === "tiktok"

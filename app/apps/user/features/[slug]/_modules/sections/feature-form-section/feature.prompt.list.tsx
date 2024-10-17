@@ -67,7 +67,7 @@ export const FeaturePromptList: React.FC<FeaturePromptListProps> = ({
           </span>
         ) : null}
       </div>
-      <ScrollArea className="h-[300px] gap-2">
+      <ScrollArea className="max-h-[300px] gap-2">
         {prompts.length !== 0 ? (
           prompts.map(({ nameprompt, prompt, categoryprompt }, index) => {
             const formattedDescription = prompt.replace(

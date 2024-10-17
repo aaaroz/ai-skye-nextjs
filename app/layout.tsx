@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Providers } from "@/libs/providers";
+import { baseUrl } from "@/libs/entities";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -16,11 +17,44 @@ const inter = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
-    template: "%s | KontenKilat",
+    template: "%s - KontenKilat",
     default: "KontenKilat",
   },
   description: "AI untuk UMKM: Inovasi Pintar Usaha Makin Lancar!",
+  keywords: [
+    "AI",
+    "KontenKilat",
+    "Inovasi Pintar Usaha",
+    "Inovasi UMKM",
+    "Artificial Intellegent",
+    "Aplikasi Pembuat Konten",
+    "Konten",
+    "Kilat",
+    "Chat GPT",
+    "Konten Tiktok",
+    "Konten Instagram",
+    "Konten Shopee",
+    "Social Media",
+  ],
+  openGraph: {
+    title: "KontenKilat.id",
+    description: "AI untuk UMKM: Inovasi Pintar Usaha Makin Lancar!",
+    url: baseUrl,
+    siteName: "KontenKilat",
+    images: [`${baseUrl}/open-graph/kontenkilat-og.png`],
+    type: "website",
+    emails: ["support@kontenkilat.id"],
+    locale: "id-ID",
+  },
+  twitter: {
+    title: "KontenKilat.id",
+    creator: "KontenKilat.id",
+    card: "summary_large_image",
+    images: [`${baseUrl}/open-graph/kontenkilat-og.png`],
+    description: "AI untuk UMKM: Inovasi Pintar Usaha Makin Lancar!",
+  },
 };
 
 export default function RootLayout({

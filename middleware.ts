@@ -10,13 +10,13 @@ export const middleware = async (request: NextRequest) => {
       new URL(`${dashboardUserRoute.concat("dashboard")}`, request.url)
     );
   }
-  // if (session && request.nextUrl.pathname.startsWith("/apps/admin")) {
-  //   if (session.user.role !== "admin") {
-  //     return Response.redirect(
-  //       new URL(`${dashboardUserRoute.concat("dashboard")}`, request.url)
-  //     );
-  //   }
-  // }
+  if (
+    session &&
+    session.user.role !== "admin" &&
+    request.nextUrl.pathname.startsWith("/apps/admin")
+  ) {
+    return Response.redirect(new URL(`/unauthorized`, request.url));
+  }
   if (!session && request.nextUrl.pathname.startsWith("/apps")) {
     return Response.redirect(new URL(`/auth/login`, request.url));
   }
