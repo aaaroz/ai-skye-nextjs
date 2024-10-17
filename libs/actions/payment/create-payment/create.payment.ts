@@ -25,21 +25,24 @@ export const createPaymentMidtrans = async (
     throw new Error("Error Unauthorized!");
   }
   const token = session.user.token;
-  const response = await fetch(`${baseApiUrl}/api/create-payment`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`, // Use token from environment variable
-    },
-    body: JSON.stringify(payload),
-  });
+  const response: TPaymentResponse = await fetch(
+    `${baseApiUrl}/api/create-payment`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Use token from environment variable
+      },
+      body: JSON.stringify(payload),
+    }
+  ).then((res) => res.json());
 
-  if (!response.ok) {
-    const errorText = await response.text();
+  if (response.status !== 200) {
+    const errorText = response.message;
     throw new Error(
       `Request failed with status ${response.status}: ${errorText}`
     );
   }
 
-  return response.json();
+  return response;
 };

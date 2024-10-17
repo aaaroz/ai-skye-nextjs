@@ -1,2 +1,2 @@
 export const baseUrl =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://kontenkilat.id";
+  process.env.NEXT_PUBLIC_BASE_URL || "https://www.kontenkilat.id";

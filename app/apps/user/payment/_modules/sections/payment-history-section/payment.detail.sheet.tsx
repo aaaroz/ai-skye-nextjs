@@ -109,7 +109,7 @@ export const PaymentDetailSheetTrigger: React.FC<
     } catch (error) {
       console.error("Terjadi kesalahan saat melakukan pembayaran", error);
       toast.error("Terjadi kesalahan saat melakukan pembayaran", {
-        description: error as string,
+        description: `${error}`,
       });
     } finally {
       setIsLoading(false);

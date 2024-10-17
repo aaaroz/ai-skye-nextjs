@@ -63,14 +63,14 @@ export const TopUpFormSection: React.FC = (): React.ReactElement => {
 
     try {
       const response = await createPaymentMidtrans(payload);
-      if(response.body){
+      if (response.body) {
         const snapToken = response.body.token;
         setSnapToken(snapToken);
       }
     } catch (error) {
       console.error("Error during checkout:", error);
       toast.error("Error during checkout:", {
-        description: error as string,
+        description: `${error}`,
       });
     }
   };

@@ -50,7 +50,7 @@ export const FormLogin: React.FC = (): React.ReactElement => {
     } catch (error) {
       console.error(error);
       toast.error("Login gagal, silahkan coba lagi!", {
-        description: (error as Error).message,
+        description: `${error}`,
       });
     }
   };

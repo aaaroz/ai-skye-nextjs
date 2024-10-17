@@ -12,20 +12,22 @@ export const getPaymentMidtrans = async (
     throw new Error("Error Unauthorized!");
   }
   const token = session.user.token;
-  console.log(orderId);
-  const response = await fetch(`${baseApiUrl}/api/get-token/${orderId}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response: TPaymentResponse = await fetch(
+    `${baseApiUrl}/api/get-token/${orderId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  ).then((res) => res.json());
 
-  if (!response.ok || response.status !== 200) {
-    const errorText = await response.text();
+  if (response.status !== 200) {
+    const errorText = response.message;
     throw new Error(
       `Request failed with status ${response.status}: ${errorText}`
     );
   }
-  console.log(response.json());
-  return response.json();
+
+  return response;
 };
