@@ -15,10 +15,10 @@ const inter = localFont({
   weight: "100 900",
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl || ""),
+  metadataBase: new URL(baseUrl),
   title: {
     template: "%s - KontenKilat",
     default: "KontenKilat",
