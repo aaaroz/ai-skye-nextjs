@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { Providers } from "@/libs/providers";
+import { baseUrl } from "@/libs/entities";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -14,8 +15,6 @@ const inter = localFont({
   variable: "--font-inter",
   weight: "100 900",
 });
-
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),

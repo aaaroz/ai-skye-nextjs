@@ -1,8 +1,8 @@
-import { getAllFeatures } from "@/libs/actions";
 import { MetadataRoute } from "next";
+import { getAllFeatures } from "@/libs/actions";
+import { baseUrl } from "@/libs/entities";
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL!;
   const response = await getAllFeatures();
 
   const featuresRoute = response.map(({ slug }) => {
