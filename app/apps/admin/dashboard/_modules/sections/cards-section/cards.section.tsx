@@ -22,13 +22,21 @@ export const CardsSection: React.FC = (): React.ReactElement => {
   }
 
   const fetchData = React.useCallback(async () => {
-    const totalUsers = await getTotalUsers();
-    if (totalUsers) {
-      cardData[2].count = totalUsers;
-    }
-    const visitors = await getTotalVisitors();
-    if (visitors) {
-      cardData[3].count = visitors.desktop + visitors.mobile;
+    try {
+      const [totalUsers, visitors] = await Promise.all([
+        getTotalUsers(),
+        getTotalVisitors(),
+      ]);
+
+      if (totalUsers) {
+        cardData[1].count = totalUsers;
+      }
+
+      if (visitors) {
+        cardData[3].count = visitors.desktop + visitors.mobile;
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   }, []);
 

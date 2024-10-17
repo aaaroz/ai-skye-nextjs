@@ -8,3 +8,4 @@ export * from "./generate-secret-key";
 export * from "./format-rupiah";
 export * from "./create-initial-name";
 export * from "./update-chart-transaction";
+export * from "./translate-month-to-english";

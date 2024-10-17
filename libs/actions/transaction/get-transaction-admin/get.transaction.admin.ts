@@ -4,9 +4,14 @@ import { auth } from "@/libs/auth";
 import { TAdminResponseBody, TUserTransaction } from "../type";
 import { baseApiUrl } from "@/libs/entities";
 
-export const getTransactionAdmin = async (): Promise<TUserTransaction[]> => {
+export const getTransactionAdmin = async (): Promise<
+  TUserTransaction[] | undefined
+> => {
   const session = await auth();
   const token = session?.user.token;
+  if (session?.user.role !== "admin") {
+    return;
+  }
   if (!token) {
     throw new Error("401 - Unauthorized!");
   }
