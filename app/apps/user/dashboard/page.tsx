@@ -3,7 +3,7 @@ import { DashboardUserPageModule } from "./_modules";
 import { Metadata, NextPage } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard User",
+  title: "Dashboard",
 };
 const DashboardUserPage: NextPage = (): React.ReactElement => {
   return <DashboardUserPageModule />;

@@ -10,6 +10,7 @@ import MarkdownIt from "markdown-it";
 import { saveDocument } from "@/libs/actions";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { dashboardUserRoute } from "@/libs/entities";
 
 export const FeatureResultSection: React.FC = (): React.ReactElement => {
   const [isLoading, setIsLoading] = React.useState(false);
@@ -34,7 +35,7 @@ export const FeatureResultSection: React.FC = (): React.ReactElement => {
       toast.success("Dokumen berhasil disimpan!", {
         description: res,
       });
-      router.refresh();
+      router.push(dashboardUserRoute.concat("documents"));
       toggleShouldFetchData(true);
     } catch (error) {
       console.error(error);
@@ -52,7 +53,10 @@ export const FeatureResultSection: React.FC = (): React.ReactElement => {
     }
   }, [completionResponse]);
   return (
-    <section className="p-4 md:p-6 space-y-6 rounded-md shadow-md overflow-auto bg-neutral-50 w-full h-fit lg:w-[60%]">
+    <section
+      id="hasil-respon-ai"
+      className="p-4 md:p-6 space-y-6 rounded-md shadow-md overflow-auto scroll-m-80 bg-neutral-50 w-full h-fit lg:w-[60%]"
+    >
       <div className="flex gap-2.5">
         <div className="w-full">
           <Input
