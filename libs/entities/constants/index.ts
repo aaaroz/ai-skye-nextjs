@@ -6,3 +6,4 @@ export * from "./dummy-prompts";
 export * from "./dashboard-admin";
 export * from "./document-data";
 export * from "./base-api-url";
+export * from './base-url'

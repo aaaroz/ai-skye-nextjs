@@ -1,24 +1,11 @@
 "use server";
 
 import { auth } from "@/libs/auth";
-import { baseApiUrl } from "@/libs/entities";
 import { TPaymentResponse } from "../type";
-type TPayloadPayment = {
-  email: string;
-  firstName: string;
-  lastName: string;
-  phone?: string;
-  tax: number;
-  items: {
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-  }[];
-};
+import { baseApiUrl } from "@/libs/entities";
 
-export const createPaymentMidtrans = async (
-  payload: TPayloadPayment
+export const getPaymentMidtrans = async (
+  orderId: string
 ): Promise<TPaymentResponse> => {
   const session = await auth();
   if (!session) {
@@ -26,14 +13,12 @@ export const createPaymentMidtrans = async (
   }
   const token = session.user.token;
   const response: TPaymentResponse = await fetch(
-    `${baseApiUrl}/api/create-payment`,
+    `${baseApiUrl}/api/get-token/${orderId}`,
     {
-      method: "POST",
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Use token from environment variable
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(payload),
     }
   ).then((res) => res.json());
 
