@@ -43,7 +43,7 @@ export const FeatureCard: React.FC<FeatureCardProps> = ({
           </div>
         </CardHeader>
         <CardContent className="p-4 pt-0">
-          <p className="text-base text-muted-foreground">{headline}</p>
+        <p className="text-base text-muted-foreground line-clamp-3">{headline}</p>
         </CardContent>
         <CardFooter className="flex flex-wrap justify-between items-center p-4 pt-0">
           <CategoryBadge
